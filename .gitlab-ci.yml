@@ -4,7 +4,7 @@ stages:
 test sast:
   stage: test
   tags:
-    - pry_ms_pras_dev
+    - api_bsc_dev
   image: docker:stable
   variables:
     DOCKER_DRIVER: overlay2
@@ -26,7 +26,7 @@ test sast:
 unit test:
   stage: test
   tags:
-    - pry_ms_pras_dev
+    - api_bsc_dev
   rules:
     - if: $CI_COMMIT_BRANCH == 'dev'
   script:
@@ -37,12 +37,12 @@ unit test:
 deploy in dev:
   stage: deploy
   tags:
-    - pry_ms_pras_dev
+    - api_bsc_dev
   rules:
     - if: $CI_COMMIT_BRANCH == 'dev'
   script:
     - echo "Desplegando cambios en el contenedor - DEV"
-    - cd /opt/microservicios/proyectos/backend/monorepo/pry_ms_pras
+    - cd /opt/microservicios/proyectos/backend/monorepo/api_bsc_dev
     - git pull repoci dev
     - npm ci --omit=dev && npm cache clean --force
     - npm run build:all

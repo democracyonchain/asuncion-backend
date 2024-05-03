@@ -50,7 +50,7 @@ Personal a cargo de votos
 ### Plataforma tecnológica
 | Característica | Detalle |
 | ------ | ------ |
-| Tipo de aplicación | Microservicios Monorepo de Pras |
+| Tipo de aplicación | Microservicios Monorepo de Blockchain voting system |
 | Framework de Desarrollo | NestJS - Express |
 | Servidor de Aplicaciones | PM2 |
 | Servidor de Base de Datos | CORNAC |
