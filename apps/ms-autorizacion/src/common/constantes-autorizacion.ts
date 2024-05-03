@@ -1,7 +1,4 @@
-/**
- * @ Author: Roberto Maldonado
- * @ Create Time: 2021-12-22 09:30:32
- */
+
 import { Constantes } from '@bsc/core';
 
 export class ConstantesAutorizacion extends Constantes {

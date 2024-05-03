@@ -1,5 +1,5 @@
 {
-  "name": "pry_ms_inventario",
+  "name": "asuncion-backend",
   "version": "1.0.1",
   "description": "Aplicación backend con microservicios para la gestión de procesos y actividades relacionadas al sistema BSC.",
   "author": "BID",
@@ -125,7 +125,7 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@msp/core(|/.*)$": "<rootDir>/libs/core/src/$1"
+      "^@bsc/core(|/.*)$": "<rootDir>/libs/core/src/$1"
     }
   }
 }

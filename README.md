@@ -30,10 +30,9 @@
 6. [Otros documentos](#otros-documentos)
 
 ## Actores
-* **Roberto Maldonado** / MSP - Responsable Técnico / roberto.maldonado@msp.gob.ec
-* **Luis Nuñes** / MSP - Responsable Técnico / luis.nunes@msp.gob.ec
-* **Juan Guanolema** / MSP - Responsable Técnico / juan.guanolema@msp.gob.ec
-* **Santiago Benítez** / MSP - Responsable Técnico / byron.benitez@msp.gob.ec
+* **David Tacuri**
+* **Luis Nuñez**
+* **Juan Guanolema** 
 ## Fases
 - [ ] Planificación
 - [ ] Implementación
@@ -41,11 +40,10 @@
 
 ### Objetivo:
 
-Automatizar el proceso del registro de ingresos, salidas y transferencias del inventarios de las unidades médicas del msp.
+Back-end de sistema de conteo de votos en blockchain
 
 ### A quien va dirigido:
-
-Interoperabilidad en procesos relacionados al MSP
+Personal a cargo de votos
 
 ## Aspectos Técnicos
 
@@ -67,7 +65,7 @@ Interoperabilidad en procesos relacionados al MSP
 ## Instalación
 * Clonar el repositorio
 ```bash
-https://git.msp.gob.ec/microservicios/proyectos/backend/ms_pry_inventarios.git
+https://github.com/democracyonchain/asuncion-backend.git
 ```
 * Instalar dependencias
 ```bash
@@ -113,7 +111,3 @@ npm run test:cov
 * Manual de Instalación para el Ambiente de Desarrollo
 * Manual de Instalación para el Ambiente de Pruebas
 * Manual de Instalación para el Ambiente de Producción
-
-## Otros documentos
-
-* Creación de un nuevo proyecto en NestJS [[Wiki]](https://git.msp.gob.ec/microservicios/proyectos/plantillas/backend-api-base/-/wikis/Manual-t%C3%A9cnico-para-la-creaci%C3%B3n-de-un-nuevo-proyecto-en-NestJS)

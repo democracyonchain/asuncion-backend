@@ -1,10 +1,3 @@
-/**
- * @ Author: Roberto Maldonado
- * @ Create Time: 2022-02-16 15:02:00
- * @ Modified by: Anthony Loyaga
- * @ Modified time: 2023-01-24 10:27:48
- * @ Description:
- */
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';

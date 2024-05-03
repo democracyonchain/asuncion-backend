@@ -9,8 +9,8 @@ WORKDIR /app
 ARG GIT_TOKEN
 
 #Antes de la instalacion configuracion de registro privado gitlab
-RUN npm config set @microservicios:registry=https://git.msp.gob.ec/api/v4/packages/npm/
-RUN npm config set -- '//git.msp.gob.ec/api/v4/packages/npm/:_authToken' "${GIT_TOKEN}"
+RUN npm config set @microservicios:registry='url repo'
+RUN npm config set -- 'url_repo_token' "${GIT_TOKEN}"
 
 #Copiar archivos de dependencias
 COPY --chown=node:node package*.json ./
@@ -35,8 +35,8 @@ WORKDIR /app
 ARG GIT_TOKEN
 
 #Antes de la instalacion configuracion de registro privado gitlab
-RUN npm config set @microservicios:registry=https://git.msp.gob.ec/api/v4/packages/npm/
-RUN npm config set -- '//git.msp.gob.ec/api/v4/packages/npm/:_authToken' "${GIT_TOKEN}"
+RUN npm config set @microservicios:registry='url'
+RUN npm config set -- 'url_repo_token' "${GIT_TOKEN}"
 
 COPY --chown=node:node package*.json ./
 
