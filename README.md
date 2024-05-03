@@ -19,7 +19,7 @@
 </div>
 
 
-# Proyecto Microservicios para PRAS
+# Proyecto Microservicios para Blockchain voting system
 **ESTADO**: ACTIVO
 ### Tabla de contenidos
 1. [Actores](#actores)
