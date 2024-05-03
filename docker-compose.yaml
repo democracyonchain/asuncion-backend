@@ -1,0 +1,43 @@
+version: "3"
+services:
+  #Deploy en ambientes#
+  api-gateway:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:	
+        - GIT_TOKEN=ZuWS8zxQVA43mmDZSEPP
+    image: api-gateway
+    container_name: api-gateway
+    ports:
+      - "3002:3002"
+    networks:
+      - proyectos_ms_network
+    environment:
+      - TZ=America/Guayaquil
+    env_file:
+    - .env
+
+  #Uso desarrollo local#
+  api-gateway-local:
+    build:
+      context: ./
+      dockerfile: Dockerfile.local
+      target: development
+    image: api-gateway-local
+    container_name: api-gateway-local
+    command: bash -c "npm run start:dev"
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./src:/app/src
+    networks:
+      - proyectos_ms_network
+    environment:
+      - TZ=America/Guayaquil
+    env_file:
+    - .env
+
+networks:
+  proyectos_ms_network:
+    external: true

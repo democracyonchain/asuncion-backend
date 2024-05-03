@@ -1,0 +1,40 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/api-gateway/src",
+  "monorepo": true,
+  "root": "apps/api-gateway",
+  "compilerOptions": {
+    "webpack": false,
+    "tsConfigPath": "apps/api-gateway/tsconfig.app.json",
+    "deleteOutDir": true
+  },
+  "projects": {
+    "api-gateway": {
+      "type": "application",
+      "root": "apps/api-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
+      }
+    },
+    "ms-administracion": {
+      "type": "application",
+      "root": "apps/ms-administracion",
+      "entryFile": "main",
+      "sourceRoot": "apps/ms-administracion/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/ms-administracion/tsconfig.app.json"
+      }
+    },
+    "ms-autorizacion": {
+      "type": "application",
+      "root": "apps/ms-autorizacion",
+      "entryFile": "main",
+      "sourceRoot": "apps/ms-autorizacion/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/ms-autorizacion/tsconfig.app.json"
+      }
+    }
+  }
+}
