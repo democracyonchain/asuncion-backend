@@ -24,11 +24,3 @@ export class UsuarioAuthType {
     @Field(() => [RolUsuarioAuthType], { nullable: true })
     rolusuario: RolUsuarioAuthType;
 }
-
-@ObjectType('UsuarioAuthGlobalMessage')
-export class UsuarioAuthGlobalMessageType {
-  @Field({ nullable: true })
-  status: boolean;
-  @Field({ nullable: true })
-  message: string;
-}

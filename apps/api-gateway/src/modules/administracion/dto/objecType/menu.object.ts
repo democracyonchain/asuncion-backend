@@ -27,17 +27,11 @@ export class MenuAdministracionType {
 
     @Field({ nullable: true })
     orden: number;
+
+    @Field({ nullable: false })
+    url: string;
 }
 
 
 @ObjectType()
 export default class MenuCollectionType extends CollectionTypeGql<MenuAdministracionType>(MenuAdministracionType) { }
-
-
-@ObjectType('MenuDelete')
-export class MenuDeleteType {
-  @Field({ nullable: true })
-  status: boolean;
-  @Field({ nullable: true })
-  message: string;
-}

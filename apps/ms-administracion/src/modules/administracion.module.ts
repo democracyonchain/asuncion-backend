@@ -19,7 +19,8 @@ import { ModuloRepository } from './repositories/modulo.repository';
 import { MenuRepository } from './repositories/menu.repository';
 import { RolRepository } from './repositories/rol.repository';
 import { RolUsuarioRepository } from './repositories/rol-usuario.repository';
-import { AuditLogRepository } from './repositories/audit-log.repository';
+import { AuditLogRepository } from './repositories/audit/audit-log.repository';
+import { ListaNegraTokenRepository } from './repositories/lista-negra-token.repository';
 
 /* Entidades */
 import { UsuarioEntity } from './entities/usuario.entity';
@@ -29,6 +30,7 @@ import { RolEntity } from './entities/rol.entity';
 import { PermisosEntity } from './entities/permisos.entity';
 import { RolUsuarioEntity } from './entities/rol-usuario.entity';
 import { AuditLog } from './entities/audit/audit-log.entity';
+import { ListaNegraTokenEntity } from './entities/lista-negra-token.entity';
 
 /* Manager */
 import { UsuarioManager } from './manager/usuario.manager';
@@ -36,7 +38,8 @@ import { ModuloManager } from './manager/modulo.manager';
 import { MenuManager } from './manager/menu.manager';
 import { RolManager } from './manager/rol.manager';
 import { RolUsuarioManager } from './manager/rolusuario.manager';
-import { AuditLogManager } from './manager/audit-log.manager';
+import { AuditLogManager } from './manager/audit/audit-log.manager';
+import { ListaNegraTokenManager } from './manager/lista-negra-token.manager';
 
 @Module({
     imports: [
@@ -47,6 +50,7 @@ import { AuditLogManager } from './manager/audit-log.manager';
             RolEntity,
             PermisosEntity,
             RolUsuarioEntity,
+            ListaNegraTokenEntity
         ]),
         TypeOrmModule.forFeature([
             AuditLog
@@ -74,7 +78,9 @@ import { AuditLogManager } from './manager/audit-log.manager';
         RolUsuarioRepository,
         RolUsuarioManager,
         AuditLogManager,
-        AuditLogRepository
+        AuditLogRepository,
+        ListaNegraTokenRepository,
+        ListaNegraTokenManager
     ],
     exports: [
         UsuarioService,

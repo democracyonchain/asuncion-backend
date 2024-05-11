@@ -2,17 +2,18 @@ import {
     AllHttpExceptionGwFilter,
     AuthGuard,
     ConnectionInput,
-    CurrentUser,
+    CurrentUserWithToken,
+    GlobalResultType,
     LogGwInterceptor,
-    RespuestaJWT,
+    RespuestaJWTToken,
     StringOrderInput
   } from '@bsc/core';
-import { UseFilters, UseGuards, UseInterceptors, Request } from '@nestjs/common';
+import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Args, Info, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { plainToClass } from 'class-transformer';
 import { fieldsMap } from 'graphql-fields-list';
 import { MenuService } from '../services/menu.service';
-import MenuCollectionType, { MenuAdministracionType, MenuDeleteType } from '../dto/objecType/menu.object';
+import MenuCollectionType, { MenuAdministracionType } from '../dto/objecType/menu.object';
 import { MenuCreateInput, MenuUpdateInput } from '../dto/inputType/menu.input';
 import { MenuFilterInput } from '../dto/filterType/menu.filter';
   
@@ -28,7 +29,7 @@ export class MenuQueryResolver {
   @UseGuards(AuthGuard)
   @Mutation(() => MenuAdministracionType, { nullable: true })
   async menuCreate(
-    @CurrentUser() usuarioAuth: RespuestaJWT,
+    @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => MenuCreateInput })
     dataInput: MenuCreateInput,
   ) {
@@ -39,7 +40,7 @@ export class MenuQueryResolver {
   @UseGuards(AuthGuard)
   @Mutation(() => MenuAdministracionType, { nullable: true })
   async menuUpdate(
-    @CurrentUser() usuarioAuth: RespuestaJWT,
+    @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => MenuUpdateInput })
     dataInput: MenuUpdateInput,
   ) {
@@ -48,9 +49,9 @@ export class MenuQueryResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => MenuDeleteType, { nullable: true })
+  @Mutation(() => GlobalResultType, { nullable: true })
   async menuDelete(
-    @CurrentUser() usuarioAuth: RespuestaJWT,
+    @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('id', { nullable: true, type: () => Int }) id: number,
   ) {
       return await this.menuService.menuDelete(id,usuarioAuth);
@@ -60,12 +61,13 @@ export class MenuQueryResolver {
   @Query(() => MenuCollectionType, { nullable: true })
   public async menuCollection(
       @Info() info,
+      @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('pagination', { nullable: true }) pagination: ConnectionInput,
       @Args('where', { nullable: true }) where?: MenuFilterInput,
       @Args('order', { nullable: true }) order?: StringOrderInput,
   ) {
       const fields = fieldsMap(info);
-      const menuCollection = await this.menuService.menuCollection(pagination, where, order, fields);
+      const menuCollection = await this.menuService.menuCollection(pagination, where, order, fields, usuarioAuth);
       return menuCollection;
   }
 
@@ -73,10 +75,11 @@ export class MenuQueryResolver {
   @Query(() => MenuAdministracionType, { nullable: false })
   public async menu(
     @Info() info,
-    @Args('id', { nullable: true, type: () => Number }) id: number,
+    @Args('id', { nullable: true, type: () => Int }) id: number,
+    @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
   ) {
     const fields = fieldsMap(info);
-    const dataMenuById = await this.menuService.menu(id, fields);
+    const dataMenuById = await this.menuService.menu(id, fields, usuarioAuth);
     return dataMenuById;
   }
 }

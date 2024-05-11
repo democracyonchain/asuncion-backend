@@ -6,7 +6,7 @@ import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { Usuario, UsuarioDTO } from '../dto/usuario.dto';
 import { UsuarioManager } from '../manager/usuario.manager';
-import { CollectionType, FilterById, MutatioResult, PayloadData, changeFalseToTrue, deleteNullArray } from '@bsc/core';
+import { CollectionType, FilterById, GlobalResult, PayloadData, changeFalseToTrue, deleteNullArray } from '@bsc/core';
 import { plainToInstance } from 'class-transformer';
 import * as bcryptjs from "bcryptjs";
 import { UsuarioEntity } from '../entities/usuario.entity';
@@ -15,6 +15,7 @@ import { DataSource } from 'typeorm';
 import { RolUsuarioManager } from '../manager/rolusuario.manager';
 import { ConstantesAdministracion } from '../../common/constantes-administracion';
 import * as moment from 'moment';
+import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
 
 @Injectable()
 export class UsuarioService {
@@ -22,15 +23,18 @@ export class UsuarioService {
       private readonly usuarioManager: UsuarioManager,
       private readonly rolUsuarioManager: RolUsuarioManager,
       private readonly datasource: DataSource,
+      private readonly listaNegraTokenManager: ListaNegraTokenManager
   ) { }
 
 
   async getCollection(paginacion: any): Promise<CollectionType<Usuario>> {
+    await this.listaNegraTokenManager.validarToken(paginacion.usuarioAuth.token);
     const data = await this.usuarioManager.getCollection(paginacion);
     return plainToInstance(CollectionType<Usuario>, data);
   }
 
   async findById(filter: FilterById): Promise<Usuario> {
+    await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
     const fields = changeFalseToTrue(filter.fields)
     const data = await this.usuarioManager.findByRelations({
       select:fields.dataTrue,
@@ -43,6 +47,7 @@ export class UsuarioService {
   }
   
   async create(params:  PayloadData<UsuarioDTO>): Promise<UsuarioDTO> {
+    await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     const queryRunner = this.datasource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -55,7 +60,7 @@ export class UsuarioService {
       }
       else{
         data.password = await bcryptjs.hash(data.password, 10);
-        data['usuariocreacion_id'] = params.dataUser.id;
+        data['usuariocreacion_id'] = params.dataUser.user.id;
         let  dataInsert = plainToInstance(UsuarioEntity, params.data) 
         const dataCreate = deleteNullArray(dataInsert);
         const result = await this.usuarioManager.insert(dataCreate, queryRunner);
@@ -64,7 +69,7 @@ export class UsuarioService {
           if(roles.length > 0){
             rolesPromise = await Promise.all(roles.map(async (element:any)=>{
               const dataRoles = new RolUsuarioEntity();
-              dataRoles.usuariocreacion_id = params.dataUser.id;
+              dataRoles.usuariocreacion_id = params.dataUser.user.id;
               dataRoles.usuario_id = result.id;
               dataRoles.rol_id = element;
               await this.rolUsuarioManager.insert(dataRoles, queryRunner);
@@ -90,6 +95,7 @@ export class UsuarioService {
   }
 
   async update(params:  PayloadData<UsuarioDTO>): Promise<UsuarioDTO> {
+    await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     const queryRunner = this.datasource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -98,7 +104,7 @@ export class UsuarioService {
       let roles_delete = [];
       const roles_data_base_ids = [];
       let  data = plainToInstance(UsuarioEntity, params.data) 
-      data['usuariomodificacion_id'] = params.dataUser.id;
+      data['usuariomodificacion_id'] = params.dataUser.user.id;
       if(data.password){
         data.password = await bcryptjs.hash(data.password, 10);
       }
@@ -124,7 +130,7 @@ export class UsuarioService {
         //insertar
         await Promise.all(roles_insert.map(async (element:any)=>{
           const dataRoles = new RolUsuarioEntity();
-          dataRoles.usuariocreacion_id = params.dataUser.id;
+          dataRoles.usuariocreacion_id = params.dataUser.user.id;
           dataRoles.usuario_id = result.id;
           dataRoles.rol_id = element;
           dataRoles.estado = true;
@@ -133,7 +139,7 @@ export class UsuarioService {
         //desactivar
         await Promise.all(roles_delete.map(async (element:any)=>{
           const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.rolusuario set estado=false,
-          usuariomodificacion_id='${params.dataUser.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' where usuario_id=${result.id} and rol_id=${element}`;
+          usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' where usuario_id=${result.id} and rol_id=${element}`;
           await queryRunner.manager.query(queryBuild);
         }))
       }
@@ -153,9 +159,10 @@ export class UsuarioService {
     }
   }
 
-  async delete(params:  PayloadData<UsuarioDTO>): Promise<MutatioResult> {
+  async delete(params:  PayloadData<UsuarioDTO>): Promise<GlobalResult> {
+    await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(UsuarioEntity, params.data) 
-    data['usuariomodificacion_id'] = params.dataUser.id;
+    data['usuariomodificacion_id'] = params.dataUser.user.id;
     data['estado'] = false;
     const dataUpdate = deleteNullArray(data);
     let status: boolean = false;
@@ -181,7 +188,7 @@ export class UsuarioService {
         }
         await Promise.all(roles_data_base_ids.map(async (element:any)=>{
           const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.rolusuario set estado=false,
-          usuariomodificacion_id='${params.dataUser.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' where usuario_id=${result.id} and rol_id=${element}`;
+          usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' where usuario_id=${result.id} and rol_id=${element}`;
           await queryRunner.manager.query(queryBuild);
         }))
         await queryRunner.commitTransaction();

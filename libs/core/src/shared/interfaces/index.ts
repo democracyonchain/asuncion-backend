@@ -2,7 +2,7 @@ export * from './payload-token-userid.interface';
 export * from './respuesta-jwt.interface';
 export * from './respuesta-log.interface';
 export * from './constructable';
-export * from './mutation-result';
+export * from './global-result';
 export * from './config-mapping';
 export * from './factory';
 export * from './payload-data.interface';

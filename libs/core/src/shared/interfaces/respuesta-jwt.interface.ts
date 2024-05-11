@@ -6,6 +6,6 @@ export interface RespuestaJWT {
 }
 
 export interface RespuestaJWTToken {
-  user: {};
+  user: RespuestaJWT;
   token:string,
 }

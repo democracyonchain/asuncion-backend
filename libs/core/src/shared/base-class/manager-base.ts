@@ -1,7 +1,7 @@
 import { RepositoryOrmBase } from './repository-orm-base';
 import { HttpStatus, Logger } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
-import { Repository, FindOptionsWhere, DeleteResult, DataSource, EntityManager, QueryRunner, FindOneOptions } from 'typeorm';
+import { Repository, FindOptionsWhere, DeleteResult, DataSource, EntityManager, QueryRunner, FindOneOptions, EntityTarget, getMetadataArgsStorage } from 'typeorm';
 
 
 export abstract class ManagerBase<ENTITY, REPOSITORY extends RepositoryOrmBase<ENTITY>> {
@@ -240,4 +240,21 @@ export abstract class ManagerBase<ENTITY, REPOSITORY extends RepositoryOrmBase<E
     
     }
   };
+
+  async calculateChanges<T>(entityClass: EntityTarget<T>, entityId: any, entityManager:any): Promise<void> {
+    const metadata = getMetadataArgsStorage();
+
+    // Cargar la entidad desde la base de datos
+    const entity = await entityManager.findOne(entityClass, entityId);
+
+    if (entity) {
+      // Calcular los cambios en la entidad
+      const changeSet = entityManager.getUnitOfWork().computeChangeSet(entity);
+
+      // Acceder a los cambios
+      console.log(changeSet);
+
+      // Realizar otras operaciones según sea necesario
+    }
+  }
 }

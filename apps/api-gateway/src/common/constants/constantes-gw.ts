@@ -45,7 +45,8 @@ export class ConstantesGw extends Constantes {
       LOGIN:'LOGIN',
       PERFIL:'PERFIL',
       CAMBIO_PASSWORD:'CAMBIO_PASSWORD',
-      MODULO_PERMISOS_ID:'MODULO_PERMISOS_ID'
+      MODULO_PERMISOS_ID:'MODULO_PERMISOS_ID',
+      LOGOUT:'LOGOUT'
     },
   };
 

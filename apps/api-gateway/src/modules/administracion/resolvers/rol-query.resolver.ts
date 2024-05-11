@@ -2,17 +2,17 @@ import {
     AllHttpExceptionGwFilter,
     AuthGuard,
     ConnectionInput,
-    CurrentUser,
     LogGwInterceptor,
-    MutatioResult,
-    RespuestaJWT,
-    StringOrderInput
+    GlobalResultType,
+    StringOrderInput,
+    CurrentUserWithToken,
+    RespuestaJWTToken
   } from '@bsc/core';
-import { UseFilters, UseGuards, UseInterceptors, Request } from '@nestjs/common';
+import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Args, Info, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { plainToClass } from 'class-transformer';
 import { fieldsMap } from 'graphql-fields-list';
-import RolCollectionType, { RolAdministracionType, RolDeleteType, RolType } from '../dto/objecType/rol.object';
+import RolCollectionType, { RolAdministracionType, RolType } from '../dto/objecType/rol.object';
 import { RolCreateInput, RolUpdateInput } from '../dto/inputType/rol.input';
 import { RolService } from '../services/rol.service';
 import { RolFilterInput } from '../dto/filterType/rol.filter';
@@ -29,7 +29,7 @@ export class RolQueryResolver {
   @UseGuards(AuthGuard)
   @Mutation(() => RolAdministracionType, { nullable: true })
   async rolCreate(
-    @CurrentUser() usuarioAuth: RespuestaJWT,
+    @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => RolCreateInput })
     dataInput: RolCreateInput,
   ) {
@@ -40,7 +40,7 @@ export class RolQueryResolver {
   @UseGuards(AuthGuard)
   @Mutation(() => RolAdministracionType, { nullable: true })
   async rolUpdate(
-    @CurrentUser() usuarioAuth: RespuestaJWT,
+    @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => RolUpdateInput })
     dataInput: RolUpdateInput,
   ) {
@@ -49,9 +49,9 @@ export class RolQueryResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => RolDeleteType, { nullable: true })
+  @Mutation(() => GlobalResultType, { nullable: true })
   async rolDelete(
-    @CurrentUser() usuarioAuth: RespuestaJWT,
+    @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('id', { nullable: true, type: () => Int }) id: number,
   ) {
       return await this.rolService.rolDelete(id,usuarioAuth);
@@ -61,12 +61,13 @@ export class RolQueryResolver {
   @Query(() => RolCollectionType, { nullable: true })
   public async rolCollection(
       @Info() info,
+      @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('pagination', { nullable: true }) pagination: ConnectionInput,
       @Args('where', { nullable: true }) where?: RolFilterInput,
       @Args('order', { nullable: true }) order?: StringOrderInput,
   ) {
       const fields = fieldsMap(info);
-      const rolCollection = await this.rolService.rolCollection(pagination, where, order, fields);
+      const rolCollection = await this.rolService.rolCollection(pagination, where, order, fields, usuarioAuth);
       return rolCollection;
   }
 
@@ -75,10 +76,11 @@ export class RolQueryResolver {
   @Query(() => RolType, { nullable: false })
   public async rol(
     @Info() info,
-    @Args('id', { nullable: true, type: () => Number }) id: number,
+    @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
+    @Args('id', { nullable: true, type: () => Int }) id: number,
   ) {
     const fields = fieldsMap(info);
-    const dataRolById = await this.rolService.rol(id, fields);
+    const dataRolById = await this.rolService.rol(id, fields, usuarioAuth);
     return dataRolById;
   }
 }

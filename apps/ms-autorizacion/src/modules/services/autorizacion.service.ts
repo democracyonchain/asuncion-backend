@@ -5,23 +5,24 @@
 import {  HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { UsuarioManager } from '../manager/usuario.manager';
-import { LoginResult, MutatioResult, Userdata, changeFalseToTrue } from '@bsc/core';
+import { LoginResult, GlobalResult, Userdata, changeFalseToTrue } from '@bsc/core';
 import { plainToInstance } from 'class-transformer';
 import * as bcryptjs from "bcryptjs";
 import { Login } from '../dto/login.dto';
 import { JwtService } from "@nestjs/jwt";
 import { UsuarioEntity } from '../entities/usuario.entity';
-import { PermisosManager } from '../manager/permisos.manager';
 import { ModuloManager } from '../manager/modulo.manager';
 import { Modulo } from '../dto/modulo.object';
+import { ListaNegraTokenEntity } from '../entities/lista-negra-token.entity';
+import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
 
 @Injectable()
 export class AutorizacionService {
   constructor(
       private readonly usuarioManager: UsuarioManager,
       private readonly moduloManager: ModuloManager,
-      private readonly permisosManager: PermisosManager,
-      private readonly jwtService: JwtService
+      private readonly jwtService: JwtService,
+      private readonly listaNegraTokenManager: ListaNegraTokenManager
   ) { }
 
   async login(params: Userdata<Login>): Promise<LoginResult> {
@@ -36,9 +37,11 @@ export class AutorizacionService {
               throw new UnauthorizedException("Contraseña invalida");
             }
             else{  
-                const payload = { email: user.email,nombres:user.nombres,apellidos:user.apellidos, id:user.id};
-                token = await this.jwtService.signAsync(payload);
-                username = user.username;
+              user.ultimoacceso =  new Date();
+              const result = await this.usuarioManager.update(user);
+              const payload = { email: user.email,nombres:user.nombres,apellidos:user.apellidos, id:user.id};
+              token = await this.jwtService.signAsync(payload);
+              username = user.username;
             }
         }
         else{
@@ -55,7 +58,8 @@ export class AutorizacionService {
   }
 
   async perfil(params:  any): Promise<any> {
-    const idUsuario = params.dataUser.id
+    await this.listaNegraTokenManager.validarToken(params.dataUser.token);
+    const idUsuario = params.dataUser.user.id
     const fields = changeFalseToTrue(params.fields)
     const data = await this.usuarioManager.findByRelations({
       select:fields.dataTrue,
@@ -67,9 +71,10 @@ export class AutorizacionService {
     return data[0]
   }
 
-  async cambioPassword(params:  any): Promise<MutatioResult> {
+  async cambioPassword(params:  any): Promise<GlobalResult> {
     const idUsuario = params.dataUser.user.id
     const token = params.dataUser.token
+    await this.listaNegraTokenManager.validarToken(token);
     let status: boolean = false;
     let message: string = `Problema al actualizar la contraseña`;
     try {
@@ -98,6 +103,7 @@ export class AutorizacionService {
   }
   
   async moduloPermiso(params:  any): Promise<Modulo[]> {
+    await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     const idRol = params.rol_id;
     const fields = changeFalseToTrue(params.fields)
     const data = await this.moduloManager.findByRelations({
@@ -112,5 +118,18 @@ export class AutorizacionService {
       relations: fields.relations,
     });
     return plainToInstance(Modulo, data);
+  }
+
+  async authlogout(params:any): Promise<GlobalResult> {
+    let status: boolean = false;
+    let message: string = `Problemas para terminar la sesión`;
+    let dataToken =  new ListaNegraTokenEntity()
+    dataToken.token = params.dataUser.token
+    const result = await this.listaNegraTokenManager.insert(dataToken);
+    if(result){
+      status = true;
+      message = `Sesión finalizada`;
+    }
+    return { status, message };
   }
 }

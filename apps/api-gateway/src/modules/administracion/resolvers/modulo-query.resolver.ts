@@ -2,17 +2,17 @@ import {
     AllHttpExceptionGwFilter,
     AuthGuard,
     ConnectionInput,
-    CurrentUser,
     LogGwInterceptor,
-    MutatioResult,
-    RespuestaJWT,
-    StringOrderInput
+    GlobalResultType,
+    StringOrderInput,
+    CurrentUserWithToken,
+    RespuestaJWTToken
   } from '@bsc/core';
-import { UseFilters, UseGuards, UseInterceptors, Request } from '@nestjs/common';
+import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Args, Info, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { plainToClass } from 'class-transformer';
 import { fieldsMap } from 'graphql-fields-list';
-import ModuloCollectionType, { ModuloAdministracionType, ModuloDeleteType } from '../dto/objecType/modulo.object';
+import ModuloCollectionType, { ModuloAdministracionType } from '../dto/objecType/modulo.object';
 import { ModuloCreateInput, ModuloUpdateInput } from '../dto/inputType/modulo.input';
 import { ModuloService } from '../services/modulo.service';
 import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
@@ -29,7 +29,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
     @UseGuards(AuthGuard)
     @Mutation(() => ModuloAdministracionType, { nullable: true })
     async moduloCreate(
-      @CurrentUser() usuarioAuth: RespuestaJWT,
+      @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('dataInput', { type: () => ModuloCreateInput })
       dataInput: ModuloCreateInput,
     ) {
@@ -40,7 +40,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
     @UseGuards(AuthGuard)
     @Mutation(() => ModuloAdministracionType, { nullable: true })
     async moduloUpdate(
-      @CurrentUser() usuarioAuth: RespuestaJWT,
+      @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('dataInput', { type: () => ModuloUpdateInput })
       dataInput: ModuloUpdateInput,
     ) {
@@ -49,9 +49,9 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
     }
 
     @UseGuards(AuthGuard)
-    @Mutation(() => ModuloDeleteType, { nullable: true })
+    @Mutation(() => GlobalResultType, { nullable: true })
     async moduloDelete(
-      @CurrentUser() usuarioAuth: RespuestaJWT,
+      @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('id', { nullable: true, type: () => Int }) id: number,
     ) {
         return await this.moduloService.moduloDelete(id,usuarioAuth);
@@ -61,12 +61,13 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
     @Query(() => ModuloCollectionType, { nullable: true })
     public async moduloCollection(
         @Info() info,
+        @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
         @Args('pagination', { nullable: true }) pagination: ConnectionInput,
         @Args('where', { nullable: true }) where?: ModuloFilterInput,
         @Args('order', { nullable: true }) order?: StringOrderInput,
     ) {
         const fields = fieldsMap(info);
-        const moduloCollection = await this.moduloService.moduloCollection(pagination, where, order, fields);
+        const moduloCollection = await this.moduloService.moduloCollection(pagination, where, order, fields, usuarioAuth);
         return moduloCollection;
     }
 
@@ -74,10 +75,11 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
     @Query(() => ModuloAdministracionType, { nullable: false })
     public async modulo(
       @Info() info,
-      @Args('id', { nullable: true, type: () => Number }) id: number,
+      @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
+      @Args('id', { nullable: true, type: () => Int }) id: number,
     ) {
       const fields = fieldsMap(info);
-      const dataModuloById = await this.moduloService.modulo(id, fields);
+      const dataModuloById = await this.moduloService.modulo(id, fields, usuarioAuth);
       return dataModuloById;
     }
   }

@@ -3,7 +3,7 @@ import { ConstantesAutorizacion } from '../../common/constantes-autorizacion';
 import { RolUsuarioEntity } from './rol-usuario.entity';
 
 
-@Entity({ name: 'user', schema: ConstantesAutorizacion.SCHEMA_BSC })
+@Entity({ name: 'usuario', schema: ConstantesAutorizacion.SCHEMA_BSC })
 export class UsuarioEntity {
   
   @PrimaryGeneratedColumn({ name: 'id'})
@@ -36,11 +36,11 @@ export class UsuarioEntity {
   @OneToMany(() => RolUsuarioEntity, (rolusuario) => rolusuario.usuario)
   rolusuario: RolUsuarioEntity[];
 
+  @Column({ name: 'ultimoacceso', type: 'timestamp', nullable: true })
+  ultimoacceso: Date;
 
   @BeforeUpdate()
   async setUpdateDate() {
     this.fechamodificacion = new Date();
   }
-
-
 }

@@ -25,14 +25,6 @@ export class RolAdministracionType {
 export default class RolCollectionType extends CollectionTypeGql<RolAdministracionType>(RolAdministracionType) { }
 
 
-@ObjectType('RolDelete')
-export class RolDeleteType {
-  @Field({ nullable: true })
-  status: boolean;
-  @Field({ nullable: true })
-  message: string;
-}
-
 @ObjectType('Rol')
 export class RolType extends PartialType(RolAdministracionType) {
 

@@ -20,6 +20,10 @@ export class ModuloCreateInput {
   @Field({ nullable: true })
   icono: string;
 
+  @IsString()
+  @Field({ nullable: false })
+  color: string;
+
 }
 
 @InputType('ModuloUpdateInput')

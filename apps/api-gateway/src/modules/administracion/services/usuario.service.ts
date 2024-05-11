@@ -1,4 +1,4 @@
-import { ConnectionInput, FilterById, FilterByIdUser, FilterDto, PayloadData, RespuestaJWT, StringOrderInput, manageErrorsGw } from '@bsc/core';
+import { ConnectionInput, FilterById,FilterDto, PayloadData, RespuestaJWTToken, StringOrderInput, manageErrorsGw } from '@bsc/core';
 import { Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -15,23 +15,23 @@ export class UsuarioService {
     this.clientProxyAdministracion = this.clientProxyService.clientProxyAdministracion();
   }
 
-  async usuarioCollection(pagination: ConnectionInput, where?: UsuarioFilterInput, order?: StringOrderInput, fields?: any) {
+  async usuarioCollection(pagination: ConnectionInput, where?: UsuarioFilterInput, order?: StringOrderInput, fields?: any, usuarioAuth?:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.USUARIO_COLLECTION;
-    const payload: FilterDto<UsuarioFilterInput> = { pagination, where, order, fields };
+    const payload: FilterDto<UsuarioFilterInput> = { pagination, where, order, fields, usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
       manageErrorsGw(ConstantesGw.ADMINISTRACION.NAME, err),
     );
   }
 
-  async usuario(id: number, fields:any) {
+  async usuario(id: number, fields:any, usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.USUARIO_BY_ID;
-    const payload: FilterById = { id, fields };
+    const payload: FilterById = { id, fields, usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
       manageErrorsGw(ConstantesGw.ADMINISTRACION.NAME, err),
     );
   }
 
-  async usuarioCreate(dataUsuario: UsuarioCreateInput, usuarioAuth:RespuestaJWT) {
+  async usuarioCreate(dataUsuario: UsuarioCreateInput, usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.USUARIO_CREATE;
     const payload: PayloadData<any> = { data: dataUsuario, dataUser: usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
@@ -39,7 +39,7 @@ export class UsuarioService {
     );
   }
 
-  async usuarioUpdate(dataUsuario: UsuarioUpdateInput,usuarioAuth:RespuestaJWT) {
+  async usuarioUpdate(dataUsuario: UsuarioUpdateInput,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.USUARIO_UPDATE;
     const payload: PayloadData<any> = { data: dataUsuario, dataUser:usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
@@ -47,7 +47,7 @@ export class UsuarioService {
     );
   }
 
-  async usuarioDelete(id: number,usuarioAuth:RespuestaJWT) {
+  async usuarioDelete(id: number,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.USUARIO_DELETE;
     const payload: PayloadData<any> = { data: { 'id': id }, dataUser: usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>

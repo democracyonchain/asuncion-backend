@@ -1,6 +1,6 @@
 import { Constructable, RepositoryOrmBase } from '@bsc/core';
 import { Injectable } from '@nestjs/common';
-import { AuditLog } from '../entities/audit/audit-log.entity';
+import { AuditLog } from '../../entities/audit/audit-log.entity';
 
 type EntityFields = keyof AuditLog;
 

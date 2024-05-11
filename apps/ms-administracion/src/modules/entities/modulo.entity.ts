@@ -39,6 +39,9 @@ export class ModuloEntity {
   @OneToMany(() => MenuEntity, (menu) => menu.modulo)
   menu: MenuEntity[];
 
+  @Column({ name: 'color', type: 'character', length: 50, nullable: false })
+  color: string;
+
   @BeforeInsert()
   async setCreateDate() {
     this.fechacreacion = new Date();

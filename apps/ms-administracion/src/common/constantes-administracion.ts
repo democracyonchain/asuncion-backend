@@ -1,4 +1,3 @@
-
 import { Constantes } from '@bsc/core';
 
 export class ConstantesAdministracion extends Constantes {

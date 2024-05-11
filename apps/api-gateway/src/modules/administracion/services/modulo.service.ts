@@ -1,4 +1,4 @@
-import {  ConnectionInput, FilterById, FilterDto, PayloadData, RespuestaJWT, StringOrderInput, manageErrorsGw } from '@bsc/core';
+import {  ConnectionInput, FilterById, FilterDto, PayloadData, RespuestaJWTToken, StringOrderInput, manageErrorsGw } from '@bsc/core';
 import { Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -16,7 +16,7 @@ export class ModuloService {
     this.clientProxyAdministracion = this.clientProxyService.clientProxyAdministracion();
   }
 
-  async moduloCreate(dataModulo: ModuloCreateInput,usuarioAuth:RespuestaJWT) {
+  async moduloCreate(dataModulo: ModuloCreateInput,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.MODULO_CREATE;
     const payload: PayloadData<any> = { data: dataModulo, dataUser:usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
@@ -24,7 +24,7 @@ export class ModuloService {
     );
   }
 
-  async moduloUpdate(dataModulo: ModuloUpdateInput,usuarioAuth:RespuestaJWT) {
+  async moduloUpdate(dataModulo: ModuloUpdateInput,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.MODULO_UPDATE;
     const payload: PayloadData<any> = { data: dataModulo, dataUser:usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
@@ -32,7 +32,7 @@ export class ModuloService {
     );
   }
 
-  async moduloDelete(id: number,usuarioAuth:RespuestaJWT) {
+  async moduloDelete(id: number,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.MODULO_DELETE;
     const payload: PayloadData<any> = { data: { 'id': id }, dataUser: usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
@@ -40,17 +40,17 @@ export class ModuloService {
     );
   }
 
-  async moduloCollection(pagination: ConnectionInput, where?: ModuloFilterInput, order?: StringOrderInput, fields?: any) {
+  async moduloCollection(pagination: ConnectionInput, where?: ModuloFilterInput, order?: StringOrderInput, fields?: any, usuarioAuth?: RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.MODULO_COLLECTION;
-    const payload: FilterDto<ModuloFilterInput> = { pagination, where, order, fields };
+    const payload: FilterDto<ModuloFilterInput> = { pagination, where, order, fields, usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
       manageErrorsGw(ConstantesGw.ADMINISTRACION.NAME, err),
     );
   }
 
-  async modulo(id: number, fields:any) {
+  async modulo(id: number, fields:any, usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.MODULO_BY_ID;
-    const payload: FilterById = { id, fields };
+    const payload: FilterById = { id, fields, usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
       manageErrorsGw(ConstantesGw.ADMINISTRACION.NAME, err),
     );

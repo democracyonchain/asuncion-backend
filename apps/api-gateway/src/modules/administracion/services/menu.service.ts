@@ -1,4 +1,4 @@
-import {  ConnectionInput, FilterById, FilterDto, PayloadData, RespuestaJWT, StringOrderInput, manageErrorsGw } from '@bsc/core';
+import {  ConnectionInput, FilterById, FilterDto, PayloadData, RespuestaJWTToken, StringOrderInput, manageErrorsGw } from '@bsc/core';
 import { Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -15,7 +15,7 @@ export class MenuService {
     this.clientProxyAdministracion = this.clientProxyService.clientProxyAdministracion();
   }
 
-  async menuCreate(dataMenu: MenuCreateInput,usuarioAuth:RespuestaJWT) {
+  async menuCreate(dataMenu: MenuCreateInput,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.MENU_CREATE;
     const payload: PayloadData<any> = { data: dataMenu, dataUser:usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
@@ -23,7 +23,7 @@ export class MenuService {
     );
   }
 
-  async menuUpdate(dataMenu: MenuUpdateInput,usuarioAuth:RespuestaJWT) {
+  async menuUpdate(dataMenu: MenuUpdateInput,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.MENU_UPDATE;
     const payload: PayloadData<any> = { data: dataMenu, dataUser:usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
@@ -31,7 +31,7 @@ export class MenuService {
     );
   }
 
-  async menuDelete(id: number,usuarioAuth:RespuestaJWT) {
+  async menuDelete(id: number,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.MENU_DELETE;
     const payload: PayloadData<any> = { data: { 'id': id }, dataUser: usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
@@ -39,17 +39,17 @@ export class MenuService {
     );
   }
 
-  async menuCollection(pagination: ConnectionInput, where?: MenuFilterInput, order?: StringOrderInput, fields?: any) {
+  async menuCollection(pagination: ConnectionInput, where?: MenuFilterInput, order?: StringOrderInput, fields?: any, usuarioAuth?:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.MENU_COLLECTION;
-    const payload: FilterDto<MenuFilterInput> = { pagination, where, order, fields };
+    const payload: FilterDto<MenuFilterInput> = { pagination, where, order, fields, usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
       manageErrorsGw(ConstantesGw.ADMINISTRACION.NAME, err),
     );
   }
 
-  async menu(id: number, fields:any) {
+  async menu(id: number, fields:any, usuarioAuth?:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.MENU_BY_ID;
-    const payload: FilterById = { id, fields };
+    const payload: FilterById = { id, fields, usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
       manageErrorsGw(ConstantesGw.ADMINISTRACION.NAME, err),
     );

@@ -1,4 +1,3 @@
-
 import { Constantes } from '@bsc/core';
 
 export class ConstantesAutorizacion extends Constantes {
@@ -29,7 +28,8 @@ export class ConstantesAutorizacion extends Constantes {
       LOGIN:'LOGIN',
       PERFIL:'PERFIL',
       CAMBIO_PASSWORD:'CAMBIO_PASSWORD',
-      MODULO_PERMISOS_ID:'MODULO_PERMISOS_ID'
+      MODULO_PERMISOS_ID:'MODULO_PERMISOS_ID',
+      LOGOUT:'LOGOUT'
     },
   };
 

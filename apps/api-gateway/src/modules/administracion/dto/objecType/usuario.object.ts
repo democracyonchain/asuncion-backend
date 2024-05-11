@@ -24,12 +24,3 @@ export class UsuarioAdministracionType {
 
 @ObjectType()
 export default class UsuarioCollectionType extends CollectionTypeGql<UsuarioAdministracionType>(UsuarioAdministracionType) { }
-
-
-@ObjectType('UsuarioDelete')
-export class UsuarioDeleteType {
-  @Field({ nullable: true })
-  status: boolean;
-  @Field({ nullable: true })
-  message: string;
-}

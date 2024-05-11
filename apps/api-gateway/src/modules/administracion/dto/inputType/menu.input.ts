@@ -20,6 +20,10 @@ export class MenuCreateInput {
   @IsOptional()
   @Field({ nullable: true })
   orden: number;
+
+  @IsString()
+  @Field({ nullable: false })
+  url: string;
 }
 
 @InputType('MenuUpdateInput')

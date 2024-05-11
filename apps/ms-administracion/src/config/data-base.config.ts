@@ -5,11 +5,11 @@ import { DatabaseLogger } from '@bsc/core';
 function typeormModuleOptions(): TypeOrmModuleOptions {
   return {
     type: 'postgres',
-    host: process.env.DB_RDAC_HOST,
-    port: parseInt(process.env.DB_RDAC_PORT),
-    username: process.env.DB_RDAC_USER_USR_BSC,
-    password: process.env.DB_RDAC_PASS_USR_BSC,
-    database: process.env.DB_RDAC_NAME,
+    host: process.env.DB_BSC_HOST,
+    port: parseInt(process.env.DB_BSC_PORT),
+    username: process.env.DB_BSC_USER,
+    password: process.env.DB_BSC_PASS,
+    database: process.env.DB_BSC_NAME,
     entities: [__dirname + '/../modules/entities/*.entity{.ts,.js}'],
     autoLoadEntities: true,
     synchronize: false,

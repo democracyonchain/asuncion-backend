@@ -23,17 +23,11 @@ export class ModuloAdministracionType {
 
     @Field({ nullable: false })
     estado: boolean;
+
+    @Field({ nullable: false })
+    color: string;
 }
 
 
 @ObjectType()
 export default class ModuloCollectionType extends CollectionTypeGql<ModuloAdministracionType>(ModuloAdministracionType) { }
-
-
-@ObjectType('ModuloDelete')
-export class ModuloDeleteType {
-  @Field({ nullable: true })
-  status: boolean;
-  @Field({ nullable: true })
-  message: string;
-}

@@ -3,7 +3,7 @@ import { ConstantesAdministracion } from '../../common/constantes-administracion
 import { RolUsuarioEntity } from './rol-usuario.entity';
 
 
-@Entity({ name: 'user', schema: ConstantesAdministracion.SCHEMA_BSC })
+@Entity({ name: 'usuario', schema: ConstantesAdministracion.SCHEMA_BSC })
 export class UsuarioEntity {
   
   @PrimaryGeneratedColumn({ name: 'id'})

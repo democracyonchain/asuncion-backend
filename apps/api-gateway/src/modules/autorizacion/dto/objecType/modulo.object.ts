@@ -26,4 +26,7 @@ export class ModuloAuthType {
 
     @Field(() => [MenuforModuloAuthType], { nullable: true })
     menu: MenuforModuloAuthType;
+
+    @Field({ nullable: false })
+    color: string;
 }

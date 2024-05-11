@@ -1,4 +1,4 @@
-import {  ConnectionInput, FilterById, FilterDto, PayloadData, RespuestaJWT, StringOrderInput, manageErrorsGw } from '@bsc/core';
+import {  ConnectionInput, FilterById, FilterDto, PayloadData, RespuestaJWTToken, StringOrderInput, manageErrorsGw } from '@bsc/core';
 import { Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -15,7 +15,7 @@ export class RolService {
     this.clientProxyAdministracion = this.clientProxyService.clientProxyAdministracion();
   }
 
-  async rolCreate(dataRol: RolCreateInput,usuarioAuth:RespuestaJWT) {
+  async rolCreate(dataRol: RolCreateInput,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.ROL_CREATE;
     const payload: PayloadData<any> = { data: dataRol, dataUser:usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
@@ -23,7 +23,7 @@ export class RolService {
     );
   }
 
-  async rolUpdate(dataRol: RolUpdateInput,usuarioAuth:RespuestaJWT) {
+  async rolUpdate(dataRol: RolUpdateInput,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.ROL_UPDATE;
     const payload: PayloadData<any> = { data: dataRol, dataUser:usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
@@ -31,7 +31,7 @@ export class RolService {
     );
   }
 
-  async rolDelete(id: number,usuarioAuth:RespuestaJWT) {
+  async rolDelete(id: number,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.ROL_DELETE;
     const payload: PayloadData<any> = { data: { 'id': id }, dataUser: usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
@@ -39,17 +39,17 @@ export class RolService {
     );
   }
 
-  async rolCollection(pagination: ConnectionInput, where?: RolFilterInput, order?: StringOrderInput, fields?: any) {
+  async rolCollection(pagination: ConnectionInput, where?: RolFilterInput, order?: StringOrderInput, fields?: any, usuarioAuth?: RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.ROL_COLLECTION;
-    const payload: FilterDto<RolFilterInput> = { pagination, where, order, fields };
+    const payload: FilterDto<RolFilterInput> = { pagination, where, order, fields, usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
       manageErrorsGw(ConstantesGw.ADMINISTRACION.NAME, err),
     );
   }
 
-  async rol(id: number, fields:any) {
+  async rol(id: number, fields:any, usuarioAuth: RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.ROL_BY_ID;
-    const payload: FilterById = { id, fields };
+    const payload: FilterById = { id, fields, usuarioAuth };
     return await firstValueFrom(this.clientProxyAdministracion.send(pattern, payload)).catch((err) =>
       manageErrorsGw(ConstantesGw.ADMINISTRACION.NAME, err),
     );

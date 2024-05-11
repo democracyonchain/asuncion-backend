@@ -44,6 +44,9 @@ export class MenuEntity {
   @OneToMany(() => PermisosEntity, (permisos) => permisos.menu)
   permisos: PermisosEntity[];
 
+  @Column({ name: 'url', type: 'character', length: 100, nullable: false })
+  url: string;
+
   @BeforeInsert()
   async setCreateDate() {
     this.fechacreacion = new Date();

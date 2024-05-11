@@ -26,6 +26,12 @@ export class MenuforModuloAuthType {
     @Field({ nullable: false })
     titulo: string;
 
+    @Field({ nullable: false })
+    icono: string;
+
+    @Field({ nullable: false })
+    url: string;
+
     @Field(() => [PermisosForModuloAuthType], { nullable: true })
     permisos: PermisosForModuloAuthType;
 }

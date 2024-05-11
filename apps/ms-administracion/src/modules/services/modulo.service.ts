@@ -3,39 +3,42 @@
  * @ Create Time: 2023-02-02
   */
 import { Injectable } from '@nestjs/common';
-import { RpcException } from '@nestjs/microservices';
 import { Modulo, ModuloDTO } from '../dto/modulo.dto';
 import { ModuloEntity } from '../entities/modulo.entity';
 import { ModuloManager } from '../manager/modulo.manager';
-import { CollectionType, FilterById, MutatioResult, PayloadData, changeFalseToTrue, deleteNullArray } from '@bsc/core';
+import { CollectionType, FilterById, GlobalResult, PayloadData, changeFalseToTrue, deleteNullArray } from '@bsc/core';
 import { plainToInstance } from 'class-transformer';
-import * as bcryptjs from "bcryptjs";
+import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
 
 @Injectable()
 export class ModuloService {
   constructor(
       private readonly moduloManager: ModuloManager,
+      private readonly listaNegraTokenManager: ListaNegraTokenManager
   ) { }
 
   async create(params:  PayloadData<ModuloDTO>): Promise<ModuloDTO> {
+    await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(ModuloEntity, params.data) 
-    data['usuariocreacion_id'] = params.dataUser.id;
+    data['usuariocreacion_id'] = params.dataUser.user.id;
     const dataCreate = deleteNullArray(data);
     const result = await this.moduloManager.insert(dataCreate);
     return plainToInstance(ModuloDTO, result);
   }
 
   async update(params:  PayloadData<ModuloDTO>): Promise<ModuloDTO> {
+    await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(ModuloEntity, params.data) 
-    data['usuariomodificacion_id'] = params.dataUser.id;
+    data['usuariomodificacion_id'] = params.dataUser.user.id;
     const dataUpdate = deleteNullArray(data);
     const result = await this.moduloManager.update(dataUpdate);
     return plainToInstance(ModuloDTO, result);
   }
 
-  async delete(params:  PayloadData<ModuloDTO>): Promise<MutatioResult> {
+  async delete(params:  PayloadData<ModuloDTO>): Promise<GlobalResult> {
+    await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(ModuloEntity, params.data) 
-    data['usuariomodificacion_id'] = params.dataUser.id;
+    data['usuariomodificacion_id'] = params.dataUser.user.id;
     data['estado'] = false;
     const dataUpdate = deleteNullArray(data);
     let status: boolean = false;
@@ -55,11 +58,13 @@ export class ModuloService {
   }
 
   async getCollection(paginacion: any): Promise<CollectionType<Modulo>> {
+    await this.listaNegraTokenManager.validarToken(paginacion.usuarioAuth.token);
     const data = await this.moduloManager.getCollection(paginacion);
     return plainToInstance(CollectionType<Modulo>, data);
   }
 
   async findById(filter: FilterById): Promise<Modulo> {
+    await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
     const fields = changeFalseToTrue(filter.fields)
     const data = await this.moduloManager.findByRelations({
       select:fields.dataTrue,

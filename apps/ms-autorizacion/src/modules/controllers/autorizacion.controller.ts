@@ -33,4 +33,9 @@ export class AutorizacionController {
       return this.autorizacionService.moduloPermiso(params);
   }
 
+  @MessagePattern(ConstantesAutorizacion.AUTORIZACION.PATTERN.LOGOUT)
+  authlogout(@Payload() params: any) {
+      return this.autorizacionService.authlogout(params);
+  }
+
 }
