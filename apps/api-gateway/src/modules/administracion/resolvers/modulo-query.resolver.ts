@@ -27,7 +27,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
     constructor(private readonly moduloService: ModuloService) { }
 
     @UseGuards(AuthGuard)
-    @Mutation(() => ModuloAdministracionType, { nullable: true })
+    @Mutation(() => GlobalResultType, { nullable: false })
     async moduloCreate(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('dataInput', { type: () => ModuloCreateInput })
@@ -38,7 +38,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
     }
 
     @UseGuards(AuthGuard)
-    @Mutation(() => ModuloAdministracionType, { nullable: true })
+    @Mutation(() => GlobalResultType, { nullable: false })
     async moduloUpdate(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('dataInput', { type: () => ModuloUpdateInput })
@@ -49,10 +49,10 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
     }
 
     @UseGuards(AuthGuard)
-    @Mutation(() => GlobalResultType, { nullable: true })
+    @Mutation(() => GlobalResultType, { nullable: false })
     async moduloDelete(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
-      @Args('id', { nullable: true, type: () => Int }) id: number,
+      @Args('id', { nullable: false, type: () => Int }) id: number,
     ) {
         return await this.moduloService.moduloDelete(id,usuarioAuth);
     }
@@ -76,7 +76,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
     public async modulo(
       @Info() info,
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
-      @Args('id', { nullable: true, type: () => Int }) id: number,
+      @Args('id', { nullable: false, type: () => Int }) id: number,
     ) {
       const fields = fieldsMap(info);
       const dataModuloById = await this.moduloService.modulo(id, fields, usuarioAuth);

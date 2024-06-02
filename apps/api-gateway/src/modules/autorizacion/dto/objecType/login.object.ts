@@ -10,4 +10,7 @@ export class LoginType {
 
     @Field({ nullable: false })
     username: string;
+
+    @Field({ nullable: false })
+    provincia: string;
 }

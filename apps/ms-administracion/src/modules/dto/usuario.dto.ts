@@ -1,11 +1,11 @@
-import { stringWhereInput, numberWhereInput } from '@bsc/core';
-import { Field, InputType } from "@nestjs/graphql";
+import { stringWhereInput, stateWhereInput } from '@bsc/core';
 import { Allow } from 'class-validator';
 
 export class UsuarioFilterInput {
   readonly nombres?: stringWhereInput;
   readonly apellidos?: stringWhereInput;
   readonly nombreusuario?: stringWhereInput;
+  readonly estado?: stateWhereInput;
 }
 
 
@@ -38,4 +38,7 @@ export class UsuarioDTO {
   
   @Allow()
   roles: [number];
+
+  @Allow()
+  provincia_id: number;
 }

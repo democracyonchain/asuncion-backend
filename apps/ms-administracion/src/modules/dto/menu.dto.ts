@@ -1,6 +1,6 @@
 import { numberWhereInput, stateWhereInput, stringWhereInput } from '@bsc/core';
-import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
-import { Allow, IsNumber, IsOptional, IsString } from 'class-validator';
+import { InputType } from '@nestjs/graphql';
+import { Allow } from 'class-validator';
 import { Modulo, ModuloFilterInput } from './modulo.dto';
 
 

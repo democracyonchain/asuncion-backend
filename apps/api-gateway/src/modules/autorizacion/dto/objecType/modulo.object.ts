@@ -21,9 +21,6 @@ export class ModuloAuthType {
     @Field({ nullable: false })
     icono: string;
 
-    @Field({ nullable: false })
-    estado: boolean;
-
     @Field(() => [MenuforModuloAuthType], { nullable: true })
     menu: MenuforModuloAuthType;
 

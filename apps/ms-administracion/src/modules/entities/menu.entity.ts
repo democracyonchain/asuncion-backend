@@ -47,6 +47,9 @@ export class MenuEntity {
   @Column({ name: 'url', type: 'character', length: 100, nullable: false })
   url: string;
 
+  @Column({ name: 'activo', type: 'boolean',  nullable: false })
+  activo: boolean;
+
   @BeforeInsert()
   async setCreateDate() {
     this.fechacreacion = new Date();

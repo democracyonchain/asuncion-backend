@@ -35,7 +35,7 @@ export class RolUpdateInput{
 
   @IsOptional()
   @Field({ nullable: true })
-  estado: number;
+  estado: boolean;
 
   @Field(() => [PermisosUpdateInput], { nullable: true })
   permisos: PermisosUpdateInput;

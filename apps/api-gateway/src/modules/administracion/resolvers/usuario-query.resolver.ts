@@ -46,7 +46,7 @@ import { fieldsMap } from 'graphql-fields-list';
     public async usuario(
       @Info() info,
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
-      @Args('id', { nullable: true, type: () => Int }) id: number,
+      @Args('id', { nullable: false, type: () => Int }) id: number,
     ) {
       const fields = fieldsMap(info);
       const dataUsuarioById = await this.usuarioService.usuario(id, fields, usuarioAuth);
@@ -54,7 +54,7 @@ import { fieldsMap } from 'graphql-fields-list';
     }
 
     @UseGuards(AuthGuard)
-    @Mutation(() => UsuarioAdministracionType, { nullable: true })
+    @Mutation(() => GlobalResultType, { nullable: false })
     async usuarioCreate(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('dataInput', { type: () => UsuarioCreateInput })
@@ -65,7 +65,7 @@ import { fieldsMap } from 'graphql-fields-list';
     }
 
     @UseGuards(AuthGuard)
-    @Mutation(() => UsuarioAdministracionType, { nullable: true })
+    @Mutation(() => GlobalResultType, { nullable: false })
     async usuarioUpdate(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('dataInput', { type: () => UsuarioUpdateInput })
@@ -76,10 +76,10 @@ import { fieldsMap } from 'graphql-fields-list';
     }
 
     @UseGuards(AuthGuard)
-    @Mutation(() => GlobalResultType, { nullable: true })
+    @Mutation(() => GlobalResultType, { nullable: false })
     async usuarioDelete(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
-      @Args('id', { nullable: true, type: () => Int }) id: number,
+      @Args('id', { nullable: false, type: () => Int }) id: number,
     ) {
         return await this.usuarioService.usuarioDelete(id,usuarioAuth);
     }

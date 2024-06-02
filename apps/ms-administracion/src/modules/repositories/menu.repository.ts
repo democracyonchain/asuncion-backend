@@ -2,6 +2,7 @@ import { Constructable, RepositoryOrmBase } from '@bsc/core';
 import { Injectable } from '@nestjs/common';
 import { SelectQueryBuilder } from 'typeorm';
 import { MenuEntity } from '../entities/menu.entity';
+import { ConstantesAdministracion } from '../../common/constantes-administracion';
 
 type EntityFields = keyof MenuEntity;
 
@@ -15,6 +16,7 @@ export class MenuRepository extends RepositoryOrmBase<MenuEntity> {
     if (select) {
       qb.select(select.map(f => `${alias}.${f}`));
     }
+    qb.where('menu.activo= :activo', { activo: Number(ConstantesAdministracion.CT_ACTIVO) });
     return qb;
   };
 

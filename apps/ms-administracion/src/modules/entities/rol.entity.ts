@@ -37,6 +37,9 @@ export class RolEntity {
   @OneToMany(() => RolUsuarioEntity, (rolusuario) => rolusuario.rol)
   rolusuario: RolUsuarioEntity[];
 
+  @Column({ name: 'activo', type: 'boolean',  nullable: false })
+  activo: boolean;
+
   @BeforeInsert()
   async setCreateDate() {
     this.fechacreacion = new Date();

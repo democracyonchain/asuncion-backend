@@ -1,6 +1,7 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ConstantesAutorizacion } from '../../common/constantes-autorizacion';
 import { RolUsuarioEntity } from './rol-usuario.entity';
+import { ProvinciaEntity } from './provincia.entity';
 
 
 @Entity({ name: 'usuario', schema: ConstantesAutorizacion.SCHEMA_BSC })
@@ -38,6 +39,16 @@ export class UsuarioEntity {
 
   @Column({ name: 'ultimoacceso', type: 'timestamp', nullable: true })
   ultimoacceso: Date;
+
+  @Column({ name: 'provincia_id', type: 'integer', nullable: false })
+  provincia_id: number;
+
+  @ManyToOne(() => ProvinciaEntity, (provincia) => provincia.usuario)
+  @JoinColumn([{ name: 'provincia_id', referencedColumnName: 'id' }])
+  provincia: ProvinciaEntity;
+
+  @Column({ name: 'activo', type: 'boolean',  nullable: false })
+  activo: boolean;
 
   @BeforeUpdate()
   async setUpdateDate() {

@@ -75,3 +75,13 @@ export function resetFildsRelations(data,alias,values=[]) {
   relations = setRelations(data,relations)
   return {values,relations}
 }
+
+export function diff<T>(oldEntity: T, newEntity: T): Record<string, any> {
+  const changes: Record<string, any> = {};
+  for (const key of Object.keys(newEntity)) {
+    if (oldEntity[key] !== newEntity[key]) {
+      changes[key] = { old: oldEntity[key], new: newEntity[key] };
+    }
+  }
+  return changes;
+}

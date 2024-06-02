@@ -34,6 +34,6 @@ export class ModuloUpdateInput extends PartialType(ModuloCreateInput) {
 
   @IsOptional()
   @Field({ nullable: true })
-  estado: number;
+  estado: boolean;
 
 }

@@ -10,18 +10,6 @@ export class MenuEntity {
   @PrimaryGeneratedColumn({ name: 'id'})
   id: number;
 
-  @Column({ name: 'fechacreacion', type: 'timestamp', nullable: false })
-  fechacreacion: Date;
-
-  @Column({ name: 'fechamodificacion', type: 'timestamp', nullable: true })
-  fechamodificacion: Date;
-
-  @Column({ name: 'usuariocreacion_id', type: 'integer', nullable: false })
-  usuariocreacion_id: number;
-
-  @Column({ name: 'usuariomodificacion_id', type: 'integer', nullable: true })
-  usuariomodificacion_id: number;
-
   @Column({ name: 'titulo', type: 'character', length: 50, nullable: false })
   titulo: string;
 
@@ -47,15 +35,7 @@ export class MenuEntity {
   @Column({ name: 'url', type: 'character', length: 100, nullable: false })
   url: string;
 
-  @BeforeInsert()
-  async setCreateDate() {
-    this.fechacreacion = new Date();
-    this.estado = true;
-  }
-
-  @BeforeUpdate()
-  async setUpdateDate() {
-    this.fechamodificacion = new Date();
-  }
+  @Column({ name: 'activo', type: 'boolean',  nullable: false })
+  activo: boolean;
   
 }

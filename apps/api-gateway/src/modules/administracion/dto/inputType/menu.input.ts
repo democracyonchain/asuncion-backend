@@ -34,6 +34,6 @@ export class MenuUpdateInput extends PartialType(MenuCreateInput) {
 
   @IsOptional()
   @Field({ nullable: true })
-  estado: number;
+  estado: boolean;
 
 }

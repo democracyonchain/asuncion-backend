@@ -54,6 +54,9 @@ export class PermisosEntity {
   @JoinColumn([{ name: 'menu_id', referencedColumnName: 'id' }])
   menu: MenuEntity;
 
+  @Column({ name: 'activo', type: 'boolean',  nullable: false })
+  activo: boolean;
+
 
   @BeforeInsert()
   async setCreateDate() {

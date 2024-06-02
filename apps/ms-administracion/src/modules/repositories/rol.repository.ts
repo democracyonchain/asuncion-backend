@@ -2,6 +2,7 @@ import { Constructable, RepositoryOrmBase } from '@bsc/core';
 import { Injectable } from '@nestjs/common';
 import { SelectQueryBuilder } from 'typeorm';
 import { RolEntity } from '../entities/rol.entity';
+import { ConstantesAdministracion } from '../../common/constantes-administracion';
 
 type EntityFields = keyof RolEntity;
 
@@ -15,6 +16,7 @@ export class RolRepository extends RepositoryOrmBase<RolEntity> {
     if (select) {
       qb.select(select.map(f => `${alias}.${f}`));
     }
+    qb.where('rol.activo= :activo', { activo: Number(ConstantesAdministracion.CT_ACTIVO) });
     return qb;
   };
 

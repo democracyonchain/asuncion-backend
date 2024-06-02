@@ -27,7 +27,7 @@ export class RolQueryResolver {
   constructor(private readonly rolService: RolService) { }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => RolAdministracionType, { nullable: true })
+  @Mutation(() => GlobalResultType, { nullable: false })
   async rolCreate(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => RolCreateInput })
@@ -38,7 +38,7 @@ export class RolQueryResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => RolAdministracionType, { nullable: true })
+  @Mutation(() => GlobalResultType, { nullable: false })
   async rolUpdate(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => RolUpdateInput })
@@ -49,10 +49,10 @@ export class RolQueryResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => GlobalResultType, { nullable: true })
+  @Mutation(() => GlobalResultType, { nullable: false })
   async rolDelete(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
-    @Args('id', { nullable: true, type: () => Int }) id: number,
+    @Args('id', { nullable: false, type: () => Int }) id: number,
   ) {
       return await this.rolService.rolDelete(id,usuarioAuth);
   }
@@ -77,7 +77,7 @@ export class RolQueryResolver {
   public async rol(
     @Info() info,
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
-    @Args('id', { nullable: true, type: () => Int }) id: number,
+    @Args('id', { nullable: false, type: () => Int }) id: number,
   ) {
     const fields = fieldsMap(info);
     const dataRolById = await this.rolService.rol(id, fields, usuarioAuth);

@@ -16,14 +16,17 @@ import { RolUsuarioManager } from '../manager/rolusuario.manager';
 import { ConstantesAdministracion } from '../../common/constantes-administracion';
 import * as moment from 'moment';
 import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
+import { AuditLogManager } from '../manager/audit/audit-log.manager';
 
 @Injectable()
 export class UsuarioService {
+  private readonly isAudit = JSON.parse(process.env.AUDIT_ADMINISTRACION)
   constructor(
       private readonly usuarioManager: UsuarioManager,
       private readonly rolUsuarioManager: RolUsuarioManager,
       private readonly datasource: DataSource,
-      private readonly listaNegraTokenManager: ListaNegraTokenManager
+      private readonly listaNegraTokenManager: ListaNegraTokenManager,
+      private readonly auditLogManager: AuditLogManager,
   ) { }
 
 
@@ -46,7 +49,9 @@ export class UsuarioService {
     return plainToInstance(Usuario, data[0]);
   }
   
-  async create(params:  PayloadData<UsuarioDTO>): Promise<UsuarioDTO> {
+  async create(params:  PayloadData<UsuarioDTO>): Promise<GlobalResult> {
+    let status: boolean = false;
+    let message: string = `Error al momento de crear el usuario`;
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     const queryRunner = this.datasource.createQueryRunner();
     await queryRunner.connect();
@@ -77,7 +82,11 @@ export class UsuarioService {
           }
           if(rolesPromise){
             await queryRunner.commitTransaction();
-            return plainToInstance(UsuarioDTO, result);
+            if(result){
+              status =true;
+              message = `El usuario ${result.username} se ha creado correctamente`;
+              return { status, message };
+            }
           } 
         } 
       } 
@@ -91,10 +100,12 @@ export class UsuarioService {
     }
     finally {
       await queryRunner.release();
-    }
+    } 
   }
 
-  async update(params:  PayloadData<UsuarioDTO>): Promise<UsuarioDTO> {
+  async update(params:  PayloadData<UsuarioDTO>): Promise<GlobalResult> {
+    let status: boolean = false;
+    let message: string = `Error al momento de actualizar el usuario`;
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     const queryRunner = this.datasource.createQueryRunner();
     await queryRunner.connect();
@@ -102,7 +113,9 @@ export class UsuarioService {
     try {
       let roles_insert = [];
       let roles_delete = [];
-      const roles_data_base_ids = [];
+      let roles_update = [];
+      const roles_data_base_ids_true:any = [];
+      const roles_data_base_ids_false:any = [];
       let  data = plainToInstance(UsuarioEntity, params.data) 
       data['usuariomodificacion_id'] = params.dataUser.user.id;
       if(data.password){
@@ -110,23 +123,36 @@ export class UsuarioService {
       }
       const dataUpdate = deleteNullArray(data);
       const roles = dataUpdate?.roles
-      const result = await this.usuarioManager.update(dataUpdate,queryRunner);
+      let entityToUpdate = await this.usuarioManager.findByRelations({
+        where: { id:dataUpdate['id'] },
+      });
+      const dataOld = plainToInstance(UsuarioDTO, entityToUpdate[0]);
+      const result = await this.usuarioManager.updateBasic(dataUpdate,entityToUpdate[0],queryRunner);
       if(roles?.length > 0){
         //data guarda
         const dataUsuarioRol = await this.rolUsuarioManager.findByRelations({
-          select:{id:true,rol_id:true},
+          select:{id:true,rol_id:true,estado:true},
           where: {
             usuario_id: dataUpdate.id,
-            estado: true,
+            activo: true,
           },
         });
         if (dataUsuarioRol) {
           for await (const valorRemove of dataUsuarioRol) {
-            roles_data_base_ids.push(valorRemove.rol_id)
+            if(valorRemove.estado){
+              roles_data_base_ids_true.push(valorRemove.rol_id)
+            }
+            else{
+              roles_data_base_ids_false.push(valorRemove.rol_id)
+            }  
           }
         }
-        roles_insert = roles.filter((x: RolUsuarioEntity) => roles_data_base_ids.indexOf(x) === -1);
-        roles_delete = roles_data_base_ids.filter(x => roles.indexOf(x) === -1);
+        roles_insert = roles.filter((x: RolUsuarioEntity) => roles_data_base_ids_true.indexOf(x) === -1);
+        roles_delete = roles_data_base_ids_true.filter(x => roles.indexOf(x) === -1);
+        roles_update = roles_data_base_ids_false.filter(x => roles_insert.indexOf(x) === -1);
+        roles_update = roles_data_base_ids_false.filter(x => roles_update.indexOf(x) === -1);
+        roles_insert = roles_insert.filter(x => roles_update.indexOf(x) === -1);
+
         //insertar
         await Promise.all(roles_insert.map(async (element:any)=>{
           const dataRoles = new RolUsuarioEntity();
@@ -142,10 +168,24 @@ export class UsuarioService {
           usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' where usuario_id=${result.id} and rol_id=${element}`;
           await queryRunner.manager.query(queryBuild);
         }))
+        //Actualizar
+        await Promise.all(roles_update.map(async (element:any)=>{
+          const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.rolusuario set estado=true,
+          usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' where usuario_id=${result.id} and rol_id=${element}`;
+          await queryRunner.manager.query(queryBuild);
+        }))
       }
-      
-      await queryRunner.commitTransaction();
-      return plainToInstance(UsuarioDTO, result);
+      if(result){
+        status =true;
+        message = `El usuario ${result.username} se ha actualizado correctamente`;
+        await queryRunner.commitTransaction();
+        if(this.isAudit){
+          dataUpdate['roles']=roles;
+          dataOld['roles']=roles_data_base_ids_true;
+          await this.auditLogManager.logEvent('Edición','Usuario',params.dataUser.user.id,dataUpdate['id'],dataOld,dataUpdate);
+        }
+        return { status, message };
+      }
     }
     catch (error) {
       await queryRunner.rollbackTransaction(); 
@@ -164,6 +204,7 @@ export class UsuarioService {
     let  data = plainToInstance(UsuarioEntity, params.data) 
     data['usuariomodificacion_id'] = params.dataUser.user.id;
     data['estado'] = false;
+    data['activo'] = false;
     const dataUpdate = deleteNullArray(data);
     let status: boolean = false;
     let message: string = `No existe el registro para eliminar`;
@@ -172,13 +213,16 @@ export class UsuarioService {
     await queryRunner.connect();
     await queryRunner.startTransaction();
     try {
-      const result = await this.usuarioManager.update(dataUpdate);
+      let entityToUpdate = await this.usuarioManager.findByRelations({
+        where: { id:dataUpdate['id'] },
+      });
+      const dataOld = plainToInstance(UsuarioDTO, entityToUpdate[0]);
+      const result = await this.usuarioManager.updateBasic(dataUpdate,entityToUpdate[0],queryRunner);
       if(result){
         const dataUsuarioRol = await this.rolUsuarioManager.findByRelations({
           select:{id:true,rol_id:true},
           where: {
             usuario_id: dataUpdate.id,
-            estado: true,
           },
         });
         if (dataUsuarioRol) {
@@ -187,13 +231,16 @@ export class UsuarioService {
           }
         }
         await Promise.all(roles_data_base_ids.map(async (element:any)=>{
-          const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.rolusuario set estado=false,
+          const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.rolusuario set estado=false, activo=false,
           usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' where usuario_id=${result.id} and rol_id=${element}`;
           await queryRunner.manager.query(queryBuild);
         }))
         await queryRunner.commitTransaction();
         status = true;
-        message = `Datos eliminados`;
+        message = `El usuario ${result.username} ha sido eliminado`;
+        if(this.isAudit){
+          await this.auditLogManager.logEvent('Eliminación','Usuario',params.dataUser.user.id,dataUpdate['id'],dataOld,dataUpdate);
+        }
         return { status, message };
       }
     }

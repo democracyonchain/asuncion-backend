@@ -42,6 +42,9 @@ export class ModuloEntity {
   @Column({ name: 'color', type: 'character', length: 50, nullable: false })
   color: string;
 
+  @Column({ name: 'activo', type: 'boolean',  nullable: false })
+  activo: boolean;
+
   @BeforeInsert()
   async setCreateDate() {
     this.fechacreacion = new Date();

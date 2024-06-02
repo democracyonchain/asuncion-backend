@@ -1,5 +1,5 @@
 import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
-import { IsNumber, IsOptional, IsString, IsArray } from 'class-validator';
+import { IsOptional, IsString, IsArray, IsInt } from 'class-validator';
 
 @InputType('UsuarioCreateInput')
 export class UsuarioCreateInput {
@@ -28,41 +28,20 @@ export class UsuarioCreateInput {
   @Field(() => [Int], { nullable: false })
   roles: [number];
 
+  @IsInt()
+  @Field({ nullable: false })
+  provincia_id: number;
+
 }
 
 @InputType('UsuarioUpdateInput')
-export class UsuarioUpdateInput {
+export class UsuarioUpdateInput extends PartialType(UsuarioCreateInput){
 
   @Field(() => Int)
   readonly id: number;
 
   @IsOptional()
-  @IsString()
   @Field({ nullable: true })
-  nombres: string;
-
-  @IsOptional()
-  @IsString()
-  @Field({ nullable: true })
-  apellidos: string;
-
-  @IsOptional()
-  @IsString()
-  @Field({ nullable: true })
-  email: string;
-
-  @IsOptional()
-  @IsString()
-  @Field({ nullable: true })
-  password: string;
-
-  @IsOptional()
-  @Field({ nullable: true })
-  estado: number;
-
-  @IsOptional()
-  @IsArray()
-  @Field(() => [Int], { nullable: true })
-  roles: [number];
+  estado: boolean;
 
 }

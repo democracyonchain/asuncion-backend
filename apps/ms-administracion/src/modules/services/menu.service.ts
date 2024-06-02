@@ -14,7 +14,7 @@ import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
 @Injectable()
 export class MenuService {
   
-  private readonly isAudit = JSON.parse(process.env.AUDIT_ADMINISTRACION)
+  private readonly isAudit = JSON.parse(process.env.AUDIT_ADMINISTRACION);
   
   constructor(
       private readonly menuManager: MenuManager,
@@ -22,42 +22,62 @@ export class MenuService {
       private readonly listaNegraTokenManager: ListaNegraTokenManager
   ) {}
 
-  async create(params:  PayloadData<MenuDTO>): Promise<MenuDTO> {
+  async create(params:  PayloadData<MenuDTO>): Promise<GlobalResult> {
+    let status: boolean = false;
+    let message: string = `Error al momento de crear el menú`;
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(MenuEntity, params.data) 
     data['usuariocreacion_id'] = params.dataUser.user.id;
     const dataCreate = deleteNullArray(data);
     const result = await this.menuManager.insert(dataCreate);
-    return plainToInstance(MenuDTO, result);
+    if(result){
+      status =true;
+      message = `El menú ${result.titulo} se ha creado correctamente`;
+    }
+    return { status, message };
   }
 
-  async update(params:  PayloadData<MenuDTO>): Promise<MenuDTO> {
+  async update(params:  PayloadData<MenuDTO>): Promise<GlobalResult> {
+    let status: boolean = false;
+    let message: string = `Error al momento de actualizar el menú`;
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(MenuEntity, params.data) 
     data['usuariomodificacion_id'] = params.dataUser.user.id;
     const dataUpdate = deleteNullArray(data);
     const idUpdate = {'id':dataUpdate['id']};
     let entityToUpdate = await this.menuManager.findOneBy(idUpdate);
-    if(this.isAudit){
-      await this.auditLogManager.logEvent('Edición','Menú',params.dataUser.user.id,dataUpdate,plainToInstance(MenuDTO, entityToUpdate));
+    const dataOld = plainToInstance(MenuDTO, entityToUpdate);
+    const result = await this.menuManager.updateBasic(dataUpdate,entityToUpdate);
+    if(result){
+      status =true;
+      message = `El menú ${result.titulo} se ha actualizado correctamente`;
+      if(this.isAudit){
+        await this.auditLogManager.logEvent('Edición','Menú',params.dataUser.user.id,dataUpdate['id'],dataOld,dataUpdate);
+      }
     }
-    const result = await this.menuManager.updateBasic(dataUpdate,false,entityToUpdate);
-    return plainToInstance(MenuDTO, result);
+    return { status, message };
   }
 
   async delete(params:  PayloadData<MenuDTO>): Promise<GlobalResult> {
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(MenuEntity, params.data) 
     data['usuariomodificacion_id'] = params.dataUser.user.id;
+    data['activo'] = false;
     data['estado'] = false;
     const dataUpdate = deleteNullArray(data);
     let status: boolean = false;
     let message: string = `No existe el registro para eliminar`;
     try {
-      const result = await this.menuManager.update(dataUpdate);
+      const idUpdate = {'id':dataUpdate['id']};
+      let entityToUpdate = await this.menuManager.findOneBy(idUpdate);
+      const dataOld = plainToInstance(MenuDTO, entityToUpdate);
+      const result = await this.menuManager.updateBasic(dataUpdate,entityToUpdate);
       if(result){
         status = true;
-        message = `Datos eliminados`;
+        message = `El menú ${result.titulo} ha sido eliminado`;
+        if(this.isAudit){
+          await this.auditLogManager.logEvent('Eliminación','Menú',params.dataUser.user.id,dataUpdate['id'],dataOld,dataUpdate);
+        }
       }
     }
     catch (error) {

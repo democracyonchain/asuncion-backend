@@ -10,18 +10,6 @@ export class RolUsuarioEntity {
   @PrimaryGeneratedColumn({ name: 'id'})
   id: number;
 
-  @Column({ name: 'fechacreacion', type: 'timestamp', nullable: false })
-  fechacreacion: Date;
-
-  @Column({ name: 'fechamodificacion', type: 'timestamp', nullable: true })
-  fechamodificacion: Date;
-
-  @Column({ name: 'usuariocreacion_id', type: 'integer', nullable: false })
-  usuariocreacion_id: number;
-
-  @Column({ name: 'usuariomodificacion_id', type: 'integer', nullable: true })
-  usuariomodificacion_id: number;
-
   @Column({ name: 'estado', type: 'boolean',  nullable: false })
   estado: boolean;
 
@@ -39,14 +27,7 @@ export class RolUsuarioEntity {
   @JoinColumn([{ name: 'rol_id', referencedColumnName: 'id' }])
   rol: RolEntity;
 
-  @BeforeInsert()
-  async setCreateDate() {
-    this.fechacreacion = new Date();
-    this.estado = true;
-  }
+  @Column({ name: 'activo', type: 'boolean',  nullable: false })
+  activo: boolean;
 
-  @BeforeUpdate()
-  async setUpdateDate() {
-    this.fechamodificacion = new Date();
-  }
 }

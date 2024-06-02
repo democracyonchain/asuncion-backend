@@ -7,6 +7,9 @@ export class AuditLog {
   id: string;
 
   @Column()
+  registroId: number;
+
+  @Column()
   fechacreacion: Date;
 
   @Column()
@@ -19,9 +22,6 @@ export class AuditLog {
   entidad: string;
 
   @Column()
-  data: any;
-
-  @Column()
-  oldData: any;
+  datachange: any;
 
 }

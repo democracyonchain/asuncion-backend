@@ -10,18 +10,6 @@ export class PermisosEntity {
   @PrimaryGeneratedColumn({ name: 'id'})
   id: number;
 
-  @Column({ name: 'fechacreacion', type: 'timestamp', nullable: false })
-  fechacreacion: Date;
-
-  @Column({ name: 'fechamodificacion', type: 'timestamp', nullable: true })
-  fechamodificacion: Date;
-
-  @Column({ name: 'usuariocreacion_id', type: 'integer', nullable: false })
-  usuariocreacion_id: number;
-
-  @Column({ name: 'usuariomodificacion_id', type: 'integer', nullable: true })
-  usuariomodificacion_id: number;
-
   @Column({ name: 'rol_id', type: 'integer', nullable: false })
   rol_id: number;
 
@@ -46,7 +34,7 @@ export class PermisosEntity {
   @Column({ name: 'imprimir', type: 'boolean',  nullable: false })
   imprimir: boolean;
 
-  @ManyToOne(() => RolEntity, (rol) => rol.permisos,{ onDelete: 'CASCADE', orphanedRowAction: 'delete'})
+  @ManyToOne(() => RolEntity, (rol) => rol.permisos)
   @JoinColumn([{ name: 'rol_id', referencedColumnName: 'id' }])
   rol: RolEntity;
 
@@ -54,16 +42,7 @@ export class PermisosEntity {
   @JoinColumn([{ name: 'menu_id', referencedColumnName: 'id' }])
   menu: MenuEntity;
 
-
-  @BeforeInsert()
-  async setCreateDate() {
-    this.fechacreacion = new Date();
-    this.estado = true;
-  }
-
-  @BeforeUpdate()
-  async setUpdateDate() {
-    this.fechamodificacion = new Date();
-  }
+  @Column({ name: 'activo', type: 'boolean',  nullable: false })
+  activo: boolean;
   
 }

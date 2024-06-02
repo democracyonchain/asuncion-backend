@@ -28,9 +28,21 @@ export class AutorizacionService {
   async login(params: Userdata<Login>): Promise<LoginResult> {
     let username: string ="";
     let token: string = "";
+    let provincia: string = "";
     try {
         const dataUser = params.user;
-        const user = await this.usuarioManager.findOneBy({username:dataUser.username,estado:true});
+        const userSearch = await this.usuarioManager.findByRelations(
+          {
+            select:{id:true,username:true,ultimoacceso:true,email:true,nombres:true,apellidos:true,password:true,
+              provincia:{
+              id:true,nombre:true,
+              }
+            },
+            where:{username:dataUser.username,estado:true,activo:true},
+            relations: {provincia:true},
+          }
+        );
+        const user = userSearch[0]
         if(user){
             const isPasswordValid = await bcryptjs.compare(dataUser.password, user.password);
             if (!isPasswordValid) {
@@ -38,10 +50,11 @@ export class AutorizacionService {
             }
             else{  
               user.ultimoacceso =  new Date();
-              const result = await this.usuarioManager.update(user);
+              await this.usuarioManager.update(user);
               const payload = { email: user.email,nombres:user.nombres,apellidos:user.apellidos, id:user.id};
               token = await this.jwtService.signAsync(payload);
               username = user.username;
+              provincia = user.provincia.nombre
             }
         }
         else{
@@ -53,8 +66,8 @@ export class AutorizacionService {
             statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
             message: error.message, 
         });
-    }
-    return{username,token}
+    }   
+    return{username,token,provincia}
   }
 
   async perfil(params:  any): Promise<any> {
@@ -82,6 +95,8 @@ export class AutorizacionService {
         select:{id:true,password:true},
         where: {
           id: idUsuario,
+          estado:true,
+          activo:true
         },
       });
       if(data.length==1){
@@ -109,9 +124,15 @@ export class AutorizacionService {
     const data = await this.moduloManager.findByRelations({
       select:fields.dataTrue,
       where: {
+        estado:true,
+        activo:true,
         menu: {
+          estado:true,
+          activo:true,
           permisos:{
-            rol_id:parseInt(idRol)
+            rol_id:parseInt(idRol),
+            estado:true,
+            activo:true
           }
         },
       },

@@ -27,7 +27,7 @@ export class MenuQueryResolver {
   constructor(private readonly menuService: MenuService) { }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => MenuAdministracionType, { nullable: true })
+  @Mutation(() => GlobalResultType, { nullable: false })
   async menuCreate(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => MenuCreateInput })
@@ -38,7 +38,7 @@ export class MenuQueryResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => MenuAdministracionType, { nullable: true })
+  @Mutation(() => GlobalResultType, { nullable: false })
   async menuUpdate(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => MenuUpdateInput })
@@ -49,10 +49,10 @@ export class MenuQueryResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => GlobalResultType, { nullable: true })
+  @Mutation(() => GlobalResultType, { nullable: false })
   async menuDelete(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
-    @Args('id', { nullable: true, type: () => Int }) id: number,
+    @Args('id', { nullable: false, type: () => Int }) id: number,
   ) {
       return await this.menuService.menuDelete(id,usuarioAuth);
   }
@@ -75,7 +75,7 @@ export class MenuQueryResolver {
   @Query(() => MenuAdministracionType, { nullable: false })
   public async menu(
     @Info() info,
-    @Args('id', { nullable: true, type: () => Int }) id: number,
+    @Args('id', { nullable: false, type: () => Int }) id: number,
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
   ) {
     const fields = fieldsMap(info);

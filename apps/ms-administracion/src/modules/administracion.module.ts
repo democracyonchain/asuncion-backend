@@ -21,6 +21,7 @@ import { RolRepository } from './repositories/rol.repository';
 import { RolUsuarioRepository } from './repositories/rol-usuario.repository';
 import { AuditLogRepository } from './repositories/audit/audit-log.repository';
 import { ListaNegraTokenRepository } from './repositories/lista-negra-token.repository';
+import { ProvinciaRepository } from './repositories/provincia.repository';
 
 /* Entidades */
 import { UsuarioEntity } from './entities/usuario.entity';
@@ -31,6 +32,7 @@ import { PermisosEntity } from './entities/permisos.entity';
 import { RolUsuarioEntity } from './entities/rol-usuario.entity';
 import { AuditLog } from './entities/audit/audit-log.entity';
 import { ListaNegraTokenEntity } from './entities/lista-negra-token.entity';
+import { ProvinciaEntity } from './entities/provincia.entity';
 
 /* Manager */
 import { UsuarioManager } from './manager/usuario.manager';
@@ -40,6 +42,7 @@ import { RolManager } from './manager/rol.manager';
 import { RolUsuarioManager } from './manager/rolusuario.manager';
 import { AuditLogManager } from './manager/audit/audit-log.manager';
 import { ListaNegraTokenManager } from './manager/lista-negra-token.manager';
+import { ProvinciaManager } from './manager/provincia.manager';
 
 @Module({
     imports: [
@@ -50,7 +53,8 @@ import { ListaNegraTokenManager } from './manager/lista-negra-token.manager';
             RolEntity,
             PermisosEntity,
             RolUsuarioEntity,
-            ListaNegraTokenEntity
+            ListaNegraTokenEntity,
+            ProvinciaEntity
         ]),
         TypeOrmModule.forFeature([
             AuditLog
@@ -80,7 +84,9 @@ import { ListaNegraTokenManager } from './manager/lista-negra-token.manager';
         AuditLogManager,
         AuditLogRepository,
         ListaNegraTokenRepository,
-        ListaNegraTokenManager
+        ListaNegraTokenManager,
+        ProvinciaRepository,
+        ProvinciaManager
     ],
     exports: [
         UsuarioService,

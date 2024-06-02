@@ -4,6 +4,7 @@ import { ObjectType } from "@nestjs/graphql";
 export class LoginResult{
     username: string;
     token: string;
+    provincia: string;
   }
 
 export interface Userdata<DataType>{

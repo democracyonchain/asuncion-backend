@@ -12,24 +12,4 @@ export class UsuarioManager extends ManagerBase<UsuarioEntity, UsuarioRepository
     super();
     this.repositoryEntity = usuarioRepository;
   }
-
-  getCollectionQueryBuilder = (): SelectQueryBuilder<UsuarioEntity> => {
-    return this.usuarioRepository.getBuildQueryBuilder('id');
-  };
-
-  async getCollection(paginacion) {
-    const aliasEntity = 'usuario';
-    const fields = paginacion.fields.data;
-    const dataReset = resetFilds(fields, aliasEntity);
-    const qb = await this.usuarioRepository.getCollection(dataReset);
-    const data = await managePaginationArgs(aliasEntity, qb, paginacion).catch(
-      (error) => {
-        throw new RpcException({
-          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: error.message,
-        });
-      },
-    );
-    return data;
-  }
 }

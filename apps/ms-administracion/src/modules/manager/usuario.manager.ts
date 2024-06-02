@@ -18,7 +18,7 @@ export class UsuarioManager extends ManagerBase<UsuarioEntity, UsuarioRepository
   };
 
   async getCollection(paginacion:any) {
-    const aliasEntity = 'user';
+    const aliasEntity = 'usuario';
     const fields = paginacion.fields.data;
     const dataReset = resetFilds(fields, aliasEntity);
     const qb = await this.usuarioRepository.getCollection(dataReset);

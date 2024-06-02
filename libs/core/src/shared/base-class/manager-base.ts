@@ -90,7 +90,7 @@ export abstract class ManagerBase<ENTITY, REPOSITORY extends RepositoryOrmBase<E
 
 
 
-   async insert (entity: ENTITY,queryRunner?): Promise<ENTITY> {
+   async insert (entity: ENTITY,queryRunner?:QueryRunner): Promise<ENTITY> {
     
     try {
         this.queryRunner = queryRunner;
@@ -113,13 +113,13 @@ export abstract class ManagerBase<ENTITY, REPOSITORY extends RepositoryOrmBase<E
 
 
 
-  async update (entity: ENTITY,queryRunner?): Promise<ENTITY>  {
+  async update (entity: ENTITY,queryRunner?:QueryRunner): Promise<ENTITY>  {
 
     try {
       this.queryRunner = queryRunner;
       const idUpdate = {'id':entity['id']};
       const entityToUpdate = await this.getRepository().findOneBy(idUpdate);
-      const entityMerge = await this.getRepository().merge(entityToUpdate,entity)
+      const entityMerge = await this.getRepository().merge(entityToUpdate,entity);
       if(this.queryRunner){
         return await this.queryRunner.manager.save(entityMerge);
       }
@@ -136,11 +136,10 @@ export abstract class ManagerBase<ENTITY, REPOSITORY extends RepositoryOrmBase<E
     }
   };
 
-  async delete  (id: any, queryRunner?:any,borraData?:any): Promise<DeleteResult>  {
+  async delete  (id: any, queryRunner?:QueryRunner): Promise<DeleteResult>  {
     try {
       this.queryRunner = queryRunner;
       if(this.queryRunner){
-         //return await this.queryRunner.manager.delete(borraData, {id});
         return await this.getRepository().delete({ id });
       }
       else{
@@ -157,7 +156,7 @@ export abstract class ManagerBase<ENTITY, REPOSITORY extends RepositoryOrmBase<E
     }
   };
 
-  async remove (entity: ENTITY,queryRunner?): Promise<ENTITY> {
+  async remove (entity: ENTITY,queryRunner?:QueryRunner): Promise<ENTITY> {
     try {
   
       this.queryRunner = queryRunner;
@@ -198,12 +197,11 @@ export abstract class ManagerBase<ENTITY, REPOSITORY extends RepositoryOrmBase<E
     try {
       return await this.getRepository().find(criteria);
     } catch (error) {
+      Logger.error(error);
       throw new RpcException({
         statusCode: HttpStatus.NOT_FOUND,
         message: `A ocurrido un error interno en la búsqueda de la información`,
       });
-   
-   
     }
   };
 
@@ -220,7 +218,7 @@ export abstract class ManagerBase<ENTITY, REPOSITORY extends RepositoryOrmBase<E
     }
   };
 
-  async updateBasic (entity: ENTITY,queryRunner?:any,entityToUpdate?:any): Promise<ENTITY>  {
+  async updateBasic (entity: ENTITY,entityToUpdate?:any,queryRunner?:QueryRunner,): Promise<ENTITY>  {
 
     try {
       this.queryRunner = queryRunner;
@@ -236,8 +234,7 @@ export abstract class ManagerBase<ENTITY, REPOSITORY extends RepositoryOrmBase<E
         throw new RpcException({
         statusCode: HttpStatus.NOT_FOUND,
         message: `A ocurrido un error interno en la actualización del recurso`,error,
-      });
-    
+      }); 
     }
   };
 

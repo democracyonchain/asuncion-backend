@@ -40,6 +40,9 @@ export class RolUsuarioEntity {
   @JoinColumn([{ name: 'rol_id', referencedColumnName: 'id' }])
   rol: RolEntity;
 
+  @Column({ name: 'activo', type: 'boolean',  nullable: false })
+  activo: boolean;
+
   @BeforeInsert()
   async setCreateDate() {
     this.fechacreacion = new Date();
