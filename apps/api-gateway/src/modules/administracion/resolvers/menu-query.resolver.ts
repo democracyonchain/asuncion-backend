@@ -10,7 +10,6 @@ import {
   } from '@bsc/core';
 import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Args, Info, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { plainToClass } from 'class-transformer';
 import { fieldsMap } from 'graphql-fields-list';
 import { MenuService } from '../services/menu.service';
 import MenuCollectionType, { MenuAdministracionType } from '../dto/objecType/menu.object';
@@ -33,8 +32,7 @@ export class MenuQueryResolver {
     @Args('dataInput', { type: () => MenuCreateInput })
     dataInput: MenuCreateInput,
   ) {
-      const menu = await this.menuService.menuCreate(dataInput,usuarioAuth);
-      return plainToClass(MenuAdministracionType, menu);
+      return await this.menuService.menuCreate(dataInput,usuarioAuth);
   }
 
   @UseGuards(AuthGuard)
@@ -44,8 +42,7 @@ export class MenuQueryResolver {
     @Args('dataInput', { type: () => MenuUpdateInput })
     dataInput: MenuUpdateInput,
   ) {
-      const menu = await this.menuService.menuUpdate(dataInput,usuarioAuth);
-      return plainToClass(MenuAdministracionType, menu);
+      return await this.menuService.menuUpdate(dataInput,usuarioAuth);
   }
 
   @UseGuards(AuthGuard)
@@ -67,8 +64,7 @@ export class MenuQueryResolver {
       @Args('order', { nullable: true }) order?: StringOrderInput,
   ) {
       const fields = fieldsMap(info);
-      const menuCollection = await this.menuService.menuCollection(pagination, where, order, fields, usuarioAuth);
-      return menuCollection;
+      return await this.menuService.menuCollection(pagination, where, order, fields, usuarioAuth);
   }
 
   @UseGuards(AuthGuard)
@@ -79,7 +75,6 @@ export class MenuQueryResolver {
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
   ) {
     const fields = fieldsMap(info);
-    const dataMenuById = await this.menuService.menu(id, fields, usuarioAuth);
-    return dataMenuById;
+    return await this.menuService.menu(id, fields, usuarioAuth);
   }
 }

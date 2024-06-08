@@ -2,7 +2,7 @@
   "apps":[
     {
       "name": "api-gateway",
-      "script": "dist/apps/api-gateway/apps/api-gateway/src/main.js",
+      "script": "dist/apps/api-gateway/src/main.js",
       "env": {
         "NODE_ENV": "development"
       },
@@ -12,7 +12,7 @@
     },
     {
       "name": "ms-administracion",
-      "script": "dist/apps/ms-taps/apps/ms-administracion/src/main.js",
+      "script": "dist/apps/ms-administracion/src/main.js",
       "env": {
         "NODE_ENV": "development"
       },
@@ -22,7 +22,7 @@
     },
     {
       "name": "ms-autorizacion",
-      "script": "dist/apps/ms-taps/apps/ms-autorizacion/src/main.js",
+      "script": "dist/apps/ms-autorizacion/src/main.js",
       "env": {
         "NODE_ENV": "development"
       },

@@ -41,7 +41,7 @@ export async function managePaginationArgs(aliasEntity: string, qb: any, dataFor
   if (!offset) {
     offset = 0
   }
-  const [data, count] = await queryFull.skip(offset).take(limit).getManyAndCount();
+  const [data, count] = await queryFull.offset(offset).limit(limit).getManyAndCount();
   const totalPages = Math.ceil(count / limit);
   const hasPreviousPage = offset > 1;
   const hasNextPage = offset < totalPages;
@@ -214,10 +214,10 @@ function handleOrderArgs(query: SelectQueryBuilder<any>, order: StringOrderInput
     let nameField = "";
     const splitFieldName = fieldName.split(".")
     if (splitFieldName.length > 1) {
-      nameField = `"${splitFieldName[0]}_${splitFieldName[1].toUpperCase()}"`
+      nameField = `"${splitFieldName[0]}_${splitFieldName[1]}"`
     }
     else {
-      nameField = `"${aliasEntity}_${fieldName.toUpperCase()}"`
+      nameField = `"${aliasEntity}_${fieldName}"`
     }
     query.orderBy(nameField, direction.toUpperCase() as any);
   }
@@ -230,7 +230,6 @@ export function manageFilterQueryBuilderArgs(
   where?: any,
   order?: StringOrderInput,
 ) {
-
   if (where) {
     query = handleWhereArgs(query, where, aliasEntity);
   }
@@ -245,7 +244,7 @@ function handleOrderQueryBuilderArgs(query: SelectQueryBuilder<any>, order: Stri
   if (Array.isArray(orderArgs) && orderArgs.length >= 1) {
     const orderArg = orderArgs[0];
     const [direction, fieldName] = orderArg;
-    let nameField = `"${aliasEntity}"."${fieldName.toUpperCase()}"`;
+    let nameField = `"${aliasEntity}"."${fieldName}"`;
     query.orderBy(nameField, direction.toUpperCase() as any);
   }
   return query;

@@ -10,7 +10,6 @@ import {
   } from '@bsc/core';
 import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Args, Info, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { plainToClass } from 'class-transformer';
 import { fieldsMap } from 'graphql-fields-list';
 import ModuloCollectionType, { ModuloAdministracionType } from '../dto/objecType/modulo.object';
 import { ModuloCreateInput, ModuloUpdateInput } from '../dto/inputType/modulo.input';
@@ -33,8 +32,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
       @Args('dataInput', { type: () => ModuloCreateInput })
       dataInput: ModuloCreateInput,
     ) {
-        const modulo = await this.moduloService.moduloCreate(dataInput,usuarioAuth);
-        return plainToClass(ModuloAdministracionType, modulo);
+        return await this.moduloService.moduloCreate(dataInput,usuarioAuth);
     }
 
     @UseGuards(AuthGuard)
@@ -44,8 +42,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
       @Args('dataInput', { type: () => ModuloUpdateInput })
       dataInput: ModuloUpdateInput,
     ) {
-        const modulo = await this.moduloService.moduloUpdate(dataInput,usuarioAuth);
-        return plainToClass(ModuloAdministracionType, modulo);
+        return await this.moduloService.moduloUpdate(dataInput,usuarioAuth);
     }
 
     @UseGuards(AuthGuard)
@@ -67,8 +64,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
         @Args('order', { nullable: true }) order?: StringOrderInput,
     ) {
         const fields = fieldsMap(info);
-        const moduloCollection = await this.moduloService.moduloCollection(pagination, where, order, fields, usuarioAuth);
-        return moduloCollection;
+        return await this.moduloService.moduloCollection(pagination, where, order, fields, usuarioAuth);
     }
 
     @UseGuards(AuthGuard)
@@ -79,7 +75,6 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
       @Args('id', { nullable: false, type: () => Int }) id: number,
     ) {
       const fields = fieldsMap(info);
-      const dataModuloById = await this.moduloService.modulo(id, fields, usuarioAuth);
-      return dataModuloById;
+      return await this.moduloService.modulo(id, fields, usuarioAuth);
     }
   }

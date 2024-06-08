@@ -29,6 +29,7 @@ export class AutorizacionService {
     let username: string ="";
     let token: string = "";
     let provincia: string = "";
+    let establecimiento: {} = null;
     try {
         const dataUser = params.user;
         const userSearch = await this.usuarioManager.findByRelations(
@@ -36,10 +37,13 @@ export class AutorizacionService {
             select:{id:true,username:true,ultimoacceso:true,email:true,nombres:true,apellidos:true,password:true,
               provincia:{
               id:true,nombre:true,
+              },
+              establecimiento:{
+                id:true,nombre:true,logo:true,
               }
             },
             where:{username:dataUser.username,estado:true,activo:true},
-            relations: {provincia:true},
+            relations: {provincia:true,establecimiento:true},
           }
         );
         const user = userSearch[0]
@@ -54,7 +58,8 @@ export class AutorizacionService {
               const payload = { email: user.email,nombres:user.nombres,apellidos:user.apellidos, id:user.id};
               token = await this.jwtService.signAsync(payload);
               username = user.username;
-              provincia = user.provincia.nombre
+              provincia = user.provincia.nombre;
+              establecimiento = userSearch[0].establecimiento
             }
         }
         else{
@@ -67,7 +72,7 @@ export class AutorizacionService {
             message: error.message, 
         });
     }   
-    return{username,token,provincia}
+    return{username,token,provincia,establecimiento}
   }
 
   async perfil(params:  any): Promise<any> {

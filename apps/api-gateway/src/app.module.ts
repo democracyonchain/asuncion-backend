@@ -3,7 +3,6 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
-
 import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,7 +10,7 @@ import { ConstantesConfig } from './config/constantes.config';
 import graphqlConfig from './config/gql.config';
 import { administracionModule } from './modules/administracion/administracion.module';
 import {ConstantesGw} from './common/constants/constantes-gw';
-import { DateScalar } from '@bsc/core';
+import { Base64Scalar, DateScalar } from '@bsc/core';
 import { DecimalScalar } from '@bsc/core/shared/dto/scalar-type/decimal-scalar.type';
 import { JwtModule } from '@nestjs/jwt';
 import { autorizacionModule } from './modules/autorizacion/autorizacion.module';
@@ -49,6 +48,7 @@ import { autorizacionModule } from './modules/autorizacion/autorizacion.module';
   ],
   controllers: [AppController],
   providers: [
+    Base64Scalar,
     DateScalar,
     DecimalScalar,
     AppService,

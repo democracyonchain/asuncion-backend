@@ -4,9 +4,9 @@ export class ConstantesAutorizacion extends Constantes {
   //Constantes generales
 
 
-  public static readonly CT_ACTIVO = 1;
+  public static readonly CT_ACTIVO = true;
 
-  public static readonly BORRADO_LOGICO = 0;
+  public static readonly BORRADO_LOGICO = false;
 
   //nombre del esquema de base de datos para las tablas de BSC
   public static readonly SCHEMA_BSC = 'public';

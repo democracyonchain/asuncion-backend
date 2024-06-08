@@ -14,14 +14,12 @@ export class UsuarioController {
 
   @MessagePattern(ConstantesAdministracion.ADMINISTRACION.PATTERN.USUARIO_COLLECTION)
   async usuarioCollection(@Payload() paginacion: FilterDto<UsuarioFilterInput>) {
-    const data = await this.usuarioService.getCollection(paginacion);
-    return data;
+    return await this.usuarioService.getCollection(paginacion);
   }
 
   @MessagePattern(ConstantesAdministracion.ADMINISTRACION.PATTERN.USUARIO_BY_ID)
   async usuario(@Payload() filter: FilterById) {
-    const data = await this.usuarioService.findById(filter);
-    return data;
+    return await this.usuarioService.findById(filter);
   }
 
   @MessagePattern(ConstantesAdministracion.ADMINISTRACION.PATTERN.USUARIO_CREATE)

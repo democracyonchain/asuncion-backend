@@ -10,9 +10,8 @@ import {
   } from '@bsc/core';
 import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Args, Info, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { plainToClass } from 'class-transformer';
 import { fieldsMap } from 'graphql-fields-list';
-import RolCollectionType, { RolAdministracionType, RolType } from '../dto/objecType/rol.object';
+import RolCollectionType, { RolType } from '../dto/objecType/rol.object';
 import { RolCreateInput, RolUpdateInput } from '../dto/inputType/rol.input';
 import { RolService } from '../services/rol.service';
 import { RolFilterInput } from '../dto/filterType/rol.filter';
@@ -33,8 +32,7 @@ export class RolQueryResolver {
     @Args('dataInput', { type: () => RolCreateInput })
     dataInput: RolCreateInput,
   ) {
-      const menu = await this.rolService.rolCreate(dataInput,usuarioAuth);
-      return plainToClass(RolAdministracionType, menu);
+      return await this.rolService.rolCreate(dataInput,usuarioAuth);
   }
 
   @UseGuards(AuthGuard)
@@ -44,8 +42,7 @@ export class RolQueryResolver {
     @Args('dataInput', { type: () => RolUpdateInput })
     dataInput: RolUpdateInput,
   ) {
-      const menu = await this.rolService.rolUpdate(dataInput,usuarioAuth);
-      return plainToClass(RolAdministracionType, menu);
+      return await this.rolService.rolUpdate(dataInput,usuarioAuth);
   }
 
   @UseGuards(AuthGuard)
@@ -67,8 +64,7 @@ export class RolQueryResolver {
       @Args('order', { nullable: true }) order?: StringOrderInput,
   ) {
       const fields = fieldsMap(info);
-      const rolCollection = await this.rolService.rolCollection(pagination, where, order, fields, usuarioAuth);
-      return rolCollection;
+      return await this.rolService.rolCollection(pagination, where, order, fields, usuarioAuth);
   }
 
 
@@ -80,7 +76,6 @@ export class RolQueryResolver {
     @Args('id', { nullable: false, type: () => Int }) id: number,
   ) {
     const fields = fieldsMap(info);
-    const dataRolById = await this.rolService.rol(id, fields, usuarioAuth);
-    return dataRolById;
+    return await this.rolService.rol(id, fields, usuarioAuth);
   }
 }

@@ -2,6 +2,7 @@ import { BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, OneToMany, Primary
 import { ConstantesAutorizacion } from '../../common/constantes-autorizacion';
 import { RolUsuarioEntity } from './rol-usuario.entity';
 import { ProvinciaEntity } from './provincia.entity';
+import { EstablecimientoEntity } from './establecimiento.entity';
 
 
 @Entity({ name: 'usuario', schema: ConstantesAutorizacion.SCHEMA_BSC })
@@ -43,12 +44,20 @@ export class UsuarioEntity {
   @Column({ name: 'provincia_id', type: 'integer', nullable: false })
   provincia_id: number;
 
+  @Column({ name: 'establecimiento_id', type: 'integer', nullable: false })
+  establecimiento_id: number;
+
+  @Column({ name: 'activo', type: 'boolean',  nullable: false })
+  activo: boolean;
+
+  //Campos relacionados
   @ManyToOne(() => ProvinciaEntity, (provincia) => provincia.usuario)
   @JoinColumn([{ name: 'provincia_id', referencedColumnName: 'id' }])
   provincia: ProvinciaEntity;
 
-  @Column({ name: 'activo', type: 'boolean',  nullable: false })
-  activo: boolean;
+  @ManyToOne(() => EstablecimientoEntity, (establecimiento) => establecimiento.usuario)
+  @JoinColumn([{ name: 'establecimiento_id', referencedColumnName: 'id' }])
+  establecimiento: EstablecimientoEntity;
 
   @BeforeUpdate()
   async setUpdateDate() {

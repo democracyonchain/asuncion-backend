@@ -5,6 +5,7 @@ export class LoginResult{
     username: string;
     token: string;
     provincia: string;
+    establecimiento: any
   }
 
 export interface Userdata<DataType>{

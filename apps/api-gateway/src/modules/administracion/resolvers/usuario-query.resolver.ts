@@ -37,8 +37,7 @@ import { fieldsMap } from 'graphql-fields-list';
         @Args('order', { nullable: true }) order?: StringOrderInput,
     ) {
         const fields = fieldsMap(info);
-        const usuarioCollection = await this.usuarioService.usuarioCollection(pagination, where, order, fields, usuarioAuth);
-        return usuarioCollection;
+        return await this.usuarioService.usuarioCollection(pagination, where, order, fields, usuarioAuth);
     }
 
     @UseGuards(AuthGuard)
@@ -49,8 +48,7 @@ import { fieldsMap } from 'graphql-fields-list';
       @Args('id', { nullable: false, type: () => Int }) id: number,
     ) {
       const fields = fieldsMap(info);
-      const dataUsuarioById = await this.usuarioService.usuario(id, fields, usuarioAuth);
-      return dataUsuarioById;
+      return await this.usuarioService.usuario(id, fields, usuarioAuth);
     }
 
     @UseGuards(AuthGuard)
@@ -60,8 +58,7 @@ import { fieldsMap } from 'graphql-fields-list';
       @Args('dataInput', { type: () => UsuarioCreateInput })
       dataInput: UsuarioCreateInput,
     ) {
-      const usuario = await this.usuarioService.usuarioCreate(dataInput,usuarioAuth);
-      return plainToClass(UsuarioAdministracionType, usuario);
+      return await this.usuarioService.usuarioCreate(dataInput,usuarioAuth);
     }
 
     @UseGuards(AuthGuard)
@@ -71,8 +68,7 @@ import { fieldsMap } from 'graphql-fields-list';
       @Args('dataInput', { type: () => UsuarioUpdateInput })
       dataInput: UsuarioUpdateInput,
     ) {
-        const usuario = await this.usuarioService.usuarioUpdate(dataInput,usuarioAuth);
-        return plainToClass(UsuarioAdministracionType, usuario);
+        return await this.usuarioService.usuarioUpdate(dataInput,usuarioAuth);
     }
 
     @UseGuards(AuthGuard)

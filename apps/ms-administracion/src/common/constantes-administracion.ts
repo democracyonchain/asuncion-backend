@@ -12,9 +12,9 @@ export class ConstantesAdministracion extends Constantes {
   // Id del tipo de catalogo con atención finalizada
   public static readonly CT_ATENCIONFINALIZADA = 222;
 
-  public static readonly CT_ACTIVO = 1;
+  public static readonly CT_ACTIVO = true;
 
-  public static readonly BORRADO_LOGICO = 0;
+  public static readonly BORRADO_LOGICO = false;
 
   //nombre del esquema de base de datos para las tablas de bsc
   public static readonly SCHEMA_BSC = 'public';
@@ -54,6 +54,12 @@ export class ConstantesAdministracion extends Constantes {
       ROL_DELETE: 'ROL_DELETE',
       ROL_COLLECTION: 'ROL_COLLECTION',
       ROL_BY_ID: 'ROL_BY_ID',
+
+      ESTABLECIMIENTO_CREATE: 'ESTABLECIMIENTO_CREATE',
+      ESTABLECIMIENTO_UPDATE: 'ESTABLECIMIENTO_UPDATE',
+      ESTABLECIMIENTO_DELETE: 'ESTABLECIMIENTO_DELETE',
+      ESTABLECIMIENTO_COLLECTION: 'ESTABLECIMIENTO_COLLECTION',
+      ESTABLECIMIENTO_BY_ID: 'ESTABLECIMIENTO_BY_ID',
     },
   };
 

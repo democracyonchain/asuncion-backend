@@ -24,6 +24,7 @@ import { RolUsuarioEntity } from './entities/rol-usuario.entity';
 import { RolEntity } from './entities/rol.entity';
 import { ListaNegraTokenEntity } from './entities/lista-negra-token.entity';
 import { ProvinciaEntity } from './entities/provincia.entity';
+import { EstablecimientoEntity } from './entities/establecimiento.entity';
 
 /* Manager */
 import { UsuarioManager } from './manager/usuario.manager';
@@ -42,7 +43,8 @@ import { ListaNegraTokenManager } from './manager/lista-negra-token.manager';
             RolUsuarioEntity,
             RolEntity,
             ListaNegraTokenEntity,
-            ProvinciaEntity
+            ProvinciaEntity,
+            EstablecimientoEntity
         ]),
     ],
     controllers: [

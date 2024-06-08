@@ -29,13 +29,11 @@ export class RolController {
 
   @MessagePattern(ConstantesAdministracion.ADMINISTRACION.PATTERN.ROL_COLLECTION)
   async rolCollection(@Payload() paginacion: FilterDto<RolFilterInput>) {
-    const data = await this.rolService.getCollection(paginacion);
-    return data;
+    return await this.rolService.getCollection(paginacion);
   }
 
   @MessagePattern(ConstantesAdministracion.ADMINISTRACION.PATTERN.ROL_BY_ID)
   async rol(@Payload() filter: FilterById) {
-    const data = await this.rolService.findById(filter);
-    return data;
+    return await this.rolService.findById(filter);
   }
 }

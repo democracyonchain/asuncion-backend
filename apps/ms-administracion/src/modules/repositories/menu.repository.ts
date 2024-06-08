@@ -24,5 +24,7 @@ export class MenuRepository extends RepositoryOrmBase<MenuEntity> {
     return this.getBuildQueryBuilder()
       .select(dataReset)
       .innerJoin('menu.modulo', 'modulo')
+      .andWhere('modulo.activo= :activo', { activo: Number(ConstantesAdministracion.CT_ACTIVO) })
+      .andWhere('modulo.estado= :activo', { activo: Number(ConstantesAdministracion.CT_ACTIVO) })
   }
 }

@@ -29,13 +29,11 @@ export class ModuloController {
 
   @MessagePattern(ConstantesAdministracion.ADMINISTRACION.PATTERN.MODULO_COLLECTION)
   async moduloCollection(@Payload() paginacion: FilterDto<ModuloFilterInput>) {
-    const data = await this.moduloService.getCollection(paginacion);
-    return data;
+    return await this.moduloService.getCollection(paginacion);
   }
 
   @MessagePattern(ConstantesAdministracion.ADMINISTRACION.PATTERN.MODULO_BY_ID)
   async modulo(@Payload() filter: FilterById) {
-    const data = await this.moduloService.findById(filter);
-    return data;
+    return await this.moduloService.findById(filter);
   }
 }

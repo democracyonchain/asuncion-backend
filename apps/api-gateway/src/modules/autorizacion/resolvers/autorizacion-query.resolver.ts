@@ -30,8 +30,7 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
       @Args('username', { nullable: false, type: () => String }) username: string,
       @Args('password', { nullable: false, type: () => String }) password: string,
     ) {
-      const dataUsuarioById = await this.autorizacionService.login(username,password);
-      return dataUsuarioById;
+      return await this.autorizacionService.login(username,password);
     }
 
     @UseGuards(AuthGuard)
@@ -41,8 +40,7 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     ) {
       const fields = fieldsMap(info);
-      const dataUsuarioById = await this.autorizacionService.perfil(usuarioAuth,fields);
-      return dataUsuarioById;
+      return await this.autorizacionService.perfil(usuarioAuth,fields);
     }
 
     @UseGuards(AuthGuard)
@@ -51,8 +49,7 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('password', { nullable: false, type: () => String }) password: string,
     ) {
-      const dataUsuarioById = await this.autorizacionService.cambioPassword(usuarioAuth,password);
-      return dataUsuarioById;
+      return await this.autorizacionService.cambioPassword(usuarioAuth,password);
     }
 
     @UseGuards(AuthGuard)
@@ -63,8 +60,7 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
       @Args('rol_id', { nullable: false, type: () => Int }) rol_id: number,
     ) {
       const fields = fieldsMap(info);
-      const dataUsuarioById = await this.autorizacionService.moduloPermiso(usuarioAuth,fields,rol_id);
-      return dataUsuarioById;
+      return await this.autorizacionService.moduloPermiso(usuarioAuth,fields,rol_id);
     }
 
     @UseGuards(AuthGuard)
@@ -72,7 +68,6 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
     public async authlogout(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     ) {
-      const result = await this.autorizacionService.authlogout(usuarioAuth);
-      return result;
+      return await this.autorizacionService.authlogout(usuarioAuth);
     }
   }

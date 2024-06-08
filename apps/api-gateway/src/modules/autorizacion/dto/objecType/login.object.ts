@@ -1,5 +1,6 @@
 
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { EstablecimientoAuthType } from './establecimiento.object';
 
 
 @ObjectType('Login')
@@ -13,4 +14,7 @@ export class LoginType {
 
     @Field({ nullable: false })
     provincia: string;
+
+    @Field(() => EstablecimientoAuthType, { nullable: true })
+    establecimiento: EstablecimientoAuthType;
 }

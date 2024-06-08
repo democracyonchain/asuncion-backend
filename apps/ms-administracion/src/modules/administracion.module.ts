@@ -6,12 +6,14 @@ import { UsuarioController } from './controllers/usuario.controller';
 import { ModuloController } from './controllers/modulo.controller';
 import { MenuController } from './controllers/menu.controller';
 import { RolController } from './controllers/rol.controller';
+import { EstablecimientoController } from './controllers/establecimiento.controller';
 
 /* Servicio */
 import { UsuarioService } from './services/usuario.service';
 import { ModuloService } from './services/modulo.service';
 import { MenuService } from './services/menu.service';
 import { RolService } from './services/rol.service';
+import { EstablecimientoService } from './services/establecimiento.service';
 
 /* Repositorio */
 import { UsuarioRepository } from './repositories/usuario.repository';
@@ -22,6 +24,7 @@ import { RolUsuarioRepository } from './repositories/rol-usuario.repository';
 import { AuditLogRepository } from './repositories/audit/audit-log.repository';
 import { ListaNegraTokenRepository } from './repositories/lista-negra-token.repository';
 import { ProvinciaRepository } from './repositories/provincia.repository';
+import { EstablecimientoRepository } from './repositories/establecimiento.repository';
 
 /* Entidades */
 import { UsuarioEntity } from './entities/usuario.entity';
@@ -33,6 +36,7 @@ import { RolUsuarioEntity } from './entities/rol-usuario.entity';
 import { AuditLog } from './entities/audit/audit-log.entity';
 import { ListaNegraTokenEntity } from './entities/lista-negra-token.entity';
 import { ProvinciaEntity } from './entities/provincia.entity';
+import { EstablecimientoEntity } from './entities/establecimiento.entity';
 
 /* Manager */
 import { UsuarioManager } from './manager/usuario.manager';
@@ -43,6 +47,7 @@ import { RolUsuarioManager } from './manager/rolusuario.manager';
 import { AuditLogManager } from './manager/audit/audit-log.manager';
 import { ListaNegraTokenManager } from './manager/lista-negra-token.manager';
 import { ProvinciaManager } from './manager/provincia.manager';
+import { EstablecimientoManager } from './manager/establecimiento.manager';
 
 @Module({
     imports: [
@@ -54,7 +59,8 @@ import { ProvinciaManager } from './manager/provincia.manager';
             PermisosEntity,
             RolUsuarioEntity,
             ListaNegraTokenEntity,
-            ProvinciaEntity
+            ProvinciaEntity,
+            EstablecimientoEntity
         ]),
         TypeOrmModule.forFeature([
             AuditLog
@@ -64,7 +70,8 @@ import { ProvinciaManager } from './manager/provincia.manager';
         UsuarioController,
         ModuloController,
         MenuController,
-        RolController
+        RolController,
+        EstablecimientoController
     ],
     providers: [
         UsuarioService,
@@ -86,13 +93,17 @@ import { ProvinciaManager } from './manager/provincia.manager';
         ListaNegraTokenRepository,
         ListaNegraTokenManager,
         ProvinciaRepository,
-        ProvinciaManager
+        ProvinciaManager,
+        EstablecimientoService,
+        EstablecimientoRepository,
+        EstablecimientoManager
     ],
     exports: [
         UsuarioService,
         ModuloService,
         MenuService,
-        RolService
+        RolService,
+        EstablecimientoService
     ],
 })
 export class AdministracionModule { }

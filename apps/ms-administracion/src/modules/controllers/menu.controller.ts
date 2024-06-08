@@ -29,13 +29,11 @@ export class MenuController {
 
   @MessagePattern(ConstantesAdministracion.ADMINISTRACION.PATTERN.MENU_COLLECTION)
   async menuCollection(@Payload() paginacion: FilterDto<MenuFilterInput>) {
-    const data = await this.menuService.getCollection(paginacion);
-    return data;
+    return await this.menuService.getCollection(paginacion);
   }
 
   @MessagePattern(ConstantesAdministracion.ADMINISTRACION.PATTERN.MENU_BY_ID)
   async menu(@Payload() filter: FilterById) {
-    const data = await this.menuService.findById(filter);
-    return data;
+    return await this.menuService.findById(filter);
   }
 }

@@ -2,6 +2,7 @@ import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, OneT
 import { ConstantesAdministracion } from '../../common/constantes-administracion';
 import { RolUsuarioEntity } from './rol-usuario.entity';
 import { ProvinciaEntity } from './provincia.entity';
+import { EstablecimientoEntity } from './establecimiento.entity';
 
 
 @Entity({ name: 'usuario', schema: ConstantesAdministracion.SCHEMA_BSC })
@@ -40,18 +41,23 @@ export class UsuarioEntity {
   @Column({ name: 'estado', type: 'boolean',  nullable: false })
   estado: boolean;
 
-  @OneToMany(() => RolUsuarioEntity, (rolusuario) => rolusuario.usuario)
-  rolusuario: RolUsuarioEntity[];
-
   @Column({ name: 'provincia_id', type: 'integer', nullable: false })
   provincia_id: number;
+
+  @Column({ name: 'activo', type: 'boolean',  nullable: false })
+  activo: boolean;
+
+  //relaciones
+  @OneToMany(() => RolUsuarioEntity, (rolusuario) => rolusuario.usuario)
+  rolusuario: RolUsuarioEntity[];
 
   @ManyToOne(() => ProvinciaEntity, (provincia) => provincia.usuario)
   @JoinColumn([{ name: 'provincia_id', referencedColumnName: 'id' }])
   provincia: ProvinciaEntity;
 
-  @Column({ name: 'activo', type: 'boolean',  nullable: false })
-  activo: boolean;
+  @ManyToOne(() => EstablecimientoEntity, (establecimiento) => establecimiento.usuario)
+  @JoinColumn([{ name: 'establecimiento_id', referencedColumnName: 'id' }])
+  establecimiento: EstablecimientoEntity;
 
   @BeforeInsert()
   async setCreateDate() {
