@@ -8,12 +8,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConstantesConfig } from './config/constantes.config';
 import graphqlConfig from './config/gql.config';
-import { administracionModule } from './modules/administracion/administracion.module';
 import {ConstantesGw} from './common/constants/constantes-gw';
 import { Base64Scalar, DateScalar } from '@bsc/core';
 import { DecimalScalar } from '@bsc/core/shared/dto/scalar-type/decimal-scalar.type';
 import { JwtModule } from '@nestjs/jwt';
+//modulos
 import { autorizacionModule } from './modules/autorizacion/autorizacion.module';
+import { administracionModule } from './modules/administracion/administracion.module';
 
 @Module({
   imports: [

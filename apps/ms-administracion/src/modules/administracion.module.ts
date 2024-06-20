@@ -7,6 +7,7 @@ import { ModuloController } from './controllers/modulo.controller';
 import { MenuController } from './controllers/menu.controller';
 import { RolController } from './controllers/rol.controller';
 import { EstablecimientoController } from './controllers/establecimiento.controller';
+import { ProvinciaController } from './controllers/provincia.controller';
 
 /* Servicio */
 import { UsuarioService } from './services/usuario.service';
@@ -14,6 +15,7 @@ import { ModuloService } from './services/modulo.service';
 import { MenuService } from './services/menu.service';
 import { RolService } from './services/rol.service';
 import { EstablecimientoService } from './services/establecimiento.service';
+import { ProvinciaService } from './services/provincia.service';
 
 /* Repositorio */
 import { UsuarioRepository } from './repositories/usuario.repository';
@@ -71,7 +73,8 @@ import { EstablecimientoManager } from './manager/establecimiento.manager';
         ModuloController,
         MenuController,
         RolController,
-        EstablecimientoController
+        EstablecimientoController,
+        ProvinciaController
     ],
     providers: [
         UsuarioService,
@@ -96,14 +99,16 @@ import { EstablecimientoManager } from './manager/establecimiento.manager';
         ProvinciaManager,
         EstablecimientoService,
         EstablecimientoRepository,
-        EstablecimientoManager
+        EstablecimientoManager,
+        ProvinciaService
     ],
     exports: [
         UsuarioService,
         ModuloService,
         MenuService,
         RolService,
-        EstablecimientoService
+        EstablecimientoService,
+        ProvinciaService
     ],
 })
 export class AdministracionModule { }

@@ -59,6 +59,9 @@ export class UsuarioEntity {
   @JoinColumn([{ name: 'establecimiento_id', referencedColumnName: 'id' }])
   establecimiento: EstablecimientoEntity;
 
+  @Column({ name: 'passwordtemp', type: 'boolean',  nullable: false })
+  passwordtemp: boolean;
+
   @BeforeUpdate()
   async setUpdateDate() {
     this.fechamodificacion = new Date();

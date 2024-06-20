@@ -1,3 +1,4 @@
+import { Base64Scalar } from '@bsc/core';
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType('EstablecimientoAuth')
@@ -10,5 +11,5 @@ export class EstablecimientoAuthType {
     nombre: string;
 
     @Field({ nullable: true })
-    logo: string;
+    logo: Base64Scalar;
 }

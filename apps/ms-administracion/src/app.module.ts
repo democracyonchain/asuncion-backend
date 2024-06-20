@@ -12,11 +12,6 @@ import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    JwtModule.register({
-      global: true,
-      secret: process.env.SECRE_TOKEN,
-      signOptions: { expiresIn: "1d" },
-    }),
     AdministracionModule,
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],

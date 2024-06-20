@@ -7,7 +7,7 @@ import {
     RespuestaJWTToken,
   } from '@bsc/core';
   import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
-  import { Args, Info, Int, Query, Resolver } from '@nestjs/graphql';
+  import { Args, Info, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
   import { AutorizacionService } from '../services/autorizacion.service';
 import { LoginType } from '../dto/objecType/login.object';
 import { fieldsMap } from 'graphql-fields-list';
@@ -44,12 +44,13 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
     }
 
     @UseGuards(AuthGuard)
-    @Query(() => GlobalResultType, { nullable: false })
+    @Mutation(() => GlobalResultType, { nullable: false })
     public async authCambioPassword(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('password', { nullable: false, type: () => String }) password: string,
+      @Args('id', { nullable: true, type: () => Int }) id: number,
     ) {
-      return await this.autorizacionService.cambioPassword(usuarioAuth,password);
+      return await this.autorizacionService.cambioPassword(usuarioAuth,password,id);
     }
 
     @UseGuards(AuthGuard)

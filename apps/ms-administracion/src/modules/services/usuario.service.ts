@@ -43,6 +43,10 @@ export class UsuarioService {
       select:fields.dataTrue,
       where: {
         id: filter.id,
+        rolusuario:{
+          estado:ConstantesAdministracion.CT_ACTIVO,
+          activo:ConstantesAdministracion.CT_ACTIVO
+        }
       },
       relations: fields.relations,
     });
@@ -79,6 +83,12 @@ export class UsuarioService {
               dataRoles.rol_id = element;
               await this.rolUsuarioManager.insert(dataRoles, queryRunner);
             }))
+          }
+          else{
+            throw new RpcException({
+              statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+              message: `Para crear el usuario ${result.username} debe tener roles asignados`, 
+            });
           }
           if(rolesPromise){
             await queryRunner.commitTransaction();
@@ -174,6 +184,12 @@ export class UsuarioService {
           usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' where usuario_id=${result.id} and rol_id=${element}`;
           await queryRunner.manager.query(queryBuild);
         }))
+      }
+      else{
+        throw new RpcException({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: `Para editar el usuario ${result.username} debe tener roles asignados`, 
+        });
       }
       if(result){
         status =true;

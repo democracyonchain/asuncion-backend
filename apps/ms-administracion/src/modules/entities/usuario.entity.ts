@@ -47,6 +47,9 @@ export class UsuarioEntity {
   @Column({ name: 'activo', type: 'boolean',  nullable: false })
   activo: boolean;
 
+  @Column({ name: 'establecimiento_id', type: 'integer', nullable: false })
+  establecimiento_id: number;
+
   //relaciones
   @OneToMany(() => RolUsuarioEntity, (rolusuario) => rolusuario.usuario)
   rolusuario: RolUsuarioEntity[];

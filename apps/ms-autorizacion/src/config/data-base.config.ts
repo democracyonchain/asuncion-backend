@@ -17,6 +17,19 @@ function typeormModuleOptions(): TypeOrmModuleOptions {
     logging: ['query', 'error'],
   };
 }
+
+function typeormModuleMongoOptions(): TypeOrmModuleOptions {
+  return {
+    type: 'mongodb',
+    host: process.env.DB_MONGO_HOST,
+    port: parseInt(process.env.DB_MONGO_PORT),
+    database: process.env.DB_MONGO_NAME,
+    entities: [__dirname + '/../modules/entities/audit/*.entity.{ts,js}'],
+    synchronize: true,
+  };
+}
+
 export default registerAs('database', () => ({
   config: typeormModuleOptions(),
+  configMongo:typeormModuleMongoOptions()
 }));

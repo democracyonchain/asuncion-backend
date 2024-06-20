@@ -23,7 +23,5 @@ export class RolRepository extends RepositoryOrmBase<RolEntity> {
   async getCollection(dataReset: any) {
     return this.getBuildQueryBuilder()
       .select(dataReset)
-      .innerJoinAndSelect('rol.permisos', 'permisos')
-      .innerJoinAndSelect('permisos.menu', 'menu')
   }
 }

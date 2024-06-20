@@ -1,17 +1,7 @@
 import { Constantes } from '@bsc/core';
 
 export class ConstantesAdministracion extends Constantes {
-  //Constantes generales
-
-  // Id del registro catalogo de antecedentes familiares
-  public static readonly CT_ANTECEDENTES_FAMILIARES_ID = 237;
-
-  // Id del registro catalogo de antecedentes personales
-  public static readonly CT_ANTECEDENTES_PERSONALES_ID = 237;
-
-  // Id del tipo de catalogo con atención finalizada
-  public static readonly CT_ATENCIONFINALIZADA = 222;
-
+  
   public static readonly CT_ACTIVO = true;
 
   public static readonly BORRADO_LOGICO = false;
@@ -60,6 +50,9 @@ export class ConstantesAdministracion extends Constantes {
       ESTABLECIMIENTO_DELETE: 'ESTABLECIMIENTO_DELETE',
       ESTABLECIMIENTO_COLLECTION: 'ESTABLECIMIENTO_COLLECTION',
       ESTABLECIMIENTO_BY_ID: 'ESTABLECIMIENTO_BY_ID',
+
+      PROVINCIA_COLLECTION: 'PROVINCIA_COLLECTION',
+      PROVINCIA_BY_ID: 'PROVINCIA_BY_ID'
     },
   };
 

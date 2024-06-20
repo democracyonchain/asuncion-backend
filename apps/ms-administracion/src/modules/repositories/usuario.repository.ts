@@ -23,5 +23,7 @@ export class UsuarioRepository extends RepositoryOrmBase<UsuarioEntity> {
   async getCollection(dataReset: any) {
     return this.getBuildQueryBuilder()
       .select(dataReset)
+      .innerJoin('usuario.provincia', 'provincia')
+      .innerJoin('usuario.establecimiento', 'establecimiento')
   }
 }

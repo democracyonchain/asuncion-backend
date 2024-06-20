@@ -4,3 +4,8 @@ export class Usuario {
     nombres: string;
     apellidos: string;
 }
+
+export class UsuarioDTO {
+    id: number;
+    password: string;
+  }

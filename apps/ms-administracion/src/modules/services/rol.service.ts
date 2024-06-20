@@ -90,7 +90,7 @@ export class RolService {
         where: {
           id: dataUpdate.id,
         },
-        relations: ['permisos'],
+        relations: ['permisos','rolusuario'],
       });
       const dataOld = plainToInstance(RolDTO, data[0]);
       if(data[0]){
@@ -102,6 +102,14 @@ export class RolService {
           }     
         })
         dataUpdate['permisos']=data[0].permisos;
+        data[0].rolusuario.map((element:any)=>{
+          if(element.id){
+            element['usuariomodificacion_id'] = params.dataUser.user.id;
+            element['activo'] = false;
+            element['estado'] = false;
+          }     
+        })
+        dataUpdate['rolusuario']=data[0].rolusuario;
       }
       const result = await this.rolManager.update(dataUpdate);
       if(result){

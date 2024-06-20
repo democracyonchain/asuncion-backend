@@ -22,6 +22,11 @@ import { JwtModule } from '@nestjs/jwt';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => config.get(ConstantesAutorizacion.TYPEORM_CONFIG),
     }),
+    TypeOrmModule.forRootAsync({
+      name: "mongodb",
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => config.get(ConstantesAutorizacion.TYPEORM_MONGO_CONFIG),
+    }),
     LoggerModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => {

@@ -25,4 +25,5 @@ export class UsuarioDTO {
   email: string;
   roles: [number];
   provincia_id: number;
+  establecimiento_id: number;
 }

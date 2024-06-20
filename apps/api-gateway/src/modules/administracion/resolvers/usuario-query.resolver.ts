@@ -14,7 +14,6 @@ import { UsuarioService } from '../services/usuario.service';
 import { UsuarioFilterInput } from '../dto/filterType/usuario.filter';
 import UsuarioCollectionType, { UsuarioAdministracionType } from '../dto/objecType/usuario.object';
 import { UsuarioCreateInput, UsuarioUpdateInput } from '../dto/inputType/usuario.input';
-import { plainToClass } from 'class-transformer';
 import { fieldsMap } from 'graphql-fields-list';
   
   

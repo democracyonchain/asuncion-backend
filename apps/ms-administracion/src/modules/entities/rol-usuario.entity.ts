@@ -36,7 +36,7 @@ export class RolUsuarioEntity {
   @JoinColumn([{ name: 'usuario_id', referencedColumnName: 'id' }])
   usuario: UsuarioEntity;
 
-  @ManyToOne(() => RolEntity, (rol) => rol.rolusuario)
+  @ManyToOne(() => RolEntity, (rol) => rol.rolusuario,{ onDelete: 'CASCADE', orphanedRowAction: 'delete'})
   @JoinColumn([{ name: 'rol_id', referencedColumnName: 'id' }])
   rol: RolEntity;
 

@@ -15,14 +15,18 @@ import { ModuloManager } from '../manager/modulo.manager';
 import { Modulo } from '../dto/modulo.object';
 import { ListaNegraTokenEntity } from '../entities/lista-negra-token.entity';
 import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
+import { AuditLogManager } from '../manager/audit/audit-log.manager';
 
 @Injectable()
 export class AutorizacionService {
+
+  private readonly isAudit = JSON.parse(process.env.AUDIT_AUTORIZACION)
   constructor(
       private readonly usuarioManager: UsuarioManager,
       private readonly moduloManager: ModuloManager,
       private readonly jwtService: JwtService,
-      private readonly listaNegraTokenManager: ListaNegraTokenManager
+      private readonly listaNegraTokenManager: ListaNegraTokenManager,
+      private readonly auditLogManager: AuditLogManager,
   ) { }
 
   async login(params: Userdata<Login>): Promise<LoginResult> {
@@ -90,7 +94,7 @@ export class AutorizacionService {
   }
 
   async cambioPassword(params:  any): Promise<GlobalResult> {
-    const idUsuario = params.dataUser.user.id
+    const idUsuario = (params.id)?params.id:params.dataUser.user.id
     const token = params.dataUser.token
     await this.listaNegraTokenManager.validarToken(token);
     let status: boolean = false;
@@ -107,11 +111,20 @@ export class AutorizacionService {
       if(data.length==1){
         data[0]['usuariomodificacion_id'] = idUsuario;
         data[0].password = await bcryptjs.hash(params.password, 10);
+        if(params.id){
+          data[0].passwordtemp = true;
+        }else{
+          data[0].passwordtemp = false;
+        }
+        const dataOld = {}
         const dataUpdate = plainToInstance(UsuarioEntity, data[0]);
         const result = await this.usuarioManager.update(dataUpdate);
         if(result){
           status = true;
           message = `Contraseña actualizada correctamente`;
+          if(this.isAudit){
+            await this.auditLogManager.logEvent('Edición','Usuario',params.dataUser.user.id,dataUpdate['id'],dataOld,dataUpdate);
+          }
         }
       }
     }

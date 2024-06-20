@@ -32,6 +32,10 @@ export class UsuarioCreateInput {
   @Field({ nullable: false })
   provincia_id: number;
 
+  @IsInt()
+  @Field({ nullable: false })
+  establecimiento_id: number;
+
 }
 
 @InputType('UsuarioUpdateInput')

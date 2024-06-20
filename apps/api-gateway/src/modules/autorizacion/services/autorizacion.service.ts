@@ -29,9 +29,9 @@ export class AutorizacionService {
     );
   }
 
-  async cambioPassword(usuarioAuth:RespuestaJWTToken,password:string) {
+  async cambioPassword(usuarioAuth:RespuestaJWTToken,password:string,id:number) {
     const pattern = ConstantesGw.AUTORIZACION.PATTERN.CAMBIO_PASSWORD;
-    const payload = { password:password, dataUser:usuarioAuth };
+    const payload = { password:password, dataUser:usuarioAuth, id:id };
     return await firstValueFrom(this.clientProxyAutorizacion.send(pattern, payload)).catch((err) =>
       manageErrorsGw(ConstantesGw.AUTORIZACION.NAME, err),
     );

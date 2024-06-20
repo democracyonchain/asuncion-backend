@@ -34,7 +34,7 @@ export class RolEntity {
   @OneToMany(() => PermisosEntity, (permisos) => permisos.rol, { cascade: ['insert', 'update', 'remove'] })
   permisos: PermisosEntity[];
 
-  @OneToMany(() => RolUsuarioEntity, (rolusuario) => rolusuario.rol)
+  @OneToMany(() => RolUsuarioEntity, (rolusuario) => rolusuario.rol,  { cascade: ['insert', 'update', 'remove'] })
   rolusuario: RolUsuarioEntity[];
 
   @Column({ name: 'activo', type: 'boolean',  nullable: false })
