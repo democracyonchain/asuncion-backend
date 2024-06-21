@@ -27,7 +27,7 @@ export class EstablecimientoQueryResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
-  async establecimientoCreate(
+  async adminEstablecimientoCreate(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => EstablecimientoCreateInput })
     dataInput: EstablecimientoCreateInput,
@@ -37,7 +37,7 @@ export class EstablecimientoQueryResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
-  async establecimientoUpdate(
+  async adminEstablecimientoUpdate(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => EstablecimientoUpdateInput })
     dataInput: EstablecimientoUpdateInput,
@@ -47,7 +47,7 @@ export class EstablecimientoQueryResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
-  async establecimientoDelete(
+  async adminEstablecimientoDelete(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('id', { nullable: false, type: () => Int }) id: number,
   ) {
@@ -56,7 +56,7 @@ export class EstablecimientoQueryResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => EstablecimientoCollectionType, { nullable: true })
-  public async establecimientoCollection(
+  public async adminEstablecimientoCollection(
       @Info() info,
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('pagination', { nullable: true }) pagination: ConnectionInput,
@@ -70,7 +70,7 @@ export class EstablecimientoQueryResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => EstablecimientoAdminitracionType, { nullable: false })
-  public async establecimiento(
+  public async adminEstablecimiento(
     @Info() info,
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('id', { nullable: false, type: () => Int }) id: number,

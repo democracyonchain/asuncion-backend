@@ -59,6 +59,34 @@ export class ConstantesGw extends Constantes {
     },
   };
 
+  public static DIGITALIZACION = {
+    HOST: process.env.MS_ADMINISTRACION_HOST,
+    PORT: parseInt(process.env.MS_ADMINISTRACION_PORT),
+    NAME: 'ms-digitalizacion',
+    PATTERN: {
+      PROVINCIA_DIGITALIZACION_COLLECTION: 'PROVINCIA_DIGITALIZACION_COLLECTION',
+      PROVINCIA_DIGITALIZACION_BY_ID: 'PROVINCIA_DIGITALIZACION_BY_ID'
+    },
+  };
+
+  public static VERIFICACION = {
+    HOST: process.env.MS_VERIFICACION_HOST,
+    PORT: parseInt(process.env.MS_VERIFICACION_PORT),
+    NAME: 'ms-verificacion',
+    PATTERN: {
+      PROVINCIA_VERIFICACION_COLLECTION: 'PROVINCIA_VERIFICACION_COLLECTION',
+      PROVINCIA_VERIFICACION_BY_ID: 'PROVINCIA_VERIFICACION_BY_ID'
+    },
+  };
 
 
+  public static REPORTES = {
+    HOST: process.env.MS_REPORTES_HOST,
+    PORT: parseInt(process.env.MS_REPORTES_PORT),
+    NAME: 'ms-reportes',
+    PATTERN: {
+      PROVINCIA_REPORTES_COLLECTION: 'PROVINCIA_REPORTES_COLLECTION',
+      PROVINCIA_REPORTES_BY_ID: 'PROVINCIA_REPORTES_BY_ID'
+    },
+  };
 }

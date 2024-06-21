@@ -25,7 +25,7 @@ export class ProvinciaQueryResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => ProvinciaCollectionType, { nullable: true })
-  public async provinciaCollection(
+  public async adminProvinciaCollection(
       @Info() info,
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('pagination', { nullable: true }) pagination: ConnectionInput,
@@ -39,7 +39,7 @@ export class ProvinciaQueryResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => ProvinciaAdministracionType, { nullable: false })
-  public async provincia(
+  public async adminProvincia(
     @Info() info,
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('id', { nullable: false, type: () => Int }) id: number,

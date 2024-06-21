@@ -1,5 +1,5 @@
 {
-  "name": "asuncion-backend",
+  "name": "api-bsc-nest",
   "version": "1.0.1",
   "description": "Aplicación backend con microservicios para la gestión de procesos y actividades relacionadas al sistema BSC.",
   "author": "BID",
@@ -7,12 +7,12 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "build:microservices": "concurrently \"nest build ms-administracion\" \"nest build ms-autorizacion\"",
+    "build:microservices": "concurrently \"nest build ms-administracion\" \"nest build ms-autorizacion\" \"nest build ms-digitalizacion\" \"nest build ms-verificacion\" \"nest build ms-reportes\"",
     "build:gateway": "nest build api-gateway",
     "build:all": "concurrently \"npm run build:gateway\" \"npm run build:microservices\"",
     "start:prod:all": "pm2 start pm2.json",
     "start:prod:gateway": "pm2 start pm2.json --env production --only api-gateway",
-    "start:prod:microservices": "concurrently \"pm2 start pm2.json --env production --only ms-administracion\" \"pm2 start pm2.json --env production --only ms-autorizacion\"",
+    "start:prod:microservices": "concurrently \"pm2 start pm2.json --env production --only ms-administracion\" \"pm2 start pm2.json --env production --only ms-autorizacion\" \"pm2 start pm2.json --env production --only ms-digitalizacion\" \"pm2 start pm2.json --env production --only ms-verificacion\" \"pm2 start pm2.json --env production --only ms-reportes\"",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

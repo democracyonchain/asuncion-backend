@@ -27,7 +27,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
 
     @UseGuards(AuthGuard)
     @Mutation(() => GlobalResultType, { nullable: false })
-    async moduloCreate(
+    async adminModuloCreate(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('dataInput', { type: () => ModuloCreateInput })
       dataInput: ModuloCreateInput,
@@ -37,7 +37,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
 
     @UseGuards(AuthGuard)
     @Mutation(() => GlobalResultType, { nullable: false })
-    async moduloUpdate(
+    async adminModuloUpdate(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('dataInput', { type: () => ModuloUpdateInput })
       dataInput: ModuloUpdateInput,
@@ -47,7 +47,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
 
     @UseGuards(AuthGuard)
     @Mutation(() => GlobalResultType, { nullable: false })
-    async moduloDelete(
+    async adminModuloDelete(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('id', { nullable: false, type: () => Int }) id: number,
     ) {
@@ -56,7 +56,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
 
     @UseGuards(AuthGuard)
     @Query(() => ModuloCollectionType, { nullable: true })
-    public async moduloCollection(
+    public async adminModuloCollection(
         @Info() info,
         @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
         @Args('pagination', { nullable: true }) pagination: ConnectionInput,
@@ -69,7 +69,7 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
 
     @UseGuards(AuthGuard)
     @Query(() => ModuloAdministracionType, { nullable: false })
-    public async modulo(
+    public async adminModulo(
       @Info() info,
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('id', { nullable: false, type: () => Int }) id: number,

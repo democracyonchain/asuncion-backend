@@ -15,6 +15,9 @@ import { JwtModule } from '@nestjs/jwt';
 //modulos
 import { autorizacionModule } from './modules/autorizacion/autorizacion.module';
 import { administracionModule } from './modules/administracion/administracion.module';
+import { digitalizacionModule } from './modules/digitalizacion/digitalizacion.module';
+import { verificacionModule } from './modules/verificacion/verificacion.module';
+import { reportesModule } from './modules/reportes/reportes.module';
 
 @Module({
   imports: [
@@ -45,7 +48,10 @@ import { administracionModule } from './modules/administracion/administracion.mo
     }),
 
     administracionModule,
-    autorizacionModule
+    autorizacionModule,
+    digitalizacionModule,
+    verificacionModule,
+    reportesModule
   ],
   controllers: [AppController],
   providers: [

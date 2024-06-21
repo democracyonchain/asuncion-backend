@@ -27,7 +27,7 @@ export class MenuQueryResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
-  async menuCreate(
+  async adminMenuCreate(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => MenuCreateInput })
     dataInput: MenuCreateInput,
@@ -37,7 +37,7 @@ export class MenuQueryResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
-  async menuUpdate(
+  async adminMenuUpdate(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => MenuUpdateInput })
     dataInput: MenuUpdateInput,
@@ -47,7 +47,7 @@ export class MenuQueryResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
-  async menuDelete(
+  async adminMenuDelete(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('id', { nullable: false, type: () => Int }) id: number,
   ) {
@@ -56,7 +56,7 @@ export class MenuQueryResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => MenuCollectionType, { nullable: true })
-  public async menuCollection(
+  public async adminMenuCollection(
       @Info() info,
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('pagination', { nullable: true }) pagination: ConnectionInput,
@@ -69,7 +69,7 @@ export class MenuQueryResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => MenuAdministracionType, { nullable: false })
-  public async menu(
+  public async adminMenu(
     @Info() info,
     @Args('id', { nullable: false, type: () => Int }) id: number,
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,

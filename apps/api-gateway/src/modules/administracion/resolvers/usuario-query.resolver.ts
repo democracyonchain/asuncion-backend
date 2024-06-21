@@ -28,7 +28,7 @@ import { fieldsMap } from 'graphql-fields-list';
 
     @UseGuards(AuthGuard)
     @Query(() => UsuarioCollectionType, { nullable: true })
-    public async usuarioCollection(
+    public async adminUsuarioCollection(
         @Info() info,
         @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
         @Args('pagination', { nullable: true }) pagination: ConnectionInput,
@@ -41,7 +41,7 @@ import { fieldsMap } from 'graphql-fields-list';
 
     @UseGuards(AuthGuard)
     @Query(() => UsuarioAdministracionType, { nullable: false })
-    public async usuario(
+    public async adminUsuario(
       @Info() info,
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('id', { nullable: false, type: () => Int }) id: number,
@@ -52,7 +52,7 @@ import { fieldsMap } from 'graphql-fields-list';
 
     @UseGuards(AuthGuard)
     @Mutation(() => GlobalResultType, { nullable: false })
-    async usuarioCreate(
+    async adminUsuarioCreate(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('dataInput', { type: () => UsuarioCreateInput })
       dataInput: UsuarioCreateInput,
@@ -62,7 +62,7 @@ import { fieldsMap } from 'graphql-fields-list';
 
     @UseGuards(AuthGuard)
     @Mutation(() => GlobalResultType, { nullable: false })
-    async usuarioUpdate(
+    async adminUsuarioUpdate(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('dataInput', { type: () => UsuarioUpdateInput })
       dataInput: UsuarioUpdateInput,
@@ -72,7 +72,7 @@ import { fieldsMap } from 'graphql-fields-list';
 
     @UseGuards(AuthGuard)
     @Mutation(() => GlobalResultType, { nullable: false })
-    async usuarioDelete(
+    async adminUsuarioDelete(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('id', { nullable: false, type: () => Int }) id: number,
     ) {

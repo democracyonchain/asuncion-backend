@@ -20,4 +20,31 @@ export class ClientProxyService {
       },
     });
   }
+  clientProxyDigitalizacion(): ClientProxy {
+    return ClientProxyFactory.create({
+      transport: Transport.TCP,
+      options: {
+        host: process.env.MS_DIGITALIZACION_HOST,
+        port: parseInt(process.env.MS_DIGITALIZACION_PORT),
+      },
+    });
+  }
+  clientProxyVerificacion(): ClientProxy {
+    return ClientProxyFactory.create({
+      transport: Transport.TCP,
+      options: {
+        host: process.env.MS_VERIFICACION_HOST,
+        port: parseInt(process.env.MS_VERIFICACION_PORT),
+      },
+    });
+  }
+  clientProxyReportes(): ClientProxy {
+    return ClientProxyFactory.create({
+      transport: Transport.TCP,
+      options: {
+        host: process.env.MS_REPORTES_HOST,
+        port: parseInt(process.env.MS_REPORTES_PORT),
+      },
+    });
+  }
 }

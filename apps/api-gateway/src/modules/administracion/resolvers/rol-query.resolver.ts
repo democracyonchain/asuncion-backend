@@ -27,7 +27,7 @@ export class RolQueryResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
-  async rolCreate(
+  async adminRolCreate(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => RolCreateInput })
     dataInput: RolCreateInput,
@@ -37,7 +37,7 @@ export class RolQueryResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
-  async rolUpdate(
+  async adminRolUpdate(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => RolUpdateInput })
     dataInput: RolUpdateInput,
@@ -47,7 +47,7 @@ export class RolQueryResolver {
 
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
-  async rolDelete(
+  async adminRolDelete(
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('id', { nullable: false, type: () => Int }) id: number,
   ) {
@@ -56,7 +56,7 @@ export class RolQueryResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => RolCollectionType, { nullable: true })
-  public async rolCollection(
+  public async adminRolCollection(
       @Info() info,
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
       @Args('pagination', { nullable: true }) pagination: ConnectionInput,
@@ -70,7 +70,7 @@ export class RolQueryResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => RolType, { nullable: false })
-  public async rol(
+  public async adminRol(
     @Info() info,
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('id', { nullable: false, type: () => Int }) id: number,

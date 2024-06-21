@@ -26,7 +26,7 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
 
 
     @Query(() => LoginType, { nullable: false })
-    public async authlogin(
+    public async authLogin(
       @Args('username', { nullable: false, type: () => String }) username: string,
       @Args('password', { nullable: false, type: () => String }) password: string,
     ) {
@@ -66,7 +66,7 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
 
     @UseGuards(AuthGuard)
     @Query(() => GlobalResultType, { nullable: false })
-    public async authlogout(
+    public async authLogout(
       @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     ) {
       return await this.autorizacionService.authlogout(usuarioAuth);
