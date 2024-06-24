@@ -23,7 +23,7 @@ import { reportesModule } from './modules/reportes/reportes.module';
   imports: [
     JwtModule.register({
       global: true,
-      secret: process.env.SECRE_TOKEN,
+      secret: process.env.SECRET_TOKEN,
     }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
