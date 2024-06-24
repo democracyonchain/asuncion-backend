@@ -174,13 +174,13 @@ export class UsuarioService {
         }))
         //desactivar
         await Promise.all(roles_delete.map(async (element:any)=>{
-          const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.rolusuario set estado=false,
+          const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.rolusuario set estado=${ConstantesAdministracion.BORRADO_LOGICO},
           usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' where usuario_id=${result.id} and rol_id=${element}`;
           await queryRunner.manager.query(queryBuild);
         }))
         //Actualizar
         await Promise.all(roles_update.map(async (element:any)=>{
-          const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.rolusuario set estado=true,
+          const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.rolusuario set estado=${ConstantesAdministracion.CT_ACTIVO},
           usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' where usuario_id=${result.id} and rol_id=${element}`;
           await queryRunner.manager.query(queryBuild);
         }))
@@ -219,8 +219,7 @@ export class UsuarioService {
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(UsuarioEntity, params.data) 
     data['usuariomodificacion_id'] = params.dataUser.user.id;
-    data['estado'] = false;
-    data['activo'] = false;
+    data['activo'] = ConstantesAdministracion.BORRADO_LOGICO;
     const dataUpdate = deleteNullArray(data);
     let status: boolean = false;
     let message: string = `No existe el registro para eliminar`;
@@ -247,7 +246,7 @@ export class UsuarioService {
           }
         }
         await Promise.all(roles_data_base_ids.map(async (element:any)=>{
-          const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.rolusuario set estado=false, activo=false,
+          const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.rolusuario set activo=${ConstantesAdministracion.BORRADO_LOGICO},
           usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' where usuario_id=${result.id} and rol_id=${element}`;
           await queryRunner.manager.query(queryBuild);
         }))

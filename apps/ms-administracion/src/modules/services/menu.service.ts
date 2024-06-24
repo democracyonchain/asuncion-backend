@@ -2,7 +2,7 @@
  * @ Author: Luis Núñez
  * @ Create Time: 2023-02-02
   */
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CollectionType, FilterById, GlobalResult, PayloadData, changeFalseToTrue, deleteNullArray} from '@bsc/core';
 import { plainToInstance } from 'class-transformer';
 import { Menu, MenuDTO } from '../dto/menu.dto';
@@ -10,6 +10,10 @@ import { MenuEntity } from '../entities/menu.entity';
 import { MenuManager } from '../manager/menu.manager';
 import { AuditLogManager } from '../manager/audit/audit-log.manager';
 import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
+import { RpcException } from '@nestjs/microservices';
+import { DataSource } from 'typeorm';
+import * as moment from 'moment';
+import { ConstantesAdministracion } from '../../common/constantes-administracion';
 
 @Injectable()
 export class MenuService {
@@ -19,7 +23,8 @@ export class MenuService {
   constructor(
       private readonly menuManager: MenuManager,
       private readonly auditLogManager: AuditLogManager,
-      private readonly listaNegraTokenManager: ListaNegraTokenManager
+      private readonly listaNegraTokenManager: ListaNegraTokenManager,
+      private readonly datasource: DataSource,
   ) {}
 
   async create(params:  PayloadData<MenuDTO>): Promise<GlobalResult> {
@@ -41,19 +46,38 @@ export class MenuService {
     let status: boolean = false;
     let message: string = `Error al momento de actualizar el menú`;
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
-    let  data = plainToInstance(MenuEntity, params.data) 
-    data['usuariomodificacion_id'] = params.dataUser.user.id;
-    const dataUpdate = deleteNullArray(data);
-    const idUpdate = {'id':dataUpdate['id']};
-    let entityToUpdate = await this.menuManager.findOneBy(idUpdate);
-    const dataOld = plainToInstance(MenuDTO, entityToUpdate);
-    const result = await this.menuManager.updateBasic(dataUpdate,entityToUpdate);
-    if(result){
-      status =true;
-      message = `El menú ${result.titulo} se ha actualizado correctamente`;
-      if(this.isAudit){
-        await this.auditLogManager.logEvent('Edición','Menú',params.dataUser.user.id,dataUpdate['id'],dataOld,dataUpdate);
+    const queryRunner = this.datasource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      let  data = plainToInstance(MenuEntity, params.data) 
+      data['usuariomodificacion_id'] = params.dataUser.user.id;
+      const dataUpdate = deleteNullArray(data);
+      const idUpdate = {'id':dataUpdate['id']};
+      let entityToUpdate = await this.menuManager.findOneBy(idUpdate);
+      const dataOld = plainToInstance(MenuDTO, entityToUpdate);
+      const result = await this.menuManager.updateBasic(dataUpdate,entityToUpdate,queryRunner);
+      if(result){
+        const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.permisos set estado=${dataUpdate['estado']},
+        usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' 
+        where menu_id=${result.id} and activo=${ConstantesAdministracion.CT_ACTIVO}`;
+        await queryRunner.manager.query(queryBuild);
+        status =true;
+        message = `El menú ${result.titulo} se ha actualizado correctamente`;
+        await queryRunner.commitTransaction();
+        if(this.isAudit){
+          await this.auditLogManager.logEvent('Edición','Menú',params.dataUser.user.id,dataUpdate['id'],dataOld,dataUpdate);
+        }
       }
+    }catch (error) {
+      await queryRunner.rollbackTransaction(); 
+      throw new RpcException({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: error.message, 
+        });
+    }
+    finally {
+      await queryRunner.release();
     }
     return { status, message };
   }
@@ -62,19 +86,26 @@ export class MenuService {
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(MenuEntity, params.data) 
     data['usuariomodificacion_id'] = params.dataUser.user.id;
-    data['activo'] = false;
-    data['estado'] = false;
+    data['activo'] = ConstantesAdministracion.BORRADO_LOGICO;
     const dataUpdate = deleteNullArray(data);
     let status: boolean = false;
     let message: string = `No existe el registro para eliminar`;
+    const queryRunner = this.datasource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
     try {
       const idUpdate = {'id':dataUpdate['id']};
       let entityToUpdate = await this.menuManager.findOneBy(idUpdate);
       const dataOld = plainToInstance(MenuDTO, entityToUpdate);
-      const result = await this.menuManager.updateBasic(dataUpdate,entityToUpdate);
+      const result = await this.menuManager.updateBasic(dataUpdate,entityToUpdate,queryRunner);
       if(result){
+        const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.permisos set activo=${ConstantesAdministracion.BORRADO_LOGICO},
+        usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' 
+        where menu_id=${result.id}`;
+        await queryRunner.manager.query(queryBuild);
         status = true;
         message = `El menú ${result.titulo} ha sido eliminado`;
+        await queryRunner.commitTransaction();
         if(this.isAudit){
           await this.auditLogManager.logEvent('Eliminación','Menú',params.dataUser.user.id,dataUpdate['id'],dataOld,dataUpdate);
         }

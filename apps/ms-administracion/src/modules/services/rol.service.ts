@@ -2,7 +2,7 @@
  * @ Author: Luis Núñez
  * @ Create Time: 2023-02-02
   */
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CollectionType, FilterById, GlobalResult, PayloadData, changeFalseToTrue, deleteNullArray } from '@bsc/core';
 import { plainToInstance } from 'class-transformer';
 import { RolManager } from '../manager/rol.manager';
@@ -10,6 +10,10 @@ import { Rol, RolDTO } from '../dto/rol.dto';
 import { RolEntity } from '../entities/rol.entity';
 import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
 import { AuditLogManager } from '../manager/audit/audit-log.manager';
+import { RpcException } from '@nestjs/microservices';
+import { DataSource } from 'typeorm';
+import * as moment from 'moment';
+import { ConstantesAdministracion } from '../../common/constantes-administracion';
 
 @Injectable()
 export class RolService {
@@ -19,6 +23,7 @@ export class RolService {
       private readonly rolManager: RolManager,
       private readonly listaNegraTokenManager: ListaNegraTokenManager,
       private readonly auditLogManager: AuditLogManager,
+      private readonly datasource: DataSource,
   ) { }
 
   async create(params:  PayloadData<RolDTO>): Promise<GlobalResult> {
@@ -45,32 +50,55 @@ export class RolService {
     let status: boolean = false;
     let message: string = `Error al momento de actualizar el rol`;
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
-    let  data = plainToInstance(RolEntity, params.data) 
-    data['usuariomodificacion_id'] = params.dataUser.user.id;
-    const dataUpdate = deleteNullArray(data);
-    if(dataUpdate.permisos){
-      dataUpdate.permisos.map((element:any)=>{
-        if(element.id){
-          element['usuariomodificacion_id'] = params.dataUser.user.id;
-        }
-        else{
-          element['usuariocreacion_id'] = params.dataUser.user.id;
-        }  
-      })
-    }
-    let entityToUpdate = await this.rolManager.findByRelations({
-      where: { id:dataUpdate['id'] },
-      relations: ['permisos']
-    });
-    const dataOld = plainToInstance(RolDTO, entityToUpdate[0]);
-    delete entityToUpdate[0]['permisos']
-    const result = await this.rolManager.updateBasic(dataUpdate,entityToUpdate[0]);
-    if(result){
-      status =true;
-      message = `El rol ${result.nombre} se ha actualizado correctamente`;
-      if(this.isAudit){
-        await this.auditLogManager.logEvent('Edición','Rol',params.dataUser.user.id,dataUpdate['id'],dataOld,dataUpdate);
+    const queryRunner = this.datasource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      let  data = plainToInstance(RolEntity, params.data) 
+      data['usuariomodificacion_id'] = params.dataUser.user.id;
+      const dataUpdate = deleteNullArray(data);
+      if(dataUpdate.permisos){
+        dataUpdate.permisos.map((element:any)=>{
+          if(element.id){
+            element['usuariomodificacion_id'] = params.dataUser.user.id;
+          }
+          else{
+            element['usuariocreacion_id'] = params.dataUser.user.id;
+          }  
+        })
       }
+      let entityToUpdate = await this.rolManager.findByRelations({
+        where: { id:dataUpdate['id'] },
+        relations: ['permisos']
+      });
+      const dataOld = plainToInstance(RolDTO, entityToUpdate[0]);
+      delete entityToUpdate[0]['permisos']
+      const result = await this.rolManager.updateBasic(dataUpdate,entityToUpdate[0],queryRunner);
+      if(result){
+        const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.permisos set estado=${dataUpdate['estado']},
+          usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' 
+          where rol_id=${result.id}`;
+        await queryRunner.manager.query(queryBuild);
+        const queryBuildRolUsuario = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.rolusuario set estado=${dataUpdate['estado']},
+          usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' 
+          where rol_id=${result.id}`;
+        await queryRunner.manager.query(queryBuildRolUsuario);
+        status =true;
+        message = `El rol ${result.nombre} se ha actualizado correctamente`;
+        await queryRunner.commitTransaction();
+        if(this.isAudit){
+          await this.auditLogManager.logEvent('Edición','Rol',params.dataUser.user.id,dataUpdate['id'],dataOld,dataUpdate);
+        }
+      }
+    }catch (error) {
+      await queryRunner.rollbackTransaction(); 
+      throw new RpcException({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: error.message, 
+        });
+    }
+    finally {
+      await queryRunner.release();
     }
     return { status, message };
   }
@@ -79,8 +107,7 @@ export class RolService {
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(RolEntity, params.data) 
     data['usuariomodificacion_id'] = params.dataUser.user.id;
-    data['activo'] = false;
-    data['estado'] = false;
+    data['activo'] = ConstantesAdministracion.BORRADO_LOGICO;
     const dataUpdate = deleteNullArray(data);
     let status: boolean = false;
     let message: string = `No existe el registro para eliminar`;
@@ -97,16 +124,14 @@ export class RolService {
         data[0].permisos.map((element:any)=>{
           if(element.id){
             element['usuariomodificacion_id'] = params.dataUser.user.id;
-            element['activo'] = false;
-            element['estado'] = false;
+            element['activo'] = ConstantesAdministracion.BORRADO_LOGICO;
           }     
         })
         dataUpdate['permisos']=data[0].permisos;
         data[0].rolusuario.map((element:any)=>{
           if(element.id){
             element['usuariomodificacion_id'] = params.dataUser.user.id;
-            element['activo'] = false;
-            element['estado'] = false;
+            element['activo'] = ConstantesAdministracion.BORRADO_LOGICO;
           }     
         })
         dataUpdate['rolusuario']=data[0].rolusuario;

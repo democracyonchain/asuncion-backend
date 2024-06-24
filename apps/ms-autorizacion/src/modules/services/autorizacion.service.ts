@@ -16,6 +16,7 @@ import { Modulo } from '../dto/modulo.object';
 import { ListaNegraTokenEntity } from '../entities/lista-negra-token.entity';
 import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
 import { AuditLogManager } from '../manager/audit/audit-log.manager';
+import { ConstantesAutorizacion } from '../../common/constantes-autorizacion';
 
 @Injectable()
 export class AutorizacionService {
@@ -87,6 +88,14 @@ export class AutorizacionService {
       select:fields.dataTrue,
       where: {
         id: idUsuario,
+        rolusuario:{
+          estado:ConstantesAutorizacion.CT_ACTIVO,
+          activo:ConstantesAutorizacion.CT_ACTIVO,
+          rol:{
+            activo:ConstantesAutorizacion.CT_ACTIVO,
+            estado:ConstantesAutorizacion.CT_ACTIVO
+          }
+        }
       },
       relations: fields.relations,
     });
@@ -104,8 +113,8 @@ export class AutorizacionService {
         select:{id:true,password:true},
         where: {
           id: idUsuario,
-          estado:true,
-          activo:true
+          estado:ConstantesAutorizacion.CT_ACTIVO,
+          activo:ConstantesAutorizacion.CT_ACTIVO
         },
       });
       if(data.length==1){
@@ -142,15 +151,15 @@ export class AutorizacionService {
     const data = await this.moduloManager.findByRelations({
       select:fields.dataTrue,
       where: {
-        estado:true,
-        activo:true,
+        estado:ConstantesAutorizacion.CT_ACTIVO,
+        activo:ConstantesAutorizacion.CT_ACTIVO,
         menu: {
-          estado:true,
-          activo:true,
+          estado:ConstantesAutorizacion.CT_ACTIVO,
+          activo:ConstantesAutorizacion.CT_ACTIVO,
           permisos:{
             rol_id:parseInt(idRol),
-            estado:true,
-            activo:true
+            estado:ConstantesAutorizacion.CT_ACTIVO,
+            activo:ConstantesAutorizacion.CT_ACTIVO
           }
         },
       },

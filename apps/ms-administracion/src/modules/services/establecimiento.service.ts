@@ -61,7 +61,6 @@ export class EstablecimientoService {
     let  data = plainToInstance(EstablecimientoEntity, params.data) 
     data['usuariomodificacion_id'] = params.dataUser.user.id;
     data['activo'] = false;
-    data['estado'] = false;
     const dataUpdate = deleteNullArray(data);
     let status: boolean = false;
     let message: string = `No existe el registro para eliminar`;
