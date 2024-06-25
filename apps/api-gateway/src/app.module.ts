@@ -28,7 +28,6 @@ import { reportesModule } from './modules/reportes/reportes.module';
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       inject: [ConfigService],
-
       useFactory: (config: ConfigService) => config.get(ConstantesConfig.GQL_CONFIG),
     }),
     LoggerModule.forRootAsync({
