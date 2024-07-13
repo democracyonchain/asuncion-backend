@@ -58,10 +58,12 @@ export class MenuService {
       const dataOld = plainToInstance(MenuDTO, entityToUpdate);
       const result = await this.menuManager.updateBasic(dataUpdate,entityToUpdate,queryRunner);
       if(result){
-        const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.permisos set estado=${dataUpdate['estado']},
-        usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' 
-        where menu_id=${result.id} and activo=${ConstantesAdministracion.CT_ACTIVO}`;
-        await queryRunner.manager.query(queryBuild);
+        if(dataUpdate['estado']){
+          const queryBuild = `UPDATE ${ConstantesAdministracion.SCHEMA_BSC}.permisos set estado=${dataUpdate['estado']},
+          usuariomodificacion_id='${params.dataUser.user.id}', fechamodificacion='${ moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}' 
+          where menu_id=${result.id} and activo=${ConstantesAdministracion.CT_ACTIVO}`;
+          await queryRunner.manager.query(queryBuild);
+        }
         status =true;
         message = `El menú ${result.titulo} se ha actualizado correctamente`;
         await queryRunner.commitTransaction();
