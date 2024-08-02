@@ -2,11 +2,13 @@ import { Module } from '@nestjs/common';
 import { ClientProxyService } from '../../config/client-proxy.service';
 
 // RESOLVERS
-import { ProvinciaQueryResolver } from './resolvers/provincia-query.resolver';
+import { LocalidadesQueryResolver } from './resolvers/localidades-query.resolver';
+import { ActaQueryResolver } from './resolvers/acta-query.resolver';
 
 
 // SERVICIOS
-import { ProvinciaService } from './services/provincia.service';
+import { LocalidadesService } from './services/localidades.service';
+import { ActaService } from './services/acta.service';
 
 
 @Module({
@@ -14,14 +16,18 @@ import { ProvinciaService } from './services/provincia.service';
   controllers: [],
   providers: [
     ClientProxyService,
-    ProvinciaQueryResolver,
-    ProvinciaService
+    LocalidadesQueryResolver,
+    LocalidadesService,
+    ActaQueryResolver,
+    ActaService
   ],
   exports: [
     ClientProxyService,
     ClientProxyService,  
-    ProvinciaQueryResolver,
-    ProvinciaService
+    LocalidadesQueryResolver,
+    LocalidadesService,
+    ActaQueryResolver,
+    ActaService
   ],
 })
 export class digitalizacionModule {}

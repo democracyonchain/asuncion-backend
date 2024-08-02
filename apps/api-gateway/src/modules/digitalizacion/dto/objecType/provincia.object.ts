@@ -9,7 +9,7 @@ export class ProvinciaDigitalizacionType {
     readonly id: number;
 
     @Field({ nullable: false })
-    nombre: string;
+    readonly nombre: string;
 }
 
 

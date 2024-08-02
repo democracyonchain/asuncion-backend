@@ -6,6 +6,7 @@ export class LoginResult{
     token: string;
     provincia: string;
     establecimiento: any
+    provincia_id: number;
   }
 
 export interface Userdata<DataType>{

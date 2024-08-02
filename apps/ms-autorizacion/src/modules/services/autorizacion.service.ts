@@ -34,6 +34,7 @@ export class AutorizacionService {
     let username: string ="";
     let token: string = "";
     let provincia: string = "";
+    let provincia_id: number = null;
     let establecimiento: {} = null;
     try {
         const dataUser = params.user;
@@ -64,7 +65,8 @@ export class AutorizacionService {
               token = await this.jwtService.signAsync(payload);
               username = user.username;
               provincia = user.provincia.nombre;
-              establecimiento = userSearch[0].establecimiento
+              establecimiento = userSearch[0].establecimiento;
+              provincia_id = user.provincia.id
             }
         }
         else{
@@ -77,7 +79,7 @@ export class AutorizacionService {
             message: error.message, 
         });
     }   
-    return{username,token,provincia,establecimiento}
+    return{username,token,provincia,establecimiento,provincia_id}
   }
 
   async perfil(params:  any): Promise<any> {

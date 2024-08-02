@@ -1,5 +1,7 @@
-import {Column, Entity,PrimaryGeneratedColumn } from 'typeorm';
+import {Column, Entity,OneToMany,PrimaryGeneratedColumn } from 'typeorm';
 import { ConstantesDigitalizacion } from '../../common/constantes-digitalizacion';
+import { CantonEntity } from './canton.entity';
+import { JuntaEntity } from './junta.entity';
 
 
 
@@ -11,4 +13,11 @@ export class ProvinciaEntity {
 
   @Column({ name: 'nombre', type: 'character', length: 50, nullable: false })
   nombre: string;
+
+  @OneToMany(() => CantonEntity, (canton) => canton.provincia)
+  canton: CantonEntity[];
+
+  @OneToMany(() => JuntaEntity, (junta) => junta.provincia)
+  junta: JuntaEntity[];
+  
 }

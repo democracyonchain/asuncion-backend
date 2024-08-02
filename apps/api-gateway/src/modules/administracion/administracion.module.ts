@@ -10,6 +10,7 @@ import { MenuQueryResolver } from './resolvers/menu-query.resolver';
 import { RolQueryResolver } from './resolvers/rol-query.resolver';
 import { EstablecimientoQueryResolver } from './resolvers/establecimiento-query.resolver';
 import { ProvinciaQueryResolver } from './resolvers/provincia-query.resolver';
+import { ConfiguracionQueryResolver } from './resolvers/configuracion-query.resolver';
 
 
 // SERVICIOS
@@ -20,6 +21,7 @@ import { MenuService } from './services/menu.service';
 import { RolService } from './services/rol.service';
 import { EstablecimientoService } from './services/establecimiento.service';
 import { ProvinciaService } from './services/provincia.service';
+import { ConfiguracionService } from './services/configuracion.service';
 
 
 @Module({
@@ -38,7 +40,9 @@ import { ProvinciaService } from './services/provincia.service';
     EstablecimientoQueryResolver,
     EstablecimientoService,
     ProvinciaQueryResolver,
-    ProvinciaService
+    ProvinciaService,
+    ConfiguracionQueryResolver,
+    ConfiguracionService
   ],
   exports: [
     ClientProxyService,
@@ -54,7 +58,9 @@ import { ProvinciaService } from './services/provincia.service';
     EstablecimientoQueryResolver,
     EstablecimientoService,
     ProvinciaQueryResolver,
-    ProvinciaService
+    ProvinciaService,
+    ConfiguracionQueryResolver,
+    ConfiguracionService
   ],
 })
 export class administracionModule {}
