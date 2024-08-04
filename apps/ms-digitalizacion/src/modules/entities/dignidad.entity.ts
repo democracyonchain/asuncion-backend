@@ -1,6 +1,7 @@
 import {Column, Entity,OneToMany,PrimaryGeneratedColumn } from 'typeorm';
 import { ConstantesDigitalizacion } from '../../common/constantes-digitalizacion';
 import { ActaEntity } from './acta.entity';
+import { CandidatoEntity } from './candidato.entity';
 
 
 
@@ -24,4 +25,7 @@ export class DignidadEntity {
 
   @OneToMany(() => ActaEntity, (acta) => acta.dignidad)
   acta: ActaEntity[];
+
+  @OneToMany(() =>CandidatoEntity, (candidato) => candidato.dignidad)
+  candidato: CandidatoEntity[];
 }

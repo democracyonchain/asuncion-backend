@@ -1,6 +1,8 @@
-import {Column, Entity,OneToMany,PrimaryGeneratedColumn } from 'typeorm';
+import {Column, Entity,JoinColumn,ManyToOne,OneToMany,PrimaryGeneratedColumn } from 'typeorm';
 import { ConstantesDigitalizacion } from '../../common/constantes-digitalizacion';
 import { VotosEntity } from './votos.entity';
+import { PartidoEntity } from './partido.entity';
+import { DignidadEntity } from './dignidad.entity';
 
 
 
@@ -24,4 +26,12 @@ export class CandidatoEntity {
 
   @OneToMany(() => VotosEntity, (votos) => votos.candidato)
   votos: VotosEntity[];
+
+  @ManyToOne(() => PartidoEntity, (partido) => partido.candidato)
+  @JoinColumn([{ name: 'partido_id', referencedColumnName: 'id' }])
+  partido: PartidoEntity;
+
+  @ManyToOne(() => DignidadEntity, (dignidad) => dignidad.candidato)
+  @JoinColumn([{ name: 'dignidad_id', referencedColumnName: 'id' }])
+  dignidad: DignidadEntity;
 }

@@ -1,5 +1,6 @@
-import {Column, Entity,PrimaryGeneratedColumn } from 'typeorm';
+import {Column, Entity,OneToMany,PrimaryGeneratedColumn } from 'typeorm';
 import { ConstantesDigitalizacion } from '../../common/constantes-digitalizacion';
+import { CandidatoEntity } from './candidato.entity';
 
 
 
@@ -24,4 +25,6 @@ export class PartidoEntity {
   @Column({ name: "imagen", type: "bytea", nullable: true })
   imagen: Buffer;
 
+  @OneToMany(() =>CandidatoEntity, (candidato) => candidato.partido)
+  candidato: CandidatoEntity[];
 }
