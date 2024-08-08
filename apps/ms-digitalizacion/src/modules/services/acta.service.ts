@@ -16,15 +16,23 @@ export class ActaService {
   ) {}
 
 
-  async actaByJunta(filter: FilterById): Promise<Acta> {
+  async actaByJunta(filter: any): Promise<Acta> {
     await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
     const fields = changeFalseToTrue(filter.fields)
     const data = await this.actaManager.findByRelations({
       select: fields.dataTrue,
       where: {
-        junta_id: filter.id,
+        junta_id: filter.junta_id,
+        dignidad_id: filter.dignidad_id,
       },
-      relations: fields.relations,
+      relations:fields.relations,
+      order:{
+        votos:{
+          candidato:{
+            orden:'ASC'
+          }
+        }
+      }
     });
     return plainToInstance(Acta, data[0]);
   }

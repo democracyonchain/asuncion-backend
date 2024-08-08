@@ -26,8 +26,9 @@ export class ActaQueryResolver {
     @Info() info,
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('junta_id', { nullable: false, type: () => Int }) junta_id: number,
+    @Args('dignidad_id', { nullable: false, type: () => Int }) dignidad_id: number,
   ) {
     const fields = fieldsMap(info);
-    return await this.actaService.actaByJunta(junta_id, fields, usuarioAuth);
+    return await this.actaService.actaByJunta(junta_id, dignidad_id,fields, usuarioAuth);
   }
 }

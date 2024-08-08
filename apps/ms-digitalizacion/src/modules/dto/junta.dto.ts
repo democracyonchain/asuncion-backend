@@ -8,7 +8,7 @@ export class JuntaFilterInput {
   readonly provincia_id?: numberWhereInput;
   readonly canton_id?: numberWhereInput;
   readonly parroquia_id?: numberWhereInput;
-  readonly codigozona?: numberWhereInput;
+  readonly zona_id?: numberWhereInput;
   readonly sexo?: stringWhereInput;
 }
 

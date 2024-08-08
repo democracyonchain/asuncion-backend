@@ -4,13 +4,12 @@ import { Parroquia } from "./parroquia.dto";
 export class ZonaFilterInput {
     readonly nombre?: stringWhereInput;
     readonly parroquia_id?: numberWhereInput;
-    readonly codigo?: numberWhereInput;
+    readonly zona_id?: numberWhereInput;
 }
 
 
 export class Zona{
-    id: number;
     nombre: string;
     parroquia: Parroquia;
-    codigo: number
+    zona_id: number
 }

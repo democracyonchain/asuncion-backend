@@ -14,7 +14,7 @@ export class JuntaDigitalizacionFilterInput {
   readonly parroquia_id?: numberWhereInput;
 
   @Field(() => numberWhereInput, { nullable: true })
-  readonly codigozona?: numberWhereInput;
+  readonly zona_id?: numberWhereInput;
 
   @Field(() => stringWhereInput, { nullable: true })
   readonly sexo?: stringWhereInput;

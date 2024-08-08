@@ -21,4 +21,7 @@ export class CandidatoDigitalizacionType {
     @Field(() => DignidadDigitalizacionType, { nullable: true })
     readonly dignidad: DignidadDigitalizacionType;
 
+    @Field({ nullable: true })
+    readonly orden: number;
+
 }

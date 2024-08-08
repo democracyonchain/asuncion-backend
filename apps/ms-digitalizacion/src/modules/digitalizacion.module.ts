@@ -4,10 +4,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 /* Controladores */
 import { LocalidadesController } from './controllers/localidades.controller';
 import { ActaController } from './controllers/acta.controller';
+import { DignidadController } from './controllers/dignidad.controller';
 
 /* Servicio */
 import { LocalidadesService } from './services/localidades.service';
 import { ActaService } from './services/acta.service';
+import { DignidadService } from './services/dignidad.service';
 
 /* Repositorio */
 import { AuditLogRepository } from './repositories/audit/audit-log.repository';
@@ -18,6 +20,7 @@ import { ParroquiaRepository } from './repositories/parroquia.repository';
 import { ZonaRepository } from './repositories/zona.repository';
 import { JuntaRepository } from './repositories/junta.repository';
 import { ActaRepository } from './repositories/acta.repository';
+import { DignidadRepository } from './repositories/dignidad.repository';
 
 
 /* Entidades */
@@ -44,6 +47,7 @@ import { ParroquiaManager } from './manager/parroquia.manager';
 import { ZonaManager } from './manager/zona.manager';
 import { JuntaManager } from './manager/junta.manager';
 import { ActaManager } from './manager/acta.manager';
+import { DignidadManager } from './manager/dignidad.manager';
 
 @Module({
     imports: [
@@ -66,7 +70,8 @@ import { ActaManager } from './manager/acta.manager';
     ],
     controllers: [
         LocalidadesController,
-        ActaController
+        ActaController,
+        DignidadController
     ],
     providers: [    
         AuditLogManager,
@@ -86,11 +91,15 @@ import { ActaManager } from './manager/acta.manager';
         JuntaManager,
         ActaService,
         ActaRepository,
-        ActaManager
+        ActaManager,
+        DignidadService,
+        DignidadRepository,
+        DignidadManager
     ],
     exports: [
         LocalidadesService,
-        ActaService
+        ActaService,
+        DignidadService
     ],
 })
 export class DigitalizacionModule { }

@@ -34,4 +34,7 @@ export class CandidatoEntity {
   @ManyToOne(() => DignidadEntity, (dignidad) => dignidad.candidato)
   @JoinColumn([{ name: 'dignidad_id', referencedColumnName: 'id' }])
   dignidad: DignidadEntity;
+
+  @Column({ name: 'orden', type: 'integer', nullable: true })
+  orden: number;
 }

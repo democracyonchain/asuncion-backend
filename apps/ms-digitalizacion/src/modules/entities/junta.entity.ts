@@ -22,8 +22,8 @@ export class JuntaEntity {
   @Column({ name: 'parroquia_id', type: 'integer', nullable: false })
   parroquia_id: number;
 
-  @Column({ name: 'codigozona', type: 'integer', nullable: false })
-  codigozona: number;
+  @Column({ name: 'zona_id', type: 'integer', nullable: false })
+  zona_id: number;
 
   @Column({ name: 'junta', type: 'integer', nullable: true })
   junta: number;

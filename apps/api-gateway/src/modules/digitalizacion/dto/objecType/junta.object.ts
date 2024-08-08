@@ -30,7 +30,7 @@ export class JuntaDigitalizacionType {
     readonly parroquia: ParroquiaDigitalizacionType;
 
     @Field({ nullable: true })
-    readonly codigozona: number;
+    readonly zona_id: number;
 }
 
 

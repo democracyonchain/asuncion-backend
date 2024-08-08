@@ -12,7 +12,7 @@ export class ActaController {
 
 
   @MessagePattern(ConstantesDigitalizacion.DIGITALIZACION.PATTERN.ACTA_BY_JUNTA_DIGITALIZACION_LIST)
-  async actaByJunta(@Payload() filter: FilterById) {
+  async actaByJunta(@Payload() filter: any) {
     return await this.actaService.actaByJunta(filter);
   }
 }
