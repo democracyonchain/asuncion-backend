@@ -9,4 +9,10 @@ export class PartidoDigitalizacionType {
     @Field({ nullable: true })
     readonly nombre: string;
 
+    @Field({ nullable: true })
+    readonly siglas: string;
+
+    @Field({ nullable: true })
+    readonly lista: string;
+
 }
