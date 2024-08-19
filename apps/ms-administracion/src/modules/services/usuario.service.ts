@@ -2,7 +2,7 @@
  * @ Author: Luis Núñez
  * @ Create Time: 2023-02-02
   */
-import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { Usuario, UsuarioDTO } from '../dto/usuario.dto';
 import { UsuarioManager } from '../manager/usuario.manager';
@@ -102,6 +102,7 @@ export class UsuarioService {
       } 
     }
     catch (error) {
+      Logger.error(error);
       await queryRunner.rollbackTransaction(); 
       throw new RpcException({
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -204,6 +205,7 @@ export class UsuarioService {
       }
     }
     catch (error) {
+      Logger.error(error);
       await queryRunner.rollbackTransaction(); 
       throw new RpcException({
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -260,6 +262,7 @@ export class UsuarioService {
       }
     }
     catch (error) {
+      Logger.error(error);
       await queryRunner.rollbackTransaction(); 
       status = false;
       message = error.message;

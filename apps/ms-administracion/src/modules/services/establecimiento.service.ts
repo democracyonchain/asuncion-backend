@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Establecimiento, EstablecimientoDTO } from '../dto/establecimiento.dto';
 import { EstablecimientoEntity } from '../entities/establecimiento.entity';
 import { CollectionType, FilterById, GlobalResult, PayloadData, changeFalseToTrue, deleteNullArray } from '@bsc/core';
@@ -78,6 +78,7 @@ export class EstablecimientoService {
       }
     }
     catch (error) {
+      Logger.error(error);
       status = false;
       message = error.message;
     }

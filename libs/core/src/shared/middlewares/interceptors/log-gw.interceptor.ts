@@ -49,7 +49,7 @@ export class LogGwInterceptor implements NestInterceptor {
       // Contexto tipo Http / Graphql
       const ctx = GqlExecutionContext.create(context);
 
-      //Usuario de Keycloak capturado obtenido por header token Bearer (Usando librería de keycloak)
+      //Usuario del sistema
       const userKC = ctx.getContext().req?.user as RespuestaJWT;
 
       // Captura de la solicitud a través del contexto

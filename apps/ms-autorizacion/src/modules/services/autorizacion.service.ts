@@ -2,7 +2,7 @@
  * @ Author: Luis Núñez
  * @ Create Time: 2023-02-02
   */
-import {  HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import {  HttpStatus, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { UsuarioManager } from '../manager/usuario.manager';
 import { LoginResult, GlobalResult, Userdata, changeFalseToTrue } from '@bsc/core';
@@ -74,10 +74,11 @@ export class AutorizacionService {
         }
     }
     catch (error) {
-        throw new RpcException({
-            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-            message: error.message, 
-        });
+      Logger.error(error);
+      throw new RpcException({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: error.message, 
+      });
     }   
     return{username,token,provincia,establecimiento,provincia_id}
   }
@@ -140,6 +141,7 @@ export class AutorizacionService {
       }
     }
     catch (error) {
+      Logger.error(error);
       status = false;
       message = error.message;
     }

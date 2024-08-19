@@ -2,7 +2,7 @@
  * @ Author: Luis Núñez
  * @ Create Time: 2023-02-02
   */
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { Modulo, ModuloDTO } from '../dto/modulo.dto';
 import { ModuloEntity } from '../entities/modulo.entity';
 import { ModuloManager } from '../manager/modulo.manager';
@@ -75,6 +75,7 @@ export class ModuloService {
         }
       } 
     }catch (error) {
+      Logger.error(error);
       await queryRunner.rollbackTransaction(); 
       throw new RpcException({
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -121,6 +122,7 @@ export class ModuloService {
         }
       }
     }catch (error) {
+      Logger.error(error);
       await queryRunner.rollbackTransaction(); 
       throw new RpcException({
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
