@@ -7,3 +7,8 @@ export class Votos {
     votoscontrol: number;
     candidato: Candidato;
 }
+
+export class VotosDTO {
+    candidato_id: number;
+    votosicr: number;
+}

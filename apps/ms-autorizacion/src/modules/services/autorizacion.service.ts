@@ -61,7 +61,7 @@ export class AutorizacionService {
             else{  
               user.ultimoacceso =  new Date();
               await this.usuarioManager.update(user);
-              const payload = { email: user.email,nombres:user.nombres,apellidos:user.apellidos, id:user.id};
+              const payload = { email: user.email,nombres:user.nombres,apellidos:user.apellidos, id:user.id, provincia_id:user.provincia.id};
               token = await this.jwtService.signAsync(payload);
               username = user.username;
               provincia = user.provincia.nombre;

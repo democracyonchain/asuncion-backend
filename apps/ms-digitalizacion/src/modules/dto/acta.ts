@@ -1,6 +1,8 @@
 import { Dignidad } from "./dignidad.dto";
+import { ImagenActaDTO } from "./imagen-acta";
+import { ImagenSegmentoDTO } from "./imagen-segmento";
 import { Junta } from "./junta.dto";
-import { Votos } from "./votos.dto";
+import { Votos, VotosDTO } from "./votos.dto";
 
 export class Acta {
     id: number;
@@ -12,4 +14,15 @@ export class Acta {
     dignidad: Dignidad;
     junta: Junta;
     votos : [Votos]
+}
+
+export class ActaDTO {
+    id: number;
+    votosicr: number;
+    sufragantes: number;
+    blancos: number;
+    nulos: number;
+    votos: [VotosDTO];
+    imagenacta: ImagenActaDTO;
+    imagensegmento: [ImagenSegmentoDTO];
 }

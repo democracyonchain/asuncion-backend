@@ -21,6 +21,9 @@ import { ZonaRepository } from './repositories/zona.repository';
 import { JuntaRepository } from './repositories/junta.repository';
 import { ActaRepository } from './repositories/acta.repository';
 import { DignidadRepository } from './repositories/dignidad.repository';
+import { ImagenActaRepository } from './repositories/imagen-acta.repository';
+import { ImagenSegmentoRepository } from './repositories/imagen-segmento.repository';
+import { VotosRepository } from './repositories/votos.repository';
 
 
 /* Entidades */
@@ -36,6 +39,8 @@ import { JuntaEntity } from './entities/junta.entity';
 import { CandidatoEntity } from './entities/candidato.entity';
 import { VotosEntity } from './entities/votos.entity';
 import { ActaEntity } from './entities/acta.entity';
+import { ImagenActaEntity } from './entities/imagen-acta.entity';
+import { ImagenSegmentoEntity } from './entities/imagen-segmento.entity';
 
 
 /* Manager */
@@ -48,6 +53,9 @@ import { ZonaManager } from './manager/zona.manager';
 import { JuntaManager } from './manager/junta.manager';
 import { ActaManager } from './manager/acta.manager';
 import { DignidadManager } from './manager/dignidad.manager';
+import { ImagenActaManager } from './manager/imagen-acta.manager';
+import { ImagenSegmentoManager } from './manager/imagen-segmento.manager';
+import { VotosManager } from './manager/votos.manager';
 
 @Module({
     imports: [
@@ -62,7 +70,9 @@ import { DignidadManager } from './manager/dignidad.manager';
             JuntaEntity,
             CandidatoEntity,
             VotosEntity,
-            ActaEntity
+            ActaEntity,
+            ImagenActaEntity,
+            ImagenSegmentoEntity
         ]),
         TypeOrmModule.forFeature([
             AuditLog
@@ -94,7 +104,13 @@ import { DignidadManager } from './manager/dignidad.manager';
         ActaManager,
         DignidadService,
         DignidadRepository,
-        DignidadManager
+        DignidadManager,
+        ImagenActaRepository,
+        ImagenActaManager,
+        ImagenSegmentoRepository,
+        ImagenSegmentoManager,
+        VotosRepository,
+        VotosManager
     ],
     exports: [
         LocalidadesService,

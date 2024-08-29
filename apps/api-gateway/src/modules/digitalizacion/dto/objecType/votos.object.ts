@@ -19,3 +19,13 @@ export class VotosDigitalizacionType {
     @Field(() => CandidatoDigitalizacionType, { nullable: true })
     readonly candidato: CandidatoDigitalizacionType;
 }
+
+@ObjectType('VotosDigitalizacionAleatorio')
+export class VotosDigitalizacionAleatorioType {
+
+    @Field({ nullable: false })
+    readonly votosdigitacion: number;
+
+    @Field(() => CandidatoDigitalizacionType, { nullable: true })
+    readonly candidato: CandidatoDigitalizacionType;
+}
