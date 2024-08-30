@@ -1,7 +1,7 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 import { DignidadDigitalizacionType } from "./dignidad.object";
 import { JuntaDigitalizacionType } from "./junta.object";
-import { VotosDigitalizacionAleatorioType } from "./votos.object";
+import { VotosDigitalizacionAleatorioType, VotosDigitalizacionType } from "./votos.object";
 import { DateScalar } from "@bsc/core";
 
 @ObjectType('ActaDigitalizacion')
@@ -122,6 +122,13 @@ export class ActaDigitalizacionAleatorioType {
 
 @ObjectType('ActaDigitalizacionVoto') 
 export class ActaDigitalizacionVotoType extends ActaDigitalizacionAleatorioType {
+
+    @Field(() => [VotosDigitalizacionType], { nullable: false })
+    readonly votos: VotosDigitalizacionType;   
+}
+
+@ObjectType('ActaDigitalizacionVotoImagen') 
+export class ActaDigitalizacionVotoImagenType extends ActaDigitalizacionAleatorioType {
 
     @Field(() => [VotosDigitalizacionAleatorioType], { nullable: false })
     readonly votos: VotosDigitalizacionAleatorioType;   

@@ -13,5 +13,11 @@ export class ImagenSegmentoRepository extends RepositoryOrmBase<ImagenSegmentoEn
       `CALL actualizar_acta_segmento(${junta_id}, ${dignidad_id},${data.candidato_id},'${data.imagen}', '${data.nombre}', '${data.pathipfs}');`
     ); 
   }
+
+  async getImagenSegmento(dignidad_id:number, junta_id:number) {
+    return await  this.getRepository().query(
+      `SELECT * FROM obtener_acta_segmento(${dignidad_id},${junta_id} );`
+    ); 
+  }
 }
 

@@ -1,5 +1,6 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 import { CandidatoDigitalizacionType } from "./candidato.object";
+import { ImagenSegmentoDigitalizacionAleatorioType } from "./imagensegmento.object";
 
 @ObjectType('VotosDigitalizacion')
 export class VotosDigitalizacionType {
@@ -28,4 +29,7 @@ export class VotosDigitalizacionAleatorioType {
 
     @Field(() => CandidatoDigitalizacionType, { nullable: true })
     readonly candidato: CandidatoDigitalizacionType;
+
+    @Field(() => ImagenSegmentoDigitalizacionAleatorioType, { nullable: true })
+    readonly imagensegmento: ImagenSegmentoDigitalizacionAleatorioType;
 }
