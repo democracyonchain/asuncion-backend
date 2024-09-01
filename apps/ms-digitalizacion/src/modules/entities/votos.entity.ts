@@ -25,6 +25,18 @@ export class VotosEntity {
     @Column({ name: 'votos', type: 'integer', nullable: true })
     votos: number;
 
+    @Column({ name: 'usuariodigitacion', type: 'integer', nullable: true })
+    usuariodigitacion: number;
+
+    @Column({ name: 'usuariocontrol', type: 'integer', nullable: true })
+    usuariocontrol: number;
+
+    @Column({ name: 'cifrado', type: 'text', nullable: true })
+    cifrado: string;
+
+    @Column({ name: 'cifrado', type: 'text', nullable: true })
+    hash: string;
+
     @ManyToOne(() => CandidatoEntity, (candidato) => candidato.votos)
     @JoinColumn([{ name: 'candidato_id', referencedColumnName: 'id' }])
     candidato: CandidatoEntity;

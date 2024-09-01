@@ -5,11 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LocalidadesController } from './controllers/localidades.controller';
 import { ActaController } from './controllers/acta.controller';
 import { DignidadController } from './controllers/dignidad.controller';
+import { VotosController } from './controllers/votos.controller';
 
 /* Servicio */
 import { LocalidadesService } from './services/localidades.service';
 import { ActaService } from './services/acta.service';
 import { DignidadService } from './services/dignidad.service';
+import { VotosService } from './services/votos.service';
 
 /* Repositorio */
 import { AuditLogRepository } from './repositories/audit/audit-log.repository';
@@ -81,7 +83,8 @@ import { VotosManager } from './manager/votos.manager';
     controllers: [
         LocalidadesController,
         ActaController,
-        DignidadController
+        DignidadController,
+        VotosController
     ],
     providers: [    
         AuditLogManager,
@@ -110,12 +113,14 @@ import { VotosManager } from './manager/votos.manager';
         ImagenSegmentoRepository,
         ImagenSegmentoManager,
         VotosRepository,
-        VotosManager
+        VotosManager,
+        VotosService
     ],
     exports: [
         LocalidadesService,
         ActaService,
-        DignidadService
+        DignidadService,
+        VotosService
     ],
 })
 export class DigitalizacionModule { }

@@ -12,3 +12,11 @@ export class VotosDTO {
     candidato_id: number;
     votosicr: number;
 }
+
+export class VotosDigitalizacionDTO  {
+    acta_id: number;
+    candidato_id: number;
+    votosdigitacion: number;
+    cifrado: string;
+    hash: string;
+}

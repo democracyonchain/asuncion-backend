@@ -24,5 +24,14 @@ export class VotosManager extends ManagerBase<VotosEntity, VotosRepository> {
         );
     }
   }
-
+  async updateVotosDigitalizacion(params:any) {
+    await this.votosRepository.updateVotosDigitalizacion(params).catch(
+        (error) => {
+          throw new RpcException({
+            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+            message: error.message,
+          });
+        },
+    );
+  } 
 }

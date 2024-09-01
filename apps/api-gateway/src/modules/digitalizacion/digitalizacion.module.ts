@@ -5,12 +5,14 @@ import { ClientProxyService } from '../../config/client-proxy.service';
 import { LocalidadesQueryResolver } from './resolvers/localidades-query.resolver';
 import { ActaQueryResolver } from './resolvers/acta-query.resolver';
 import { DignidadQueryResolver } from './resolvers/dignidad-query.resolver';
+import { VotosQueryResolver } from './resolvers/votos-query-resolver';
 
 
 // SERVICIOS
 import { LocalidadesService } from './services/localidades.service';
 import { ActaService } from './services/acta.service';
 import { DignidadService } from './services/dignidad.service';
+import { VotosService } from './services/votos.service';
 
 
 @Module({
@@ -23,7 +25,9 @@ import { DignidadService } from './services/dignidad.service';
     ActaQueryResolver,
     ActaService,
     DignidadQueryResolver,
-    DignidadService
+    DignidadService,
+    VotosQueryResolver,
+    VotosService
   ],
   exports: [
     ClientProxyService,
@@ -33,7 +37,9 @@ import { DignidadService } from './services/dignidad.service';
     ActaQueryResolver,
     ActaService,
     DignidadQueryResolver,
-    DignidadService
+    DignidadService,
+    VotosQueryResolver,
+    VotosService
   ],
 })
 export class digitalizacionModule {}
