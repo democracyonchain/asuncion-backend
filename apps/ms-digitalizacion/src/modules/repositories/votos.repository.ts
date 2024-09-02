@@ -14,13 +14,12 @@ export class VotosRepository extends RepositoryOrmBase<VotosEntity> {
     ); 
   }
 
-  async updateVotosDigitalizacion(params:any) {
-    const data = params.data;
-    const user = params.dataUser.user;
+  async updateVotosDigitalizacion(acta_id:number,candidato_id:number,votosdigitacion:number,usuarioId:number) {
+   
     const dataCifrado :string = 'hasadasdsa3454resfsdfs34534hhh';
     await this.getRepository().query(
-      `CALL actualizar_votos_digitalizacion(${data.acta_id},${data.candidato_id},${data.votosdigitacion},
-      '${dataCifrado}','${dataCifrado}',${user.id});`
+      `CALL actualizar_votos_digitalizacion(${acta_id},${candidato_id},${votosdigitacion},
+      '${dataCifrado}','${dataCifrado}',${usuarioId});`
     ); 
   }
 }

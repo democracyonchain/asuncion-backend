@@ -15,6 +15,9 @@ export class VotosDTO {
 
 export class VotosDigitalizacionDTO  {
     acta_id: number;
+    votos : [VotosDigitalizacionBasicDTO]
+}
+export class VotosDigitalizacionBasicDTO  {
     candidato_id: number;
     votosdigitacion: number;
     cifrado: string;

@@ -5,7 +5,7 @@ import { ClientProxyService } from '../../config/client-proxy.service';
 import { LocalidadesQueryResolver } from './resolvers/localidades-query.resolver';
 import { ActaQueryResolver } from './resolvers/acta-query.resolver';
 import { DignidadQueryResolver } from './resolvers/dignidad-query.resolver';
-import { VotosQueryResolver } from './resolvers/votos-query-resolver';
+import { VotosQueryResolver } from './resolvers/votos-query.resolver';
 
 
 // SERVICIOS

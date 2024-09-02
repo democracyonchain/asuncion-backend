@@ -11,12 +11,8 @@ export class VotosUpdateInput  {
   votosicr: number;
 
 }
-
-@InputType('VotosDigitacionUpdateInput')
-export class VotoDigitacionsUpdateInput  {
-
-  @Field(() => Int,  { nullable: false })
-  acta_id: number;
+@InputType('VotosDigitacionUpdateBasicInput')
+export class VotosDigitacionUpdateBasicInput  {
 
   @Field(() => Int,  { nullable: false })
   candidato_id: number;
@@ -32,6 +28,18 @@ export class VotoDigitacionsUpdateInput  {
   @IsOptional()
   @IsString()
   @Field({ nullable: true })
-  hash: string;
-
+  hash: string; 
 }
+@InputType('VotosDigitacionUpdateInput')
+export class VotoDigitacionsUpdateInput  {
+
+  @Field(() => Int,  { nullable: false })
+  acta_id: number;
+
+  @Field(() => [VotosDigitacionUpdateBasicInput], { nullable: false })
+  votos: VotosDigitacionUpdateBasicInput;
+}
+
+
+
+

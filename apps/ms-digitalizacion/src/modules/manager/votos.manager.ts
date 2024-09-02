@@ -25,13 +25,17 @@ export class VotosManager extends ManagerBase<VotosEntity, VotosRepository> {
     }
   }
   async updateVotosDigitalizacion(params:any) {
-    await this.votosRepository.updateVotosDigitalizacion(params).catch(
+    const data = params.data;
+    const user = params.dataUser.user;
+    for await (const element of data.votos){
+      await this.votosRepository.updateVotosDigitalizacion(data.acta_id,element.candidato_id,element.votosdigitacion,user.id).catch(
         (error) => {
           throw new RpcException({
             statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
             message: error.message,
           });
         },
-    );
+      );
+    }   
   } 
 }
