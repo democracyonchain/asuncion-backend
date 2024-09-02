@@ -24,11 +24,6 @@ export class VotosDigitacionUpdateBasicInput  {
   @IsString()
   @Field({ nullable: true })
   cifrado: string;
-
-  @IsOptional()
-  @IsString()
-  @Field({ nullable: true })
-  hash: string; 
 }
 @InputType('VotosDigitacionUpdateInput')
 export class VotoDigitacionsUpdateInput  {

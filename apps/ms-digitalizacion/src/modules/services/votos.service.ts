@@ -5,6 +5,7 @@ import { VotosManager } from '../manager/votos.manager';
 import { VotosDigitalizacionDTO } from '../dto/votos.dto';
 import { RpcException } from '@nestjs/microservices';
 import { DataSource } from 'typeorm';
+import { EncryptionService } from './encriptado.service';
 
 @Injectable()
 export class VotosService {
@@ -13,6 +14,8 @@ export class VotosService {
         private readonly listaNegraTokenManager: ListaNegraTokenManager,
         private readonly votosManager: VotosManager,
         private readonly datasource: DataSource,
+        private readonly encryptionService: EncryptionService,
+        
     ) {}
  
     async updateVotosDigitalizacion(params:  PayloadData<VotosDigitalizacionDTO>): Promise<GlobalResult> {
@@ -23,7 +26,7 @@ export class VotosService {
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-            await this.votosManager.updateVotosDigitalizacion(params,queryRunner);
+            await this.votosManager.updateVotosDigitalizacion(params,queryRunner,this.encryptionService);
             await queryRunner.commitTransaction(); 
             status = true;
             message = "Datos de votos actualizados correctamente";

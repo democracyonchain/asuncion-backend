@@ -24,18 +24,31 @@ export class VotosManager extends ManagerBase<VotosEntity, VotosRepository> {
         );
     }
   }
-  async updateVotosDigitalizacion(params:any,queryRunner:any) {
+  async updateVotosDigitalizacion(params:any,queryRunner:any,encryptionService:any) {
     const data = params.data;
     const user = params.dataUser.user;
+    let aux = 0;
     for await (const element of data.votos){
-      await this.votosRepository.updateVotosDigitalizacion(data.acta_id,element.candidato_id,element.votosdigitacion,user.id,queryRunner).catch(
-        (error) => {
-          throw new RpcException({
-            statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-            message: error.message,
-          });
-        },
-      );
+      const dataCifrado = element.cifrado
+      delete element.cifrado
+      const decryptBack = encryptionService.decrypt(dataCifrado);
+      if(decryptBack === JSON.stringify(element)){
+        await this.votosRepository.updateVotosDigitalizacion(data.acta_id,element.candidato_id,element.votosdigitacion,user.id,dataCifrado,queryRunner).catch(
+          (error) => {
+            throw new RpcException({
+              statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+              message: error.message,
+            });
+          },
+        );
+      }
+      else{
+        throw new RpcException({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: `Existe un problema de cifrado con el registro de voto ${aux}`,
+        });
+      }
+      aux++
     }   
   } 
 }
