@@ -1,4 +1,4 @@
-import { ManagerBase, shuffleArray } from '@bsc/core';
+import { managePaginationArgs, ManagerBase, resetFilds, shuffleArray } from '@bsc/core';
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { ActaRepository } from '../repositories/acta.repository';
 import { ActaEntity } from '../entities/acta.entity';
@@ -97,6 +97,33 @@ export class ActaManager extends ManagerBase<ActaEntity, ActaRepository> {
 
   async updateActaEscaneo(data:any,queryRunner:any) {
     await this.actaRepository.updateActaEscaneo(data, queryRunner).catch(
+      (error) => {
+        throw new RpcException({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: error.message,
+        });
+      },
+    );
+  }
+
+  async getCollection(paginacion:any) {
+    const aliasEntity = 'acta';
+    const fields = paginacion.fields.data;
+    const dataReset = resetFilds(fields, aliasEntity);
+    const qb = await this.actaRepository.getCollection(dataReset);
+    const data = await managePaginationArgs(aliasEntity, qb, paginacion).catch(
+      (error) => {
+        throw new RpcException({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: error.message,
+        });
+      },
+    );
+    return data;
+  }
+
+  async updateLiberaActa(id_acta:number,queryRunner:any) {
+    await this.actaRepository.updateLiberaActa(id_acta, queryRunner).catch(
       (error) => {
         throw new RpcException({
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,

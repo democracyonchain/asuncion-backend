@@ -89,4 +89,7 @@ export class ActaEntity {
     @ManyToOne(() => JuntaEntity, (junta) => junta.acta)
     @JoinColumn([{ name: 'junta_id', referencedColumnName: 'id' }])
     junta: JuntaEntity;
+
+    @Column({ name: 'bloqueo', type: 'boolean',  nullable: false })
+    bloqueo: boolean;
 }

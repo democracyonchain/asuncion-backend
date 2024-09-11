@@ -1,3 +1,4 @@
+import { relationsWhereInput, stateWhereInput } from "@bsc/core";
 import { Dignidad } from "./dignidad.dto";
 import { ImagenActaDTO } from "./imagen-acta";
 import { ImagenSegmentoDTO } from "./imagen-segmento";
@@ -25,4 +26,19 @@ export class ActaDTO {
     votos: [VotosDTO];
     imagenacta: ImagenActaDTO;
     imagensegmento: [ImagenSegmentoDTO];
+}
+
+export class ActaDigitalizacionFilterInput {
+  readonly bloqueo?: stateWhereInput;
+  readonly usuarioescaneo?: relationsWhereInput;
+  readonly usuariodigitacion?: relationsWhereInput;
+  readonly usuariocontrol?: relationsWhereInput;
+}
+
+export class ActaBasic {
+    id: number;
+    dignidad_id: number;
+    junta_id: number;
+    dignidad: Dignidad;
+    junta: Junta;
 }

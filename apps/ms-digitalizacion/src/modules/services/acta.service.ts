@@ -1,8 +1,8 @@
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { GlobalResult, PayloadData, changeFalseToTrue} from '@bsc/core';
+import { CollectionType, GlobalResult, PayloadData, changeFalseToTrue} from '@bsc/core';
 import { plainToInstance } from 'class-transformer';
 import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
-import { Acta, ActaDTO } from '../dto/acta';
+import { Acta, ActaBasic, ActaDTO } from '../dto/acta';
 import { ActaManager } from '../manager/acta.manager';
 import { RpcException } from '@nestjs/microservices';
 import { DataSource } from 'typeorm';
@@ -98,5 +98,56 @@ export class ActaService {
       await queryRunner.release();
     }
     return { status, message };
+  }
+
+  async getCollection(paginacion: any): Promise<CollectionType<ActaBasic>> {
+    await this.listaNegraTokenManager.validarToken(paginacion.usuarioAuth.token);
+    const data = await this.actaManager.getCollection(paginacion);
+    return plainToInstance(CollectionType<ActaBasic>, data);
+  }
+
+  async updateLibera(params:  any): Promise<GlobalResult> {
+    console.log(params.junta_id)
+    let status: boolean = false;
+    let message: string = `Error al momento de liberar el acta`;
+    await this.listaNegraTokenManager.validarToken(params.usuarioAuth.token);
+    const queryRunner = this.datasource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const dataActa = await this.actaManager.findOne(
+        {
+          select:{id:true,bloqueo:true},
+          where:{
+            junta_id: params.junta_id,
+            dignidad_id: params.dignidad_id
+          }
+        }
+      )
+      if(dataActa.bloqueo){
+        await this.actaManager.updateLiberaActa(dataActa.id,queryRunner);
+      }
+      else{
+        throw new RpcException({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: `El acta no se encuentra bloqueada`,
+        });
+      }
+      await queryRunner.commitTransaction(); 
+      status = true;
+      message = `Acta liberada correctamente`;
+    }catch (error) {
+      Logger.error(error);
+      await queryRunner.rollbackTransaction(); 
+      throw new RpcException({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: error.message, 
+        });
+    }
+    finally {
+      await queryRunner.release();
+    }
+    return { status, message };
+
   }
 }

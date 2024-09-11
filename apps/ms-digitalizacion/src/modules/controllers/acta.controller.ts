@@ -1,9 +1,9 @@
-import { AllRpcExceptionMsFilter, LogMsInterceptor, PayloadData } from '@bsc/core';
+import { AllRpcExceptionMsFilter, FilterDto, LogMsInterceptor, PayloadData } from '@bsc/core';
 import { Controller, UseFilters, UseInterceptors } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ConstantesDigitalizacion } from '../../common/constantes-digitalizacion';
 import { ActaService } from '../services/acta.service';
-import { ActaDTO } from '../dto/acta';
+import { ActaDigitalizacionFilterInput, ActaDTO } from '../dto/acta';
 
 @UseFilters(AllRpcExceptionMsFilter)
 @UseInterceptors(LogMsInterceptor)
@@ -25,5 +25,15 @@ export class ActaController {
   @MessagePattern(ConstantesDigitalizacion.DIGITALIZACION.PATTERN.ACTA_UPDATE_DIG_DIGITALIZACIION)
   actaUpdate(@Payload() params: PayloadData<ActaDTO>) {
       return this.actaService.update(params);
+  }
+
+  @MessagePattern(ConstantesDigitalizacion.DIGITALIZACION.PATTERN.ACTA_COLLECTION_DIGITALIZACION)
+  async actaCollection(@Payload() paginacion: FilterDto<ActaDigitalizacionFilterInput>) {
+    return await this.actaService.getCollection(paginacion);
+  }
+
+  @MessagePattern(ConstantesDigitalizacion.DIGITALIZACION.PATTERN.ACTA_LIBERA_DIGITALIZACION)
+  actaLiberaUpdate(@Payload() params: PayloadData<ActaDTO>) {
+      return this.actaService.updateLibera(params);
   }
 }

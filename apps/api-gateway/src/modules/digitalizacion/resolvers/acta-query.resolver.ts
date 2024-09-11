@@ -4,14 +4,17 @@ import {
     LogGwInterceptor,
     CurrentUserWithToken,
     RespuestaJWTToken,
-    GlobalResultType
+    GlobalResultType,
+    ConnectionInput,
+    StringOrderInput
   } from '@bsc/core';
 import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Args, Info, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { fieldsMap } from 'graphql-fields-list';
 import { ActaService } from '../services/acta.service';
-import { ActaDigitalizacionVotoImagenType, ActaDigitalizacionVotoType } from '../dto/objecType/acta.object';
+import ActaDigitalizacionBasicCollectionType, { ActaDigitalizacionVotoImagenType, ActaDigitalizacionVotoType } from '../dto/objecType/acta.object';
 import { ActaUpdateInput } from '../dto/inputType/acta.input';
+import { ActaDigitalizacionFilterInput } from '../dto/filterType/acta.filter';
   
   
 @UseFilters(AllHttpExceptionGwFilter)
@@ -53,5 +56,29 @@ export class ActaQueryResolver {
     dataInput: ActaUpdateInput,
   ) {
       return await this.actaService.digtActaUpdate(dataInput,usuarioAuth);
+  }
+
+  @UseGuards(AuthGuard)
+  @Query(() => ActaDigitalizacionBasicCollectionType, { nullable: true })
+  public async digitActaCollection(
+      @Info() info,
+      @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
+      @Args('pagination', { nullable: true }) pagination: ConnectionInput,
+      @Args('where', { nullable: true }) where?: ActaDigitalizacionFilterInput,
+      @Args('order', { nullable: true }) order?: StringOrderInput,
+  ) {
+      const fields = fieldsMap(info);
+      return await this.actaService.actaCollection(pagination, where, order, fields, usuarioAuth);
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => GlobalResultType, { nullable: false })
+  public async digtActaLiberaUpdate(
+
+    @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
+    @Args('dignidad_id', { nullable: false, type: () => Int }) dignidad_id: number,
+    @Args('junta_id', { nullable: false, type: () => Int }) junta_id: number,
+  ) {
+    return await this.actaService.actaLibera(dignidad_id, junta_id, usuarioAuth);
   }
 }
