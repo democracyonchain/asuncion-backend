@@ -42,7 +42,15 @@ export class ActaService {
         }
       }
     });
-    return plainToInstance(Acta, data[0]);
+    if(data.length>0){
+      return plainToInstance(Acta, data[0]);
+    }
+    else{
+      throw new RpcException({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: `No existen información`,
+      });
+    }    
   }
 
   async actaByDignidad(filter: any): Promise<Acta> {

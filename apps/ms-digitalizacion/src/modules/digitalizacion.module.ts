@@ -13,6 +13,7 @@ import { ActaService } from './services/acta.service';
 import { DignidadService } from './services/dignidad.service';
 import { VotosService } from './services/votos.service';
 import { EncryptionService } from './services/encriptado.service';
+import { EncryptionCtsService } from './services/encriptado-cts.service';
 
 /* Repositorio */
 import { AuditLogRepository } from './repositories/audit/audit-log.repository';
@@ -116,7 +117,8 @@ import { VotosManager } from './manager/votos.manager';
         VotosRepository,
         VotosManager,
         VotosService,
-        EncryptionService
+        EncryptionService,
+        EncryptionCtsService
     ],
     exports: [
         LocalidadesService,

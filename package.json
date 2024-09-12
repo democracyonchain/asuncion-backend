@@ -43,6 +43,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "concurrently": "^8.2.2",
+    "crypto-ts": "^1.0.2",
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
     "graphql": "^16.9.0",

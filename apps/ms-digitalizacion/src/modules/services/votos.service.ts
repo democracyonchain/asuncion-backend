@@ -7,6 +7,7 @@ import { RpcException } from '@nestjs/microservices';
 import { DataSource } from 'typeorm';
 import { EncryptionService } from './encriptado.service';
 import { ActaManager } from '../manager/acta.manager';
+import { EncryptionCtsService } from './encriptado-cts.service';
 
 @Injectable()
 export class VotosService {
@@ -16,7 +17,7 @@ export class VotosService {
         private readonly votosManager: VotosManager,
         private readonly actaManager: ActaManager,
         private readonly datasource: DataSource,
-        private readonly encryptionService: EncryptionService,
+        private readonly encryptionCtsService: EncryptionCtsService,
         
     ) {}
  
@@ -28,7 +29,7 @@ export class VotosService {
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-            await this.votosManager.updateVotosDigitalizacion(params,queryRunner,this.encryptionService);
+            await this.votosManager.updateVotosDigitalizacion(params,queryRunner,this.encryptionCtsService);
             await this.actaManager.updateLiberaActa(params.data.acta_id,queryRunner);
             await queryRunner.commitTransaction(); 
             status = true;
