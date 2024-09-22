@@ -3,6 +3,13 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { EstablecimientoAuthType } from './establecimiento.object';
 
 
+/**
+ * DTO con las variables que se van a exponer al momento de consultar servicios para logeo
+ *
+ * @export
+ * @class LoginType
+ * @typedef {LoginType}
+ */
 @ObjectType('Login')
 export class LoginType {
 

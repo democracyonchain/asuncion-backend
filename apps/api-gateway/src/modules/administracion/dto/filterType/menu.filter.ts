@@ -1,7 +1,14 @@
-import { stateWhereInput, stringWhereInput, relationsWhereInput, numberWhereInput } from '@bsc/core';
+import { stateWhereInput, stringWhereInput, numberWhereInput } from '@bsc/core';
 import { Field, InputType } from "@nestjs/graphql";
 import { ModuloFilterInput } from './modulo.filter';
 
+/**
+ * Filtros para las colecciones de la tabla de menu
+ *
+ * @export
+ * @class MenuFilterInput
+ * @typedef {MenuFilterInput}
+ */
 @InputType('MenuFilterInput')
 export class MenuFilterInput {
 

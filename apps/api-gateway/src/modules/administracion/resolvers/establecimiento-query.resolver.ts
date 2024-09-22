@@ -17,14 +17,28 @@ import EstablecimientoCollectionType, { EstablecimientoAdminitracionType } from 
 import { EstablecimientoFilterInput } from '../dto/filterType/establecimiento.filter';
   
   
+/**
+ * Clase para publicación de todos los servicios de establecimiento
+ *
+ * @export
+ * @class EstablecimientoQueryResolver
+ * @typedef {EstablecimientoQueryResolver}
+ */
 @UseFilters(AllHttpExceptionGwFilter)
 @UseInterceptors(LogGwInterceptor)
 @Resolver()
-
 export class EstablecimientoQueryResolver {
   
   constructor(private readonly establecimientoService: EstablecimientoService) { }
 
+  /**
+   * Servicio para la creación de un establecimiento
+   *
+   * @async
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {EstablecimientoCreateInput} dataInput
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
   async adminEstablecimientoCreate(
@@ -35,6 +49,14 @@ export class EstablecimientoQueryResolver {
       return await this.establecimientoService.establecimientoCreate(dataInput,usuarioAuth);
   }
 
+  /**
+   * Servicio para la actualización de un establecimiento
+   *
+   * @async
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {EstablecimientoUpdateInput} dataInput
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
   async adminEstablecimientoUpdate(
@@ -45,6 +67,14 @@ export class EstablecimientoQueryResolver {
         return await this.establecimientoService.establecimientoUpdate(dataInput,usuarioAuth);
   }
 
+  /**
+   * Servicio para eliminar un establecimiento
+   *
+   * @async
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {number} id
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
   async adminEstablecimientoDelete(
@@ -54,6 +84,18 @@ export class EstablecimientoQueryResolver {
       return await this.establecimientoService.establecimientoDelete(id,usuarioAuth);
   }
 
+  /**
+   * Servicio para la colección de un establecimiento con sus respectivos filtros
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {ConnectionInput} pagination
+   * @param {?EstablecimientoFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => EstablecimientoCollectionType, { nullable: true })
   public async adminEstablecimientoCollection(
@@ -68,6 +110,16 @@ export class EstablecimientoQueryResolver {
   }
 
 
+  /**
+   * Servicio para consultar un establecimiento por id
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {number} id
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => EstablecimientoAdminitracionType, { nullable: false })
   public async adminEstablecimiento(

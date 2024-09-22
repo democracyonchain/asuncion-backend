@@ -1,9 +1,16 @@
 
 import { CollectionTypeGql } from '@bsc/core';
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { ModuloAdministracionType } from './modulo.object';
 
 
+/**
+ * DTO con las variables que se van a exponer al momento de consultar servicios de menú
+ *
+ * @export
+ * @class MenuAdministracionType
+ * @typedef {MenuAdministracionType}
+ */
 @ObjectType('MenuAdministracion')
 export class MenuAdministracionType {
 
@@ -33,5 +40,13 @@ export class MenuAdministracionType {
 }
 
 
+/**
+ * Extensión del DTO pricipal usado para devolver los datos de las colecciones
+ *
+ * @export
+ * @class MenuCollectionType
+ * @typedef {MenuCollectionType}
+ * @extends {CollectionTypeGql<MenuAdministracionType>(MenuAdministracionType)}
+ */
 @ObjectType()
 export default class MenuCollectionType extends CollectionTypeGql<MenuAdministracionType>(MenuAdministracionType) { }

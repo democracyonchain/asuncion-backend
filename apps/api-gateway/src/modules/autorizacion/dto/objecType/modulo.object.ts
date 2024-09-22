@@ -1,8 +1,15 @@
 
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import {  MenuforModuloAuthType } from './menu.object';
 
 
+/**
+ * DTO con las variables que se van a exponer al momento de consultar servicios de modulo para autorización
+ *
+ * @export
+ * @class ModuloAuthType
+ * @typedef {ModuloAuthType}
+ */
 @ObjectType('ModuloAuth')
 export class ModuloAuthType {
 

@@ -15,14 +15,32 @@ import { ConfiguracionFilterInput } from '../dto/filterType/configuracion.filter
 import { ConfiguracionService } from '../services/configuracion.service';
   
   
+/**
+ * Clase para publicación de todos los servicios de configuración
+ *
+ * @export
+ * @class ConfiguracionQueryResolver
+ * @typedef {ConfiguracionQueryResolver}
+ */
 @UseFilters(AllHttpExceptionGwFilter)
 @UseInterceptors(LogGwInterceptor)
 @Resolver()
-
 export class ConfiguracionQueryResolver {
   
   constructor(private readonly configuracionService: ConfiguracionService) { }
 
+  /**
+   * Servicio para colección de la tabla de configuración con los respectivos filtros
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {ConnectionInput} pagination
+   * @param {?ConfiguracionFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => ConfiguracionCollectionType, { nullable: true })
   public async adminConfiguracionCollection(

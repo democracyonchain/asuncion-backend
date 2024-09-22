@@ -23,14 +23,32 @@ import JuntaDigitalizacionCollectionType from '../dto/objecType/junta.object';
 import { JuntaDigitalizacionFilterInput } from '../dto/filterType/junta.filter';
   
   
+/**
+ * Clase para publicación de todos los servicios de localidades
+ *
+ * @export
+ * @class LocalidadesQueryResolver
+ * @typedef {LocalidadesQueryResolver}
+ */
 @UseFilters(AllHttpExceptionGwFilter)
 @UseInterceptors(LogGwInterceptor)
 @Resolver()
-
 export class LocalidadesQueryResolver {
   
   constructor(private readonly localidadesService: LocalidadesService) { }
 
+  /**
+   * Servicio para obtener la colección de provincia con sus respectivos parametros
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {ConnectionInput} pagination
+   * @param {?ProvinciaDigitalizacionFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => ProvinciaDigitalizacionCollectionType, { nullable: true })
   public async digtProvinciaCollection(
@@ -45,6 +63,16 @@ export class LocalidadesQueryResolver {
   }
 
 
+  /**
+   * Servicio para traer información de provincia con el id de parametro
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {number} id
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => ProvinciaDigitalizacionType, { nullable: false })
   public async digtProvincia(
@@ -56,6 +84,18 @@ export class LocalidadesQueryResolver {
     return await this.localidadesService.provincia(id, fields, usuarioAuth);
   }
 
+  /**
+   * Servicio para obtener la colección de canton con sus respectivos parametros
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {ConnectionInput} pagination
+   * @param {?CantonDigitalizacionFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => CantonDigitalizacionCollectionType, { nullable: true })
   public async digtCantonCollection(
@@ -69,6 +109,18 @@ export class LocalidadesQueryResolver {
       return await this.localidadesService.cantonCollection(pagination, where, order, fields, usuarioAuth);
   }
 
+  /**
+   * Servicio para obtener la colección de parroquia con sus respectivos parametros
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {ConnectionInput} pagination
+   * @param {?ParroquiaDigitalizacionFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => ParroquiaDigitalizacionCollectionType, { nullable: true })
   public async digtParroquiaCollection(
@@ -82,6 +134,18 @@ export class LocalidadesQueryResolver {
       return await this.localidadesService.parroquiaCollection(pagination, where, order, fields, usuarioAuth);
   }
 
+  /**
+   * Servicio para obtener la colección de zona con sus respectivos parametros
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {ConnectionInput} pagination
+   * @param {?ZonaDigitalizacionFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => ZonaDigitalizacionCollectionType, { nullable: true })
   public async digtZonaCollection(
@@ -95,6 +159,18 @@ export class LocalidadesQueryResolver {
       return await this.localidadesService.zonaCollection(pagination, where, order, fields, usuarioAuth);
   }
 
+  /**
+   * Servicio para obtener la colección de junta con sus respectivos parametros
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {ConnectionInput} pagination
+   * @param {?JuntaDigitalizacionFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => JuntaDigitalizacionCollectionType, { nullable: true })
   public async digtJuntaCollection(

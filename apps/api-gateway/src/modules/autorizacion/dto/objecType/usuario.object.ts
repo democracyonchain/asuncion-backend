@@ -1,8 +1,14 @@
-import { CollectionTypeGql } from '@bsc/core';
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { RolUsuarioAuthType } from './rol-usuario.object';
 
 
+/**
+ * DTO con las variables que se van a exponer al momento de consultar servicios de usuario para autorización
+ *
+ * @export
+ * @class UsuarioAuthType
+ * @typedef {UsuarioAuthType}
+ */
 @ObjectType('UsuarioAuth')
 export class UsuarioAuthType {
 

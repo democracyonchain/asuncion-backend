@@ -2,6 +2,13 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { MenuAuthType } from './menu.object';
 
 
+/**
+ * DTO con las variables que se van a exponer al momento de consultar servicios de permisos para autorización
+ *
+ * @export
+ * @class PermisosAuthType
+ * @typedef {PermisosAuthType}
+ */
 @ObjectType('PermisosAuth')
 export class PermisosAuthType {
 

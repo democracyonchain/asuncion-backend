@@ -17,14 +17,28 @@ import { RolService } from '../services/rol.service';
 import { RolFilterInput } from '../dto/filterType/rol.filter';
   
   
+/**
+ * Clase para publicación de todos los servicios de rol
+ *
+ * @export
+ * @class RolQueryResolver
+ * @typedef {RolQueryResolver}
+ */
 @UseFilters(AllHttpExceptionGwFilter)
 @UseInterceptors(LogGwInterceptor)
 @Resolver()
-
 export class RolQueryResolver {
   
   constructor(private readonly rolService: RolService) { }
 
+  /**
+   * Servicio para creación de roles
+   *
+   * @async
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {RolCreateInput} dataInput
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
   async adminRolCreate(
@@ -35,6 +49,14 @@ export class RolQueryResolver {
       return await this.rolService.rolCreate(dataInput,usuarioAuth);
   }
 
+  /**
+   * Servicio para actualización de roles
+   *
+   * @async
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {RolUpdateInput} dataInput
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
   async adminRolUpdate(
@@ -45,6 +67,14 @@ export class RolQueryResolver {
       return await this.rolService.rolUpdate(dataInput,usuarioAuth);
   }
 
+  /**
+   * Servicio para eliminar un rol
+   *
+   * @async
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {number} id
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
   async adminRolDelete(
@@ -54,6 +84,18 @@ export class RolQueryResolver {
       return await this.rolService.rolDelete(id,usuarioAuth);
   }
 
+  /**
+   * Servicio para traer la colección de los roles con sus respectivos filtros
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {ConnectionInput} pagination
+   * @param {?RolFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => RolCollectionType, { nullable: true })
   public async adminRolCollection(
@@ -68,6 +110,16 @@ export class RolQueryResolver {
   }
 
 
+  /**
+   * Servicio para traer datos del rol por el campo id
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {number} id
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => RolType, { nullable: false })
   public async adminRol(

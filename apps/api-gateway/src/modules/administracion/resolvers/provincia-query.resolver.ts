@@ -15,14 +15,32 @@ import ProvinciaCollectionType, { ProvinciaAdministracionType } from '../dto/obj
 import { ProvinciaService } from '../services/provincia.service';
   
   
+/**
+ * Clase para publicación de todos los servicios de provincia
+ *
+ * @export
+ * @class ProvinciaQueryResolver
+ * @typedef {ProvinciaQueryResolver}
+ */
 @UseFilters(AllHttpExceptionGwFilter)
 @UseInterceptors(LogGwInterceptor)
 @Resolver()
-
 export class ProvinciaQueryResolver {
   
   constructor(private readonly provinciaService: ProvinciaService) { }
 
+  /**
+   * Servicio para obtener la colección de provincia con sus respectivos parametros
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {ConnectionInput} pagination
+   * @param {?ProvinciaFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => ProvinciaCollectionType, { nullable: true })
   public async adminProvinciaCollection(
@@ -37,6 +55,16 @@ export class ProvinciaQueryResolver {
   }
 
 
+  /**
+   * Servicio para traer información de provincia con el id de parametro
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {number} id
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => ProvinciaAdministracionType, { nullable: false })
   public async adminProvincia(

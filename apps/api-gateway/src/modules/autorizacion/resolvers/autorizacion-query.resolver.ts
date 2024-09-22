@@ -16,15 +16,30 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
   
   
   
+  /**
+   * Clase para publicación de todos los servicios de autorización
+   *
+   * @export
+   * @class AutorizacionQueryResolver
+   * @typedef {AutorizacionQueryResolver}
+   */
   @UseFilters(AllHttpExceptionGwFilter)
   @UseInterceptors(LogGwInterceptor)
   @Resolver()
-
   export class AutorizacionQueryResolver {
    
     constructor(private readonly autorizacionService: AutorizacionService) { }
 
 
+    /**
+     * Servicio para logearse y obtener el token
+     *
+     * @public
+     * @async
+     * @param {string} username
+     * @param {string} password
+     * @returns {unknown}
+     */
     @Query(() => LoginType, { nullable: false })
     public async authLogin(
       @Args('username', { nullable: false, type: () => String }) username: string,
@@ -33,6 +48,15 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
       return await this.autorizacionService.login(username,password);
     }
 
+    /**
+     * Servicio para obtener los roles asociados al token
+     *
+     * @public
+     * @async
+     * @param {*} info
+     * @param {RespuestaJWTToken} usuarioAuth
+     * @returns {unknown}
+     */
     @UseGuards(AuthGuard)
     @Query(() => UsuarioAuthType, { nullable: false })
     public async authPerfil(
@@ -43,6 +67,16 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
       return await this.autorizacionService.perfil(usuarioAuth,fields);
     }
 
+    /**
+     * Servicio para actualizar el password
+     *
+     * @public
+     * @async
+     * @param {RespuestaJWTToken} usuarioAuth
+     * @param {string} password
+     * @param {number} id
+     * @returns {unknown}
+     */
     @UseGuards(AuthGuard)
     @Mutation(() => GlobalResultType, { nullable: false })
     public async authCambioPassword(
@@ -53,6 +87,16 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
       return await this.autorizacionService.cambioPassword(usuarioAuth,password,id);
     }
 
+    /**
+     * Servicios para obtener los permisos por un rol especifico
+     *
+     * @public
+     * @async
+     * @param {*} info
+     * @param {RespuestaJWTToken} usuarioAuth
+     * @param {number} rol_id
+     * @returns {unknown}
+     */
     @UseGuards(AuthGuard)
     @Query(() => [ModuloAuthType], { nullable: false })
     public async authModuloPermisosId(
@@ -64,6 +108,14 @@ import { ModuloAuthType } from '../dto/objecType/modulo.object';
       return await this.autorizacionService.moduloPermiso(usuarioAuth,fields,rol_id);
     }
 
+    /**
+     * Servicio para deslogearse
+     *
+     * @public
+     * @async
+     * @param {RespuestaJWTToken} usuarioAuth
+     * @returns {unknown}
+     */
     @UseGuards(AuthGuard)
     @Query(() => GlobalResultType, { nullable: false })
     public async authLogout(

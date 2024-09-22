@@ -17,14 +17,28 @@ import { MenuCreateInput, MenuUpdateInput } from '../dto/inputType/menu.input';
 import { MenuFilterInput } from '../dto/filterType/menu.filter';
   
   
+/**
+ * Clase para publicación de todos los servicios de menú
+ *
+ * @export
+ * @class MenuQueryResolver
+ * @typedef {MenuQueryResolver}
+ */
 @UseFilters(AllHttpExceptionGwFilter)
 @UseInterceptors(LogGwInterceptor)
 @Resolver()
-
 export class MenuQueryResolver {
   
   constructor(private readonly menuService: MenuService) { }
 
+  /**
+   * Servicio para creación de un menú
+   *
+   * @async
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {MenuCreateInput} dataInput
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
   async adminMenuCreate(
@@ -35,6 +49,14 @@ export class MenuQueryResolver {
       return await this.menuService.menuCreate(dataInput,usuarioAuth);
   }
 
+  /**
+   * Servicio para actualización de un menú
+   *
+   * @async
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {MenuUpdateInput} dataInput
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
   async adminMenuUpdate(
@@ -45,6 +67,14 @@ export class MenuQueryResolver {
       return await this.menuService.menuUpdate(dataInput,usuarioAuth);
   }
 
+  /**
+   * Servicio para eliminación de un menú
+   *
+   * @async
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {number} id
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
   async adminMenuDelete(
@@ -54,6 +84,18 @@ export class MenuQueryResolver {
       return await this.menuService.menuDelete(id,usuarioAuth);
   }
 
+  /**
+   * Servicio que permite obtener la colección de los menus con los respectivos filtros
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {ConnectionInput} pagination
+   * @param {?MenuFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => MenuCollectionType, { nullable: true })
   public async adminMenuCollection(
@@ -67,6 +109,16 @@ export class MenuQueryResolver {
       return await this.menuService.menuCollection(pagination, where, order, fields, usuarioAuth);
   }
 
+  /**
+   * Servicio para traer datos de menú con el id de parametro
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {number} id
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => MenuAdministracionType, { nullable: false })
   public async adminMenu(

@@ -2,6 +2,13 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import {  IsOptional, IsString } from 'class-validator';
 import { PermisosCrearInput, PermisosUpdateInput } from './permisos.input';
 
+/**
+ * DTO con los campos que se solicitan para la creación de roles
+ *
+ * @export
+ * @class RolCreateInput
+ * @typedef {RolCreateInput}
+ */
 @InputType('RolCreateInput')
 export class RolCreateInput {
 
@@ -17,6 +24,13 @@ export class RolCreateInput {
   permisos: PermisosCrearInput;
 }
 
+/**
+ * DTO con los campos que se solicitan para la actualización de roles
+ *
+ * @export
+ * @class RolUpdateInput
+ * @typedef {RolUpdateInput}
+ */
 @InputType('RolUpdateInput')
 export class RolUpdateInput{
 

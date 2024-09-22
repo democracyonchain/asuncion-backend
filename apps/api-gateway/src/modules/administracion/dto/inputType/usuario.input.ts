@@ -1,6 +1,13 @@
 import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
 import { IsOptional, IsString, IsArray, IsInt } from 'class-validator';
 
+/**
+ * DTO con los campos que se solicitan para la creación de usuarios
+ *
+ * @export
+ * @class UsuarioCreateInput
+ * @typedef {UsuarioCreateInput}
+ */
 @InputType('UsuarioCreateInput')
 export class UsuarioCreateInput {
 
@@ -38,6 +45,14 @@ export class UsuarioCreateInput {
 
 }
 
+/**
+ * DTO con los campos que se solicitan para la actualización de usuarios
+ *
+ * @export
+ * @class UsuarioUpdateInput
+ * @typedef {UsuarioUpdateInput}
+ * @extends {PartialType(UsuarioCreateInput)}
+ */
 @InputType('UsuarioUpdateInput')
 export class UsuarioUpdateInput extends PartialType(UsuarioCreateInput){
 

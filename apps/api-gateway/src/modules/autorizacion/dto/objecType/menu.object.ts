@@ -3,6 +3,13 @@ import { ModuloAuthType } from './modulo.object';
 import { PermisosForModuloAuthType } from './permisos.object';
 
 
+/**
+ * DTO con las variables que se van a exponer al momento de consultar servicios de menu
+ *
+ * @export
+ * @class MenuAuthType
+ * @typedef {MenuAuthType}
+ */
 @ObjectType('MenuAuth')
 export class MenuAuthType {
 
@@ -17,6 +24,13 @@ export class MenuAuthType {
 }
 
 
+/**
+ * DTO con las variables que se van a exponer al momento de consultar servicios de menú para autorización
+ *
+ * @export
+ * @class MenuforModuloAuthType
+ * @typedef {MenuforModuloAuthType}
+ */
 @ObjectType('MenuforModuloAuth')
 export class MenuforModuloAuthType {
 

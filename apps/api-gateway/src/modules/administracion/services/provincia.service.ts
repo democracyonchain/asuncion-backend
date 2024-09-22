@@ -7,6 +7,13 @@ import { ClientProxyService } from '../../../config/client-proxy.service';
 import { ProvinciaFilterInput } from '../dto/filterType/provincia.filter';
 
 
+/**
+ * Clase donde se conectan los servicios del apigateway con los del microservicio a traves de pattern y proxy
+ *
+ * @export
+ * @class ProvinciaService
+ * @typedef {ProvinciaService}
+ */
 @Injectable()
 export class ProvinciaService {
   private clientProxyAdministracion: ClientProxy;
@@ -14,6 +21,17 @@ export class ProvinciaService {
     this.clientProxyAdministracion = this.clientProxyService.clientProxyAdministracion();
   }
 
+  /**
+   * Función para colección de provincia
+   *
+   * @async
+   * @param {ConnectionInput} pagination
+   * @param {?ProvinciaFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @param {?*} [fields]
+   * @param {?RespuestaJWTToken} [usuarioAuth]
+   * @returns {unknown}
+   */
   async provinciaCollection(pagination: ConnectionInput, where?: ProvinciaFilterInput, order?: StringOrderInput, fields?: any, usuarioAuth?: RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.PROVINCIA_COLLECTION;
     const payload: FilterDto<ProvinciaFilterInput> = { pagination, where, order, fields, usuarioAuth };
@@ -22,6 +40,15 @@ export class ProvinciaService {
     );
   }
 
+  /**
+   * Función para traer datos de provincia por id 
+   *
+   * @async
+   * @param {number} id
+   * @param {*} fields
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @returns {unknown}
+   */
   async provincia(id: number, fields:any, usuarioAuth: RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.PROVINCIA_BY_ID;
     const payload: FilterById = { id, fields, usuarioAuth };

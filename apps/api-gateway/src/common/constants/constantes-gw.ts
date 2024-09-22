@@ -1,5 +1,13 @@
 import { Constantes } from '@bsc/core';
 
+/**
+ * Clase con las constantes que se usan para conectarse y acceder servicios publicados en cada micro servicio
+ *
+ * @export
+ * @class ConstantesGw
+ * @typedef {ConstantesGw}
+ * @extends {Constantes}
+ */
 export class ConstantesGw extends Constantes {
 
   public static GATEWAY = {

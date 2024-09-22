@@ -1,6 +1,13 @@
 import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
-import { IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString } from 'class-validator';
 
+/**
+ * DTO con los campos que se solicitan para la creación de menus
+ *
+ * @export
+ * @class MenuCreateInput
+ * @typedef {MenuCreateInput}
+ */
 @InputType('MenuCreateInput')
 export class MenuCreateInput {
 
@@ -26,6 +33,14 @@ export class MenuCreateInput {
   url: string;
 }
 
+/**
+ * DTO con los campos que se solicitan para la actualización de menus
+ *
+ * @export
+ * @class MenuUpdateInput
+ * @typedef {MenuUpdateInput}
+ * @extends {PartialType(MenuCreateInput)}
+ */
 @InputType('MenuUpdateInput')
 export class MenuUpdateInput extends PartialType(MenuCreateInput) {
 

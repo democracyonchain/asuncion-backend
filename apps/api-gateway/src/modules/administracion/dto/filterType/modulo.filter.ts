@@ -1,6 +1,13 @@
-import { stateWhereInput, stringWhereInput, relationsWhereInput } from '@bsc/core';
+import { stateWhereInput, stringWhereInput } from '@bsc/core';
 import { Field, InputType } from "@nestjs/graphql";
 
+/**
+ * Filtros para las colecciones de la tabla de modulo
+ *
+ * @export
+ * @class ModuloFilterInput
+ * @typedef {ModuloFilterInput}
+ */
 @InputType('ModuloFilterInput')
 export class ModuloFilterInput {
 

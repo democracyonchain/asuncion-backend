@@ -1,6 +1,13 @@
 import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
+/**
+ * DTO con los campos que se solicitan para la creación de modulos
+ *
+ * @export
+ * @class ModuloCreateInput
+ * @typedef {ModuloCreateInput}
+ */
 @InputType('ModuloCreateInput')
 export class ModuloCreateInput {
 
@@ -26,6 +33,14 @@ export class ModuloCreateInput {
 
 }
 
+/**
+ * DTO con los campos que se solicitan para la actualización de modulos
+ *
+ * @export
+ * @class ModuloUpdateInput
+ * @typedef {ModuloUpdateInput}
+ * @extends {PartialType(ModuloCreateInput)}
+ */
 @InputType('ModuloUpdateInput')
 export class ModuloUpdateInput extends PartialType(ModuloCreateInput) {
 

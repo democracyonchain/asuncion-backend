@@ -1,6 +1,13 @@
 import { stringWhereInput, numberWhereInput, stateWhereInput } from '@bsc/core';
 import { Field, InputType } from "@nestjs/graphql";
 
+/**
+ * Filtros para las colecciones de la tabla de usuario
+ *
+ * @export
+ * @class UsuarioFilterInput
+ * @typedef {UsuarioFilterInput}
+ */
 @InputType('UsuarioFilterInput')
 export class UsuarioFilterInput {
 

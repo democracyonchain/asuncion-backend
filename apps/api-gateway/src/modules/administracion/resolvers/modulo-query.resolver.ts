@@ -17,14 +17,28 @@ import { ModuloService } from '../services/modulo.service';
 import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
   
   
+  /**
+   * Clase para publicación de todos los servicios de modulo
+   *
+   * @export
+   * @class ModuloQueryResolver
+   * @typedef {ModuloQueryResolver}
+   */
   @UseFilters(AllHttpExceptionGwFilter)
   @UseInterceptors(LogGwInterceptor)
   @Resolver()
-
   export class ModuloQueryResolver {
    
     constructor(private readonly moduloService: ModuloService) { }
 
+    /**
+     * Servicio para crear modulos
+     *
+     * @async
+     * @param {RespuestaJWTToken} usuarioAuth
+     * @param {ModuloCreateInput} dataInput
+     * @returns {unknown}
+     */
     @UseGuards(AuthGuard)
     @Mutation(() => GlobalResultType, { nullable: false })
     async adminModuloCreate(
@@ -35,6 +49,14 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
         return await this.moduloService.moduloCreate(dataInput,usuarioAuth);
     }
 
+    /**
+     * Servicio para actualizar modulos
+     *
+     * @async
+     * @param {RespuestaJWTToken} usuarioAuth
+     * @param {ModuloUpdateInput} dataInput
+     * @returns {unknown}
+     */
     @UseGuards(AuthGuard)
     @Mutation(() => GlobalResultType, { nullable: false })
     async adminModuloUpdate(
@@ -45,6 +67,14 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
         return await this.moduloService.moduloUpdate(dataInput,usuarioAuth);
     }
 
+    /**
+     * Servicio para eliminar modulos
+     *
+     * @async
+     * @param {RespuestaJWTToken} usuarioAuth
+     * @param {number} id
+     * @returns {unknown}
+     */
     @UseGuards(AuthGuard)
     @Mutation(() => GlobalResultType, { nullable: false })
     async adminModuloDelete(
@@ -54,6 +84,18 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
         return await this.moduloService.moduloDelete(id,usuarioAuth);
     }
 
+    /**
+     * Servicio para obtener la colección de los modulos con sus respectivo filtros
+     *
+     * @public
+     * @async
+     * @param {*} info
+     * @param {RespuestaJWTToken} usuarioAuth
+     * @param {ConnectionInput} pagination
+     * @param {?ModuloFilterInput} [where]
+     * @param {?StringOrderInput} [order]
+     * @returns {unknown}
+     */
     @UseGuards(AuthGuard)
     @Query(() => ModuloCollectionType, { nullable: true })
     public async adminModuloCollection(
@@ -67,6 +109,16 @@ import { ModuloFilterInput } from '../dto/filterType/modulo.filter';
         return await this.moduloService.moduloCollection(pagination, where, order, fields, usuarioAuth);
     }
 
+    /**
+     * Servicio para traer información de un modulo con le id de parametro
+     *
+     * @public
+     * @async
+     * @param {*} info
+     * @param {RespuestaJWTToken} usuarioAuth
+     * @param {number} id
+     * @returns {unknown}
+     */
     @UseGuards(AuthGuard)
     @Query(() => ModuloAdministracionType, { nullable: false })
     public async adminModulo(

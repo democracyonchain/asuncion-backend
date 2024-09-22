@@ -1,5 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservices';
+
+/**
+ * Clase donde se crean los diferentes proxys de comunicación entre el apigateway y los microservicios
+ *
+ * @export
+ * @class ClientProxyService
+ * @typedef {ClientProxyService}
+ */
 @Injectable()
 export class ClientProxyService {
   clientProxyAdministracion(): ClientProxy {

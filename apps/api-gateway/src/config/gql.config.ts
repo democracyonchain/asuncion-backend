@@ -3,6 +3,11 @@ import 'dotenv/config';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { registerAs } from '@nestjs/config';
 
+/**
+ * Función que permite publicar los diferentes querys y mutation de graphql en archivo que se genera es schema.gql y se autogenera 
+ *
+ * @returns {ApolloDriverConfig}
+ */
 function apolloDriverConfig(): ApolloDriverConfig {
   
   return {

@@ -1,8 +1,15 @@
 
 import { CollectionTypeGql } from '@bsc/core';
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 
 
+/**
+ * DTO con las variables que se van a exponer al momento de consultar servicios de módulo
+ *
+ * @export
+ * @class ModuloAdministracionType
+ * @typedef {ModuloAdministracionType}
+ */
 @ObjectType('ModuloAdministracion')
 export class ModuloAdministracionType {
 
@@ -29,5 +36,13 @@ export class ModuloAdministracionType {
 }
 
 
+/**
+ * Extensión del DTO pricipal usado para devolver los datos de las colecciones
+ *
+ * @export
+ * @class ModuloCollectionType
+ * @typedef {ModuloCollectionType}
+ * @extends {CollectionTypeGql<ModuloAdministracionType>(ModuloAdministracionType)}
+ */
 @ObjectType()
 export default class ModuloCollectionType extends CollectionTypeGql<ModuloAdministracionType>(ModuloAdministracionType) { }

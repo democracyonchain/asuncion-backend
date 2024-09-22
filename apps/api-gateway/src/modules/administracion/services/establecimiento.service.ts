@@ -8,6 +8,13 @@ import { EstablecimientoCreateInput, EstablecimientoUpdateInput } from '../dto/i
 import { EstablecimientoFilterInput } from '../dto/filterType/establecimiento.filter';
 
 
+/**
+ * Clase donde se conectan los servicios del apogateway con los del microservicio a traves de pattern y proxy
+ *
+ * @export
+ * @class EstablecimientoService
+ * @typedef {EstablecimientoService}
+ */
 @Injectable()
 export class EstablecimientoService {
   private clientProxyAdministracion: ClientProxy;
@@ -15,6 +22,14 @@ export class EstablecimientoService {
     this.clientProxyAdministracion = this.clientProxyService.clientProxyAdministracion();
   }
 
+  /**
+   * Función para creación de establecimiento
+   *
+   * @async
+   * @param {EstablecimientoCreateInput} data
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @returns {unknown}
+   */
   async establecimientoCreate(data: EstablecimientoCreateInput,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.ESTABLECIMIENTO_CREATE;
     const payload: PayloadData<any> = { data: data, dataUser:usuarioAuth };
@@ -23,6 +38,14 @@ export class EstablecimientoService {
     );
   }
 
+  /**
+   * Función para actualización de establecimiento
+   *
+   * @async
+   * @param {EstablecimientoUpdateInput} data
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @returns {unknown}
+   */
   async establecimientoUpdate(data: EstablecimientoUpdateInput,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.ESTABLECIMIENTO_UPDATE;
     const payload: PayloadData<any> = { data: data, dataUser:usuarioAuth };
@@ -31,6 +54,14 @@ export class EstablecimientoService {
     );
   }
 
+  /**
+   * Función para eliminar establecimiento
+   *
+   * @async
+   * @param {number} id
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @returns {unknown}
+   */
   async establecimientoDelete(id: number,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.ESTABLECIMIENTO_DELETE;
     const payload: PayloadData<any> = { data: { 'id': id }, dataUser: usuarioAuth };
@@ -39,6 +70,17 @@ export class EstablecimientoService {
     );
   }
 
+  /**
+   * Función para colección de los establecimientos
+   *
+   * @async
+   * @param {ConnectionInput} pagination
+   * @param {?EstablecimientoFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @param {?*} [fields]
+   * @param {?RespuestaJWTToken} [usuarioAuth]
+   * @returns {unknown}
+   */
   async establecimientoCollection(pagination: ConnectionInput, where?: EstablecimientoFilterInput, order?: StringOrderInput, fields?: any, usuarioAuth?: RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.ESTABLECIMIENTO_COLLECTION;
     const payload: FilterDto<EstablecimientoFilterInput> = { pagination, where, order, fields, usuarioAuth };
@@ -47,6 +89,15 @@ export class EstablecimientoService {
     );
   }
 
+  /**
+   * Función para traer datos del establecimiento por id 
+   *
+   * @async
+   * @param {number} id
+   * @param {*} fields
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @returns {unknown}
+   */
   async establecimiento(id: number, fields:any, usuarioAuth: RespuestaJWTToken) {
     const pattern = ConstantesGw.ADMINISTRACION.PATTERN.ESTABLECIMIENTO_BY_ID;
     const payload: FilterById = { id, fields, usuarioAuth };
