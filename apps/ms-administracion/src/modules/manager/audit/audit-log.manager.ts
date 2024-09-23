@@ -5,6 +5,14 @@ import { Repository } from 'typeorm';
 import { ManagerBase,diff } from '@bsc/core';
 import { AuditLogRepository } from '../../repositories/audit/audit-log.repository';
 
+/**
+ * Clase manager para gestión del entity de auditoria
+ *
+ * @export
+ * @class AuditLogManager
+ * @typedef {AuditLogManager}
+ * @extends {ManagerBase<AuditLog, AuditLogRepository>}
+ */
 @Injectable()
 export class AuditLogManager extends ManagerBase<AuditLog, AuditLogRepository> {
   constructor(
@@ -14,6 +22,19 @@ export class AuditLogManager extends ManagerBase<AuditLog, AuditLogRepository> {
     super();
   }
 
+  /**
+   * Función para insertar datos de auditoria en mongoDB
+   *
+   * @async
+   * @template T
+   * @param {string} action
+   * @param {string} entidad
+   * @param {number} userId
+   * @param {number} registroId
+   * @param {T} oldEntity
+   * @param {T} newEntity
+   * @returns {*}
+   */
   async logEvent<T>(action: string, entidad: string, userId: number,registroId:number, oldEntity: T, newEntity: T) {
     const changes = diff(oldEntity, newEntity);
     const newAuditLog = new AuditLog();

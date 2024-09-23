@@ -1,5 +1,13 @@
 import { Constantes } from '@bsc/core';
 
+/**
+ * Clase con las constantes del micro servicio de administración
+ *
+ * @export
+ * @class ConstantesAdministracion
+ * @typedef {ConstantesAdministracion}
+ * @extends {Constantes}
+ */
 export class ConstantesAdministracion extends Constantes {
   
   public static readonly CT_ACTIVO = true;

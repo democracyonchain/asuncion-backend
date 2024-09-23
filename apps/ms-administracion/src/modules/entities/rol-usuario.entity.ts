@@ -1,10 +1,16 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ConstantesAdministracion } from '../../common/constantes-administracion';
-import { PermisosEntity } from './permisos.entity';
 import { UsuarioEntity } from './usuario.entity';
 import { RolEntity } from './rol.entity';
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla rolusuario con sus respectivas relaciones
+ *
+ * @export
+ * @class RolUsuarioEntity
+ * @typedef {RolUsuarioEntity}
+ */
 @Entity({ name: 'rolusuario', schema: ConstantesAdministracion.SCHEMA_BSC })
 export class RolUsuarioEntity {
   

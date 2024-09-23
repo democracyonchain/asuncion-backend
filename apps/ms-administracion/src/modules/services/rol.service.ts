@@ -15,6 +15,13 @@ import { DataSource } from 'typeorm';
 import * as moment from 'moment';
 import { ConstantesAdministracion } from '../../common/constantes-administracion';
 
+/**
+ * Clase con los diferentes servicios para consultar y persistir sobre el entity de rol
+ *
+ * @export
+ * @class RolService
+ * @typedef {RolService}
+ */
 @Injectable()
 export class RolService {
 

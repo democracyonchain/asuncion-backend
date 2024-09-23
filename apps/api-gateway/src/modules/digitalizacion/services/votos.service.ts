@@ -7,6 +7,13 @@ import { ClientProxyService } from '../../../config/client-proxy.service';
 import { VotoDigitacionsUpdateInput } from '../dto/inputType/votos.input';
 
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @class VotosService
+ * @typedef {VotosService}
+ */
 @Injectable()
 export class VotosService {
   private clientProxyDigitalizacion: ClientProxy;

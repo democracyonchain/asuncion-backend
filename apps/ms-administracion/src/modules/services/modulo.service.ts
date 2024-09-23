@@ -15,9 +15,15 @@ import { RpcException } from '@nestjs/microservices';
 import { ConstantesAdministracion } from '../../common/constantes-administracion';
 import * as moment from 'moment';
 
+/**
+ * Clase con los diferentes servicios para consultar y persistir sobre el entity de modulo
+ *
+ * @export
+ * @class ModuloService
+ * @typedef {ModuloService}
+ */
 @Injectable()
 export class ModuloService {
-
   private readonly isAudit = JSON.parse(process.env.AUDIT_ADMINISTRACION);
 
   constructor(

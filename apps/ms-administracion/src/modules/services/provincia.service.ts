@@ -5,6 +5,13 @@ import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
 import { ProvinciaManager } from '../manager/provincia.manager';
 import { Provincia } from '../dto/provincia.dto';
 
+/**
+ * Clase con los diferentes servicios para consultar y persistir sobre el entity de provincia
+ *
+ * @export
+ * @class ProvinciaService
+ * @typedef {ProvinciaService}
+ */
 @Injectable()
 export class ProvinciaService {
   

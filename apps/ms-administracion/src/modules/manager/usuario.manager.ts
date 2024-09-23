@@ -6,6 +6,14 @@ import { UsuarioEntity } from '../entities/usuario.entity';
 import { UsuarioRepository } from '../repositories/usuario.repository';
 
 
+/**
+ * Clase manager para gestión del entity de usuario
+ *
+ * @export
+ * @class UsuarioManager
+ * @typedef {UsuarioManager}
+ * @extends {ManagerBase<UsuarioEntity, UsuarioRepository>}
+ */
 @Injectable()
 export class UsuarioManager extends ManagerBase<UsuarioEntity, UsuarioRepository> {
   constructor(private usuarioRepository: UsuarioRepository) {
@@ -13,10 +21,22 @@ export class UsuarioManager extends ManagerBase<UsuarioEntity, UsuarioRepository
     this.repositoryEntity = usuarioRepository;
   }
 
+  /**
+   * Función base que retorna data basica del usuario
+   *
+   * @returns {SelectQueryBuilder<UsuarioEntity>}
+   */
   getCollectionQueryBuilder = (): SelectQueryBuilder<UsuarioEntity> => {
     return this.usuarioRepository.getBuildQueryBuilder('id');
   };
 
+  /**
+   * Función para colección de usuario
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {unknown}
+   */
   async getCollection(paginacion:any) {
     const aliasEntity = 'usuario';
     const fields = paginacion.fields.data;

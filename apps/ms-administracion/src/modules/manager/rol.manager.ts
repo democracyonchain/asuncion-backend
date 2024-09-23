@@ -5,6 +5,14 @@ import { RolEntity } from '../entities/rol.entity';
 import { RolRepository } from '../repositories/rol.repository';
 
 
+/**
+ * Clase manager para gestión del entity de rol
+ *
+ * @export
+ * @class RolManager
+ * @typedef {RolManager}
+ * @extends {ManagerBase<RolEntity, RolRepository>}
+ */
 @Injectable()
 export class RolManager extends ManagerBase<RolEntity, RolRepository> {
   constructor(private rolRepository: RolRepository) {
@@ -12,6 +20,13 @@ export class RolManager extends ManagerBase<RolEntity, RolRepository> {
     this.repositoryEntity = rolRepository;
   }
 
+  /**
+   * Función para colección de rol
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {unknown}
+   */
   async getCollection(paginacion:any) {
     const aliasEntity = 'rol';
     const fields = paginacion.fields.data;

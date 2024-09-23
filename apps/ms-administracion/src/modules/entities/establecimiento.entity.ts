@@ -2,6 +2,13 @@ import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGenerated
 import { ConstantesAdministracion } from "../../common/constantes-administracion";
 import { UsuarioEntity } from "./usuario.entity";
 
+/**
+ * Clase con el mapeo de los campos de la tabla establecimiento con sus respectivas relaciones
+ *
+ * @export
+ * @class EstablecimientoEntity
+ * @typedef {EstablecimientoEntity}
+ */
 @Entity({ name: 'establecimiento', schema: ConstantesAdministracion.SCHEMA_BSC })
 export class EstablecimientoEntity {
 

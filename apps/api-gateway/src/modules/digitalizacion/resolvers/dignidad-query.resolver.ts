@@ -15,14 +15,32 @@ import { DignidadDigitalizacionFilterInput } from '../dto/filterType/dignidad.fi
 import { DignidadService } from '../services/dignidad.service';
   
   
+/**
+ * Clase para publicación de todos los servicios de dignidad
+ *
+ * @export
+ * @class DignidadQueryResolver
+ * @typedef {DignidadQueryResolver}
+ */
 @UseFilters(AllHttpExceptionGwFilter)
 @UseInterceptors(LogGwInterceptor)
 @Resolver()
-
 export class DignidadQueryResolver {
   
   constructor(private readonly dignidadService: DignidadService) { }
 
+  /**
+   * Servicio para colección de dignidad con los respectivos filtros
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {ConnectionInput} pagination
+   * @param {?DignidadDigitalizacionFilterInput} [where]
+   * @param {?StringOrderInput} [order]
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Query(() => DignidadDigitalizacionCollectionType, { nullable: true })
   public async digtDignidadCollection(

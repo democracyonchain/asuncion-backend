@@ -12,15 +12,29 @@ import { VotosService } from '../services/votos.service';
 import { VotoDigitacionsUpdateInput } from '../dto/inputType/votos.input';
   
   
+/**
+ * lase para publicación de todos los servicios de votos
+ *
+ * @export
+ * @class VotosQueryResolver
+ * @typedef {VotosQueryResolver}
+ */
 @UseFilters(AllHttpExceptionGwFilter)
 @UseInterceptors(LogGwInterceptor)
 @Resolver()
-
 export class VotosQueryResolver {
   
   constructor(private readonly votosService: VotosService) { }
   
 
+  /**
+   * Servicio para actualización de votos
+   *
+   * @async
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {VotoDigitacionsUpdateInput} dataInput
+   * @returns {unknown}
+   */
   @UseGuards(AuthGuard)
   @Mutation(() => GlobalResultType, { nullable: false })
   async digtVotosUpdate(

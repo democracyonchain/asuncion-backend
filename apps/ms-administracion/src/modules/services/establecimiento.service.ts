@@ -7,9 +7,15 @@ import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
 import { AuditLogManager } from '../manager/audit/audit-log.manager';
 import { EstablecimientoManager } from '../manager/establecimiento.manager';
 
+/**
+ * Clase con los diferentes servicios para consultar y persistir sobre el entity de establecimiento
+ *
+ * @export
+ * @class EstablecimientoService
+ * @typedef {EstablecimientoService}
+ */
 @Injectable()
 export class EstablecimientoService {
-
   private readonly isAudit = JSON.parse(process.env.AUDIT_ADMINISTRACION);
 
   constructor(

@@ -5,6 +5,14 @@ import { ConfiguracionEntity } from '../entities/configuracion.entity';
 import { ConfiguracionRepository } from '../repositories/configuracion.repository';
 
 
+/**
+ * Clase manager para gestión del entity de configuración
+ *
+ * @export
+ * @class ConfiguracionManager
+ * @typedef {ConfiguracionManager}
+ * @extends {ManagerBase<ConfiguracionEntity, ConfiguracionRepository>}
+ */
 @Injectable()
 export class ConfiguracionManager extends ManagerBase<ConfiguracionEntity, ConfiguracionRepository> {
   constructor(private configuracionRepository: ConfiguracionRepository) {
@@ -12,6 +20,13 @@ export class ConfiguracionManager extends ManagerBase<ConfiguracionEntity, Confi
     this.repositoryEntity = configuracionRepository;
   }
 
+  /**
+   * Función para colección de configuración
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {unknown}
+   */
   async getCollection(paginacion:any) {
     const aliasEntity = 'configuracion';
     const fields = paginacion.fields.data;

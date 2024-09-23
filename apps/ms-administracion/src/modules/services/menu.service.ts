@@ -15,9 +15,15 @@ import { DataSource } from 'typeorm';
 import * as moment from 'moment';
 import { ConstantesAdministracion } from '../../common/constantes-administracion';
 
+/**
+ * Clase con los diferentes servicios para consultar y persistir sobre el entity de menu
+ *
+ * @export
+ * @class MenuService
+ * @typedef {MenuService}
+ */
 @Injectable()
 export class MenuService {
-  
   private readonly isAudit = JSON.parse(process.env.AUDIT_ADMINISTRACION);
   
   constructor(

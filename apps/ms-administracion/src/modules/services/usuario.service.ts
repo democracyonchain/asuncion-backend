@@ -18,6 +18,13 @@ import * as moment from 'moment';
 import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
 import { AuditLogManager } from '../manager/audit/audit-log.manager';
 
+/**
+ * Clase con los diferentes servicios para consultar y persistir sobre el entity de usuario
+ *
+ * @export
+ * @class UsuarioService
+ * @typedef {UsuarioService}
+ */
 @Injectable()
 export class UsuarioService {
   private readonly isAudit = JSON.parse(process.env.AUDIT_ADMINISTRACION)

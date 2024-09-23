@@ -5,6 +5,14 @@ import { MenuRepository } from '../repositories/menu.repository';
 import { MenuEntity } from '../entities/menu.entity';
 
 
+/**
+ * Clase manager para gestión del entity de menu
+ *
+ * @export
+ * @class MenuManager
+ * @typedef {MenuManager}
+ * @extends {ManagerBase<MenuEntity, MenuRepository>}
+ */
 @Injectable()
 export class MenuManager extends ManagerBase<MenuEntity, MenuRepository> {
   constructor(private menuRepository: MenuRepository) {
@@ -12,6 +20,13 @@ export class MenuManager extends ManagerBase<MenuEntity, MenuRepository> {
     this.repositoryEntity = menuRepository;
   }
 
+  /**
+   * Función para colección de menu
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {unknown}
+   */
   async getCollection(paginacion:any) {
     const aliasEntity = 'menu';
     const fields = paginacion.fields.data;

@@ -1,9 +1,16 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ConstantesAdministracion } from '../../common/constantes-administracion';
 import { RolEntity } from './rol.entity';
 import { MenuEntity } from './menu.entity';
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla permisos con sus respectivas relaciones
+ *
+ * @export
+ * @class PermisosEntity
+ * @typedef {PermisosEntity}
+ */
 @Entity({ name: 'permisos', schema: ConstantesAdministracion.SCHEMA_BSC })
 export class PermisosEntity {
   
