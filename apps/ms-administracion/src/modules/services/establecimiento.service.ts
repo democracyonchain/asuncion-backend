@@ -24,6 +24,13 @@ export class EstablecimientoService {
       private readonly auditLogManager: AuditLogManager,
   ) { }
 
+  /**
+   * Función para creación de un establecimiento
+   *
+   * @async
+   * @param {PayloadData<EstablecimientoDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async create(params:  PayloadData<EstablecimientoDTO>): Promise<GlobalResult> {
     let status: boolean = false;
     let message: string = `Error al momento de crear el establecimiento`;
@@ -39,6 +46,13 @@ export class EstablecimientoService {
     return { status, message };
   }
 
+  /**
+   * Función para actualizar un establecimiento
+   *
+   * @async
+   * @param {PayloadData<EstablecimientoDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async update(params:  PayloadData<EstablecimientoDTO>): Promise<GlobalResult> {
     let status: boolean = false;
     let message: string = `Error al momento de actualizar el establecimiento`;
@@ -62,6 +76,13 @@ export class EstablecimientoService {
     return { status, message };
   }
 
+  /**
+   * Función para eliminar un establecimiento
+   *
+   * @async
+   * @param {PayloadData<EstablecimientoDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async delete(params:  PayloadData<EstablecimientoDTO>): Promise<GlobalResult> {
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(EstablecimientoEntity, params.data) 
@@ -91,12 +112,26 @@ export class EstablecimientoService {
     return { status, message };
   }
 
+  /**
+   * Función para obtener la colección de establecimientos
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {Promise<CollectionType<Establecimiento>>}
+   */
   async getCollection(paginacion: any): Promise<CollectionType<Establecimiento>> {
     await this.listaNegraTokenManager.validarToken(paginacion.usuarioAuth.token);
     const data = await this.establecimientoManager.getCollection(paginacion);
     return plainToInstance(CollectionType<Establecimiento>, data);
   }
 
+  /**
+   * Función para obtener un establecimiento por el id
+   *
+   * @async
+   * @param {FilterById} filter
+   * @returns {Promise<Establecimiento>}
+   */
   async findById(filter: FilterById): Promise<Establecimiento> {
     await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
     const fields = changeFalseToTrue(filter.fields)

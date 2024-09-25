@@ -21,12 +21,26 @@ export class ProvinciaService {
       private readonly listaNegraTokenManager: ListaNegraTokenManager
   ) {}
 
+  /**
+   * Función para obtener colección de provincia
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {Promise<CollectionType<Provincia>>}
+   */
   async getCollection(paginacion: any): Promise<CollectionType<Provincia>> {
     await this.listaNegraTokenManager.validarToken(paginacion.usuarioAuth.token);
     const data = await this.provinciaManager.getCollection(paginacion);
     return plainToInstance(CollectionType<Provincia>, data);
   }
 
+  /**
+   * Función para obtener datos de provincia por id
+   *
+   * @async
+   * @param {FilterById} filter
+   * @returns {Promise<Provincia>}
+   */
   async findById(filter: FilterById): Promise<Provincia> {
     await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
     const fields = changeFalseToTrue(filter.fields)

@@ -1,5 +1,13 @@
 import { Constantes } from '@bsc/core';
 
+/**
+ * Clase con las constantes del micro servicio de autorización
+ *
+ * @export
+ * @class ConstantesAutorizacion
+ * @typedef {ConstantesAutorizacion}
+ * @extends {Constantes}
+ */
 export class ConstantesAutorizacion extends Constantes {
 
   public static readonly CT_ACTIVO = true;

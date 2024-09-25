@@ -33,6 +33,13 @@ export class ModuloService {
       private readonly datasource: DataSource,
   ) { }
 
+  /**
+   * Función para crear modulos
+   *
+   * @async
+   * @param {PayloadData<ModuloDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async create(params:  PayloadData<ModuloDTO>): Promise<GlobalResult> {
     let status: boolean = false;
     let message: string = `Error al momento de crear el modulo`;
@@ -48,6 +55,13 @@ export class ModuloService {
     return { status, message };
   }
 
+  /**
+   * Función para actualizar modulos
+   *
+   * @async
+   * @param {PayloadData<ModuloDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async update(params:  PayloadData<ModuloDTO>): Promise<GlobalResult> {
     let status: boolean = false;
     let message: string = `Error al momento de actualizar el modulo`;
@@ -94,6 +108,13 @@ export class ModuloService {
     return { status, message };
   }
 
+  /**
+   * Función para eliminar modulos
+   *
+   * @async
+   * @param {PayloadData<ModuloDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async delete(params:  PayloadData<ModuloDTO>): Promise<GlobalResult> {
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(ModuloEntity, params.data) 
@@ -141,12 +162,26 @@ export class ModuloService {
     return { status, message };
   }
 
+  /**
+   * Función para obtener la colección de modulos
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {Promise<CollectionType<Modulo>>}
+   */
   async getCollection(paginacion: any): Promise<CollectionType<Modulo>> {
     await this.listaNegraTokenManager.validarToken(paginacion.usuarioAuth.token);
     const data = await this.moduloManager.getCollection(paginacion);
     return plainToInstance(CollectionType<Modulo>, data);
   }
 
+  /**
+   * Función para obtener datos del modulo por id
+   *
+   * @async
+   * @param {FilterById} filter
+   * @returns {Promise<Modulo>}
+   */
   async findById(filter: FilterById): Promise<Modulo> {
     await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
     const fields = changeFalseToTrue(filter.fields)

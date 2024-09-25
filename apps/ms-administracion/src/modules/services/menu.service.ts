@@ -33,6 +33,13 @@ export class MenuService {
       private readonly datasource: DataSource,
   ) {}
 
+  /**
+   * Función para crear un menu
+   *
+   * @async
+   * @param {PayloadData<MenuDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async create(params:  PayloadData<MenuDTO>): Promise<GlobalResult> {
     let status: boolean = false;
     let message: string = `Error al momento de crear el menú`;
@@ -48,6 +55,13 @@ export class MenuService {
     return { status, message };
   }
 
+  /**
+   * Función para actualizar un menú
+   *
+   * @async
+   * @param {PayloadData<MenuDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async update(params:  PayloadData<MenuDTO>): Promise<GlobalResult> {
     let status: boolean = false;
     let message: string = `Error al momento de actualizar el menú`;
@@ -91,6 +105,13 @@ export class MenuService {
     return { status, message };
   }
 
+  /**
+   * Función para eliminar un menú
+   *
+   * @async
+   * @param {PayloadData<MenuDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async delete(params:  PayloadData<MenuDTO>): Promise<GlobalResult> {
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(MenuEntity, params.data) 
@@ -128,12 +149,26 @@ export class MenuService {
     return { status, message };
   }
 
+  /**
+   * Función para obtener la colección de menu
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {Promise<CollectionType<Menu>>}
+   */
   async getCollection(paginacion: any): Promise<CollectionType<Menu>> {
     await this.listaNegraTokenManager.validarToken(paginacion.usuarioAuth.token);
     const data = await this.menuManager.getCollection(paginacion);
     return plainToInstance(CollectionType<Menu>, data);
   }
 
+  /**
+   * Función para traer datos de menú por id
+   *
+   * @async
+   * @param {FilterById} filter
+   * @returns {Promise<Menu>}
+   */
   async findById(filter: FilterById): Promise<Menu> {
     await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
     const fields = changeFalseToTrue(filter.fields)

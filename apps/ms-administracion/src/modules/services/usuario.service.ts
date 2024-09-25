@@ -37,12 +37,26 @@ export class UsuarioService {
   ) { }
 
 
+  /**
+   * Función para obtener la colección de usuarios
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {Promise<CollectionType<Usuario>>}
+   */
   async getCollection(paginacion: any): Promise<CollectionType<Usuario>> {
     await this.listaNegraTokenManager.validarToken(paginacion.usuarioAuth.token);
     const data = await this.usuarioManager.getCollection(paginacion);
     return plainToInstance(CollectionType<Usuario>, data);
   }
 
+  /**
+   * Función para obtener datos del usuario por id
+   *
+   * @async
+   * @param {FilterById} filter
+   * @returns {Promise<Usuario>}
+   */
   async findById(filter: FilterById): Promise<Usuario> {
     await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
     const fields = changeFalseToTrue(filter.fields)
@@ -60,6 +74,13 @@ export class UsuarioService {
     return plainToInstance(Usuario, data[0]);
   }
   
+  /**
+   * Función para crear usuarios
+   *
+   * @async
+   * @param {PayloadData<UsuarioDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async create(params:  PayloadData<UsuarioDTO>): Promise<GlobalResult> {
     let status: boolean = false;
     let message: string = `Error al momento de crear el usuario`;
@@ -121,6 +142,13 @@ export class UsuarioService {
     } 
   }
 
+  /**
+   * Función para actualizar usuarios
+   *
+   * @async
+   * @param {PayloadData<UsuarioDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async update(params:  PayloadData<UsuarioDTO>): Promise<GlobalResult> {
     let status: boolean = false;
     let message: string = `Error al momento de actualizar el usuario`;
@@ -224,6 +252,13 @@ export class UsuarioService {
     }
   }
 
+  /**
+   * Función para eliminar usuarios
+   *
+   * @async
+   * @param {PayloadData<UsuarioDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async delete(params:  PayloadData<UsuarioDTO>): Promise<GlobalResult> {
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(UsuarioEntity, params.data) 
@@ -271,8 +306,10 @@ export class UsuarioService {
     catch (error) {
       Logger.error(error);
       await queryRunner.rollbackTransaction(); 
-      status = false;
-      message = error.message;
+      throw new RpcException({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: error.message, 
+      });
     }
     finally {
       await queryRunner.release();

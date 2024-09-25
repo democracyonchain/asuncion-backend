@@ -33,6 +33,13 @@ export class RolService {
       private readonly datasource: DataSource,
   ) { }
 
+  /**
+   * Función para crear roles
+   *
+   * @async
+   * @param {PayloadData<RolDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async create(params:  PayloadData<RolDTO>): Promise<GlobalResult> {
     let status: boolean = false;
     let message: string = `Error al momento de crear el rol`;
@@ -53,6 +60,13 @@ export class RolService {
     return { status, message };
   }
 
+  /**
+   * Función para actualizar roles
+   *
+   * @async
+   * @param {PayloadData<RolDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async update(params:  PayloadData<RolDTO>): Promise<GlobalResult> {
     let status: boolean = false;
     let message: string = `Error al momento de actualizar el rol`;
@@ -111,6 +125,13 @@ export class RolService {
     return { status, message };
   }
 
+  /**
+   * Función para eliminar roles
+   *
+   * @async
+   * @param {PayloadData<RolDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async delete(params:  PayloadData<RolDTO>): Promise<GlobalResult> {
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     let  data = plainToInstance(RolEntity, params.data) 
@@ -161,12 +182,26 @@ export class RolService {
     return { status, message };
   }
 
+  /**
+   * Función para obtener la colección de roles
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {Promise<CollectionType<Rol>>}
+   */
   async getCollection(paginacion: any): Promise<CollectionType<Rol>> {
     await this.listaNegraTokenManager.validarToken(paginacion.usuarioAuth.token);
     const data = await this.rolManager.getCollection(paginacion);
     return plainToInstance(CollectionType<Rol>, data);
   }
 
+  /**
+   * Función para obtener datos de rol por id 
+   *
+   * @async
+   * @param {FilterById} filter
+   * @returns {Promise<Rol>}
+   */
   async findById(filter: FilterById): Promise<Rol> {
     await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
     const fields = changeFalseToTrue(filter.fields)
