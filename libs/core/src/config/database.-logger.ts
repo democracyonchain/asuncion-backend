@@ -1,6 +1,14 @@
 import { Logger as NestLogger } from '@nestjs/common';
 import { Logger as TypeOrmLogger } from 'typeorm';
 
+/**
+ * Clase para manejo de logs
+ *
+ * @export
+ * @class DatabaseLogger
+ * @typedef {DatabaseLogger}
+ * @implements {TypeOrmLogger}
+ */
 export class DatabaseLogger implements TypeOrmLogger {
   private readonly logger = new NestLogger('SQL');
 

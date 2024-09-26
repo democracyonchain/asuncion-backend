@@ -4,6 +4,16 @@ import { RpcException } from '@nestjs/microservices';
 import { Repository, FindOptionsWhere, DeleteResult, DataSource, EntityManager, QueryRunner, FindOneOptions, EntityTarget, getMetadataArgsStorage } from 'typeorm';
 
 
+/**
+ * Clase abstracta para manejo generico de managers
+ *
+ * @export
+ * @abstract
+ * @class ManagerBase
+ * @typedef {ManagerBase}
+ * @template ENTITY
+ * @template {RepositoryOrmBase<ENTITY>} REPOSITORY
+ */
 export abstract class ManagerBase<ENTITY, REPOSITORY extends RepositoryOrmBase<ENTITY>> {
   protected repositoryEntity: REPOSITORY;
   private queryRunner: QueryRunner;

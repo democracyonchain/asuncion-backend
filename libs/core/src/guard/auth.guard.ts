@@ -8,6 +8,14 @@ import { GqlExecutionContext } from "@nestjs/graphql";
   import { JwtService } from "@nestjs/jwt";
   import { Request } from "express";
   
+  /**
+   * Clase que permite el proceso autorización y autenticación para los resolvers
+   *
+   * @export
+   * @class AuthGuard
+   * @typedef {AuthGuard}
+   * @implements {CanActivate}
+   */
   @Injectable()
   export class AuthGuard implements CanActivate {
     constructor(private readonly jwtService: JwtService) {}

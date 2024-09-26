@@ -1,6 +1,16 @@
 import { Mapper, MapperConfiguration, MappingPair } from '@dynamic-mapper/mapper';
 import { configMapping } from '../interfaces';
 
+/**
+ * Clase abstracta para manejo generico de mappers
+ *
+ * @export
+ * @abstract
+ * @class MapperBase
+ * @typedef {MapperBase}
+ * @template ENTITY
+ * @template DTO
+ */
 export abstract class MapperBase<ENTITY, DTO> {
   private mapperEntityToDto: Mapper;
   private mapperDtoToEntity: Mapper;
