@@ -4,6 +4,13 @@ import { ParroquiaEntity } from './parroquia.entity';
 
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla zona con sus respectivas relaciones
+ *
+ * @export
+ * @class ZonaEntity
+ * @typedef {ZonaEntity}
+ */
 @Entity({ name: 'zona', schema: ConstantesDigitalizacion.SCHEMA_BSC })
 export class ZonaEntity {
   

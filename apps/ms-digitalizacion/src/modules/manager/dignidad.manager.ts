@@ -5,6 +5,14 @@ import { DignidadEntity } from '../entities/dignidad.entity';
 import { RpcException } from '@nestjs/microservices';
 
 
+/**
+ * Clase manager para gestión del entity de dignidad
+ *
+ * @export
+ * @class DignidadManager
+ * @typedef {DignidadManager}
+ * @extends {ManagerBase<DignidadEntity, DignidadRepository>}
+ */
 @Injectable()
 export class DignidadManager extends ManagerBase<DignidadEntity, DignidadRepository> {
   constructor(private dignidadRepository: DignidadRepository) {
@@ -12,6 +20,13 @@ export class DignidadManager extends ManagerBase<DignidadEntity, DignidadReposit
     this.repositoryEntity = dignidadRepository;
   }
 
+  /**
+   * Función para colección de dignidad
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {unknown}
+   */
   async getCollection(paginacion:any) {
     const aliasEntity = 'dignidad';
     const fields = paginacion.fields.data;

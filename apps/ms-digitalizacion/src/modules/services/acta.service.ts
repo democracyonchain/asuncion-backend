@@ -10,6 +10,13 @@ import { ImagenActaManager } from '../manager/imagen-acta.manager';
 import { ImagenSegmentoManager } from '../manager/imagen-segmento.manager';
 import { VotosManager } from '../manager/votos.manager';
 
+/**
+ * Clase con los diferentes servicios para consultar y persistir sobre el entity de acta
+ *
+ * @export
+ * @class ActaService
+ * @typedef {ActaService}
+ */
 @Injectable()
 export class ActaService {
   
@@ -24,6 +31,13 @@ export class ActaService {
   ) {}
 
 
+  /**
+   * Función que trar información del acta en función de la junta y dignidad
+   *
+   * @async
+   * @param {*} filter
+   * @returns {Promise<Acta>}
+   */
   async actaByJunta(filter: any): Promise<Acta> {
     await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
     const fields = changeFalseToTrue(filter.fields)
@@ -53,6 +67,13 @@ export class ActaService {
     }    
   }
 
+  /**
+   * Función que trae un acta aleatoria para el proceso de digitalización
+   *
+   * @async
+   * @param {*} filter
+   * @returns {Promise<Acta>}
+   */
   async actaByDignidad(filter: any): Promise<Acta> {
     await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
     const usuarioId = filter.usuarioAuth.user.id
@@ -62,6 +83,13 @@ export class ActaService {
     return plainToInstance(Acta, data);
   }
 
+  /**
+   * Función que actualiza los datos de acta, imagensegmento, imagenacta y votos durante el proceso de escaneo
+   *
+   * @async
+   * @param {PayloadData<ActaDTO>} params
+   * @returns {Promise<GlobalResult>}
+   */
   async update(params:  PayloadData<ActaDTO>): Promise<GlobalResult> {
     let status: boolean = false;
     let message: string = `Error al momento de actualizar el acta`;
@@ -108,12 +136,26 @@ export class ActaService {
     return { status, message };
   }
 
+  /**
+   * Función para obtener colección de acta
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {Promise<CollectionType<ActaBasic>>}
+   */
   async getCollection(paginacion: any): Promise<CollectionType<ActaBasic>> {
     await this.listaNegraTokenManager.validarToken(paginacion.usuarioAuth.token);
     const data = await this.actaManager.getCollection(paginacion);
     return plainToInstance(CollectionType<ActaBasic>, data);
   }
 
+  /**
+   * Función para desbloquear el acta
+   *
+   * @async
+   * @param {*} params
+   * @returns {Promise<GlobalResult>}
+   */
   async updateLibera(params:  any): Promise<GlobalResult> {
     console.log(params.junta_id)
     let status: boolean = false;

@@ -6,6 +6,13 @@ import { Dignidad } from '../dto/dignidad.dto';
 
 import { DignidadManager } from '../manager/dignidad.manager';
 
+/**
+ * Clase con los diferentes servicios para consultar y persistir sobre el entity de dignidad
+ *
+ * @export
+ * @class DignidadService
+ * @typedef {DignidadService}
+ */
 @Injectable()
 export class DignidadService {
   
@@ -15,6 +22,13 @@ export class DignidadService {
       private readonly listaNegraTokenManager: ListaNegraTokenManager,
   ) {}
 
+  /**
+   * Función para obtener la colección de dignidad
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {Promise<CollectionType<Dignidad>>}
+   */
   async getCollectionDignidad(paginacion: any): Promise<CollectionType<Dignidad>> {
     await this.listaNegraTokenManager.validarToken(paginacion.usuarioAuth.token);
     const data = await this.dignidadManager.getCollection(paginacion);

@@ -7,6 +7,13 @@ import { ActaEntity } from './acta.entity';
 
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla junta con sus respectivas relaciones
+ *
+ * @export
+ * @class JuntaEntity
+ * @typedef {JuntaEntity}
+ */
 @Entity({ name: 'junta', schema: ConstantesDigitalizacion.SCHEMA_BSC })
 export class JuntaEntity {
   

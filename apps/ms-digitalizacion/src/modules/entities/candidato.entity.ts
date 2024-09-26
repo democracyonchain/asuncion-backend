@@ -6,6 +6,13 @@ import { DignidadEntity } from './dignidad.entity';
 
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla candidato con sus respectivas relaciones
+ *
+ * @export
+ * @class CandidatoEntity
+ * @typedef {CandidatoEntity}
+ */
 @Entity({ name: 'candidato', schema: ConstantesDigitalizacion.SCHEMA_BSC })
 export class CandidatoEntity {
   

@@ -8,6 +8,14 @@ import { DignidadEntity } from '../entities/dignidad.entity';
 import { JuntaEntity } from '../entities/junta.entity';
 import { ImagenSegmentoRepository } from '../repositories/imagen-segmento.repository';
 
+/**
+ * Clase manager para gestión del entity de acta
+ *
+ * @export
+ * @class ActaManager
+ * @typedef {ActaManager}
+ * @extends {ManagerBase<ActaEntity, ActaRepository>}
+ */
 @Injectable()
 export class ActaManager extends ManagerBase<ActaEntity, ActaRepository> {
   constructor(
@@ -19,6 +27,15 @@ export class ActaManager extends ManagerBase<ActaEntity, ActaRepository> {
     this.repositoryEntity = actaRepository;
   }
 
+  /**
+   * Función para obtener un acta aleatoria
+   *
+   * @async
+   * @param {number} usuarioId
+   * @param {number} provinciaId
+   * @param {number} dignidadId
+   * @returns {unknown}
+   */
   async actaAleatoria(usuarioId: number, provinciaId: number, dignidadId:number) {
     const data:any = await this.actaRepository.actaAleatoria(usuarioId, provinciaId, dignidadId).catch(
       (error) => {
@@ -95,6 +112,14 @@ export class ActaManager extends ManagerBase<ActaEntity, ActaRepository> {
     }  
   }
 
+  /**
+   * Función para actualizar los datos del acta cuando se escanea
+   *
+   * @async
+   * @param {*} data
+   * @param {*} queryRunner
+   * @returns {*}
+   */
   async updateActaEscaneo(data:any,queryRunner:any) {
     await this.actaRepository.updateActaEscaneo(data, queryRunner).catch(
       (error) => {
@@ -106,6 +131,13 @@ export class ActaManager extends ManagerBase<ActaEntity, ActaRepository> {
     );
   }
 
+  /**
+   * Función para colección de acta
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {unknown}
+   */
   async getCollection(paginacion:any) {
     const aliasEntity = 'acta';
     const fields = paginacion.fields.data;
@@ -122,6 +154,14 @@ export class ActaManager extends ManagerBase<ActaEntity, ActaRepository> {
     return data;
   }
 
+  /**
+   * Función para desbloquear el acta
+   *
+   * @async
+   * @param {number} id_acta
+   * @param {*} queryRunner
+   * @returns {*}
+   */
   async updateLiberaActa(id_acta:number,queryRunner:any) {
     await this.actaRepository.updateLiberaActa(id_acta, queryRunner).catch(
       (error) => {

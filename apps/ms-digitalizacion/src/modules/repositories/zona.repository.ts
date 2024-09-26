@@ -5,10 +5,24 @@ import { SelectQueryBuilder } from 'typeorm';
 
 type EntityFields = keyof ZonaEntity;
 
+/**
+ * Clase donde se realizan consultas mediante builder o nativas para la entity de zona
+ *
+ * @export
+ * @class ZonaRepository
+ * @typedef {ZonaRepository}
+ * @extends {RepositoryOrmBase<ZonaEntity>}
+ */
 @Injectable()
 export class ZonaRepository extends RepositoryOrmBase<ZonaEntity> {
   protected entity: Constructable<ZonaEntity> = ZonaEntity;
 
+  /**
+   * Consulta base de queryBuilder
+   *
+   * @param {...EntityFields[]} select
+   * @returns {SelectQueryBuilder<ZonaEntity>}
+   */
   getBuildQueryBuilder = (...select: EntityFields[]): SelectQueryBuilder<ZonaEntity> => {
     const alias = 'zona';
     const qb = this.getRepository().createQueryBuilder(alias);
@@ -18,6 +32,13 @@ export class ZonaRepository extends RepositoryOrmBase<ZonaEntity> {
     return qb;
   };
 
+  /**
+   * Función que obtiene los datos para la colección de zona
+   *
+   * @async
+   * @param {*} dataReset
+   * @returns {unknown}
+   */
   async getCollection(dataReset: any) {
     return this.getBuildQueryBuilder()
       .select(dataReset)

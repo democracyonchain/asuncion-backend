@@ -4,6 +4,13 @@ import { Canton } from './canton.dto';
 import { Parroquia } from './parroquia.dto';
 import { Zona } from './zona.dto';
 
+/**
+ * DTO para filtrar la coleccioń de junta
+ *
+ * @export
+ * @class JuntaFilterInput
+ * @typedef {JuntaFilterInput}
+ */
 export class JuntaFilterInput {
   readonly provincia_id?: numberWhereInput;
   readonly canton_id?: numberWhereInput;
@@ -13,6 +20,13 @@ export class JuntaFilterInput {
 }
 
 
+/**
+ * DTO para devolver información de la junta
+ *
+ * @export
+ * @class Junta
+ * @typedef {Junta}
+ */
 export class Junta{
 
     id: number;

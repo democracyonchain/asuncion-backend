@@ -9,6 +9,13 @@ import { EncryptionService } from './encriptado.service';
 import { ActaManager } from '../manager/acta.manager';
 import { EncryptionCtsService } from './encriptado-cts.service';
 
+/**
+ * Clase con los diferentes servicios para consultar y persistir sobre el entity de votos
+ *
+ * @export
+ * @class VotosService
+ * @typedef {VotosService}
+ */
 @Injectable()
 export class VotosService {
 
@@ -21,6 +28,13 @@ export class VotosService {
         
     ) {}
  
+    /**
+     * Función para actualizar los votos en el proceso de digitalización
+     *
+     * @async
+     * @param {PayloadData<VotosDigitalizacionDTO>} params
+     * @returns {Promise<GlobalResult>}
+     */
     async updateVotosDigitalizacion(params:  PayloadData<VotosDigitalizacionDTO>): Promise<GlobalResult> {
         let status: boolean = false;
         let message: string = `Error al momento de actualizar los votos`;

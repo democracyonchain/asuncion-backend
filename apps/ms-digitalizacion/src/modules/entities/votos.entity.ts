@@ -5,6 +5,13 @@ import { ActaEntity } from './acta.entity';
 
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla votos con sus respectivas relaciones
+ *
+ * @export
+ * @class VotosEntity
+ * @typedef {VotosEntity}
+ */
 @Entity({ name: 'votos', schema: ConstantesDigitalizacion.SCHEMA_BSC })
 export class VotosEntity {
     @PrimaryGeneratedColumn({ name: 'acta_id' })

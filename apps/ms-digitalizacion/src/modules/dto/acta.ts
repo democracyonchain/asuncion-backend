@@ -5,6 +5,13 @@ import { ImagenSegmentoDTO } from "./imagen-segmento";
 import { Junta } from "./junta.dto";
 import { Votos, VotosDTO } from "./votos.dto";
 
+/**
+ * DTO para devolver información del acta
+ *
+ * @export
+ * @class Acta
+ * @typedef {Acta}
+ */
 export class Acta {
     id: number;
     dignidad_id: number;
@@ -17,6 +24,13 @@ export class Acta {
     votos : [Votos]
 }
 
+/**
+ * DTO para ingreso de información del acta
+ *
+ * @export
+ * @class ActaDTO
+ * @typedef {ActaDTO}
+ */
 export class ActaDTO {
     id: number;
     votosicr: number;
@@ -28,6 +42,13 @@ export class ActaDTO {
     imagensegmento: [ImagenSegmentoDTO];
 }
 
+/**
+ * DTO para filtrar la coleccioń de acta
+ *
+ * @export
+ * @class ActaDigitalizacionFilterInput
+ * @typedef {ActaDigitalizacionFilterInput}
+ */
 export class ActaDigitalizacionFilterInput {
   readonly bloqueo?: stateWhereInput;
   readonly usuarioescaneo?: relationsWhereInput;

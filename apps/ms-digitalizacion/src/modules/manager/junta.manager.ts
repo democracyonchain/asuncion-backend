@@ -5,6 +5,14 @@ import { JuntaEntity } from '../entities/junta.entity';
 import { RpcException } from '@nestjs/microservices';
 
 
+/**
+ * Clase manager para gestión del entity de junta
+ *
+ * @export
+ * @class JuntaManager
+ * @typedef {JuntaManager}
+ * @extends {ManagerBase<JuntaEntity, JuntaRepository>}
+ */
 @Injectable()
 export class JuntaManager extends ManagerBase<JuntaEntity, JuntaRepository> {
   constructor(private juntaRepository: JuntaRepository) {
@@ -12,6 +20,13 @@ export class JuntaManager extends ManagerBase<JuntaEntity, JuntaRepository> {
     this.repositoryEntity = juntaRepository;
   }
 
+  /**
+   * Función para colección de junta
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {unknown}
+   */
   async getCollection(paginacion:any) {
     const aliasEntity = 'junta';
     const fields = paginacion.fields.data;

@@ -5,6 +5,14 @@ import { ZonaEntity } from '../entities/zona.entity';
 import { RpcException } from '@nestjs/microservices';
 
 
+/**
+ * Clase manager para gestión del entity de zona
+ *
+ * @export
+ * @class ZonaManager
+ * @typedef {ZonaManager}
+ * @extends {ManagerBase<ZonaEntity, ZonaRepository>}
+ */
 @Injectable()
 export class ZonaManager extends ManagerBase<ZonaEntity, ZonaRepository> {
   constructor(private zonaRepository: ZonaRepository) {
@@ -12,6 +20,13 @@ export class ZonaManager extends ManagerBase<ZonaEntity, ZonaRepository> {
     this.repositoryEntity = zonaRepository;
   }
 
+  /**
+   * Función para colección de zona
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {unknown}
+   */
   async getCollection(paginacion:any) {
     const aliasEntity = 'zona';
     const fields = paginacion.fields.data;

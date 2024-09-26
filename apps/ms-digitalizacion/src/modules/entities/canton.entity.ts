@@ -5,7 +5,13 @@ import { ParroquiaEntity } from './parroquia.entity';
 import { JuntaEntity } from './junta.entity';
 
 
-
+/**
+ * Clase con el mapeo de los campos de la tabla canton con sus respectivas relaciones
+ *
+ * @export
+ * @class CantonEntity
+ * @typedef {CantonEntity}
+ */
 @Entity({ name: 'canton', schema: ConstantesDigitalizacion.SCHEMA_BSC })
 export class CantonEntity {
   

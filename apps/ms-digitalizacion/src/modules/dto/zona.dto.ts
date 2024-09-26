@@ -1,6 +1,13 @@
 import { numberWhereInput, stringWhereInput } from "@bsc/core";
 import { Parroquia } from "./parroquia.dto";
 
+/**
+ * DTO para filtrar la coleccioń de zona
+ *
+ * @export
+ * @class ZonaFilterInput
+ * @typedef {ZonaFilterInput}
+ */
 export class ZonaFilterInput {
     readonly nombre?: stringWhereInput;
     readonly parroquia_id?: numberWhereInput;
@@ -8,6 +15,13 @@ export class ZonaFilterInput {
 }
 
 
+/**
+ * DTO para devolver información de zona
+ *
+ * @export
+ * @class Zona
+ * @typedef {Zona}
+ */
 export class Zona{
     nombre: string;
     parroquia: Parroquia;

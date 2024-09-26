@@ -6,6 +6,13 @@ import { JuntaEntity } from './junta.entity';
 
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla parroquia con sus respectivas relaciones
+ *
+ * @export
+ * @class ParroquiaEntity
+ * @typedef {ParroquiaEntity}
+ */
 @Entity({ name: 'parroquia', schema: ConstantesDigitalizacion.SCHEMA_BSC })
 export class ParroquiaEntity {
   

@@ -4,6 +4,13 @@ import { CandidatoEntity } from './candidato.entity';
 
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla partido con sus respectivas relaciones
+ *
+ * @export
+ * @class PartidoEntity
+ * @typedef {PartidoEntity}
+ */
 @Entity({ name: 'partido', schema: ConstantesDigitalizacion.SCHEMA_BSC })
 export class PartidoEntity {
   

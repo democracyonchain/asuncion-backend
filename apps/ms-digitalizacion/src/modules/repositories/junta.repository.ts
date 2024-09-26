@@ -5,10 +5,24 @@ import { SelectQueryBuilder } from 'typeorm';
 
 type EntityFields = keyof JuntaEntity;
 
+/**
+ * Clase donde se realizan consultas mediante builder o nativas para la entity de junta
+ *
+ * @export
+ * @class JuntaRepository
+ * @typedef {JuntaRepository}
+ * @extends {RepositoryOrmBase<JuntaEntity>}
+ */
 @Injectable()
 export class JuntaRepository extends RepositoryOrmBase<JuntaEntity> {
   protected entity: Constructable<JuntaEntity> = JuntaEntity;
 
+  /**
+   * Consulta base de queryBuilder
+   *
+   * @param {...EntityFields[]} select
+   * @returns {SelectQueryBuilder<JuntaEntity>}
+   */
   getBuildQueryBuilder = (...select: EntityFields[]): SelectQueryBuilder<JuntaEntity> => {
     const alias = 'junta';
     const qb = this.getRepository().createQueryBuilder(alias);
@@ -18,6 +32,13 @@ export class JuntaRepository extends RepositoryOrmBase<JuntaEntity> {
     return qb;
   };
 
+  /**
+   * Función que permite obtener data para colección de junta
+   *
+   * @async
+   * @param {*} dataReset
+   * @returns {unknown}
+   */
   async getCollection(dataReset: any) {
     return this.getBuildQueryBuilder()
       .select(dataReset)

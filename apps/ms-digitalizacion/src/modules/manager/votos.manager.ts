@@ -5,6 +5,14 @@ import { VotosEntity } from '../entities/votos.entity';
 import { RpcException } from '@nestjs/microservices';
 
 
+/**
+ * Clase manager para gestión del entity de votos
+ *
+ * @export
+ * @class VotosManager
+ * @typedef {VotosManager}
+ * @extends {ManagerBase<VotosEntity, VotosRepository>}
+ */
 @Injectable()
 export class VotosManager extends ManagerBase<VotosEntity, VotosRepository> {
   constructor(private votosRepository: VotosRepository) {
@@ -12,6 +20,15 @@ export class VotosManager extends ManagerBase<VotosEntity, VotosRepository> {
     this.repositoryEntity = votosRepository;
   }
 
+  /**
+   * Función para actualizar los votos cuando se hace el escaneo
+   *
+   * @async
+   * @param {number} acta_id
+   * @param {*} data
+   * @param {*} queryRunner
+   * @returns {*}
+   */
   async updateVotosEscaneo(acta_id:number, data:any,queryRunner:any) {
     for await (const element of data){
         await this.votosRepository.updateVotosEscaneo(acta_id, element, queryRunner).catch(
@@ -24,6 +41,17 @@ export class VotosManager extends ManagerBase<VotosEntity, VotosRepository> {
         );
     }
   }
+
+
+  /**
+   * Función que actualiza los votos cuando se hace la digitalización
+   *
+   * @async
+   * @param {*} params
+   * @param {*} queryRunner
+   * @param {*} encryptionService
+   * @returns {*}
+   */
   async updateVotosDigitalizacion(params:any,queryRunner:any,encryptionService:any) {
     const data = params.data;
     const user = params.dataUser.user;
