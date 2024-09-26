@@ -12,12 +12,19 @@ import { Login } from '../dto/login.dto';
 import { JwtService } from "@nestjs/jwt";
 import { UsuarioEntity } from '../entities/usuario.entity';
 import { ModuloManager } from '../manager/modulo.manager';
-import { Modulo } from '../dto/modulo.object';
+import { Modulo } from '../dto/modulo.dto';
 import { ListaNegraTokenEntity } from '../entities/lista-negra-token.entity';
 import { ListaNegraTokenManager } from '../manager/lista-negra-token.manager';
 import { AuditLogManager } from '../manager/audit/audit-log.manager';
 import { ConstantesAutorizacion } from '../../common/constantes-autorizacion';
 
+/**
+ * Clase con los diferentes servicios para la autorización
+ *
+ * @export
+ * @class AutorizacionService
+ * @typedef {AutorizacionService}
+ */
 @Injectable()
 export class AutorizacionService {
 
@@ -30,6 +37,13 @@ export class AutorizacionService {
       private readonly auditLogManager: AuditLogManager,
   ) { }
 
+  /**
+   * Función para logearse en el sistema
+   *
+   * @async
+   * @param {Userdata<Login>} params
+   * @returns {Promise<LoginResult>}
+   */
   async login(params: Userdata<Login>): Promise<LoginResult> {
     let username: string ="";
     let token: string = "";
@@ -83,6 +97,13 @@ export class AutorizacionService {
     return{username,token,provincia,establecimiento,provincia_id}
   }
 
+  /**
+   * Función para traer los roles en función del token
+   *
+   * @async
+   * @param {*} params
+   * @returns {Promise<any>}
+   */
   async perfil(params:  any): Promise<any> {
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     const idUsuario = params.dataUser.user.id
@@ -105,6 +126,13 @@ export class AutorizacionService {
     return data[0]
   }
 
+  /**
+   * Función para cambio de contraseña
+   *
+   * @async
+   * @param {*} params
+   * @returns {Promise<GlobalResult>}
+   */
   async cambioPassword(params:  any): Promise<GlobalResult> {
     const idUsuario = (params.id)?params.id:params.dataUser.user.id
     const token = params.dataUser.token
@@ -148,6 +176,13 @@ export class AutorizacionService {
     return { status, message };
   }
   
+  /**
+   * Función para traer los permisos de acceso en función del rol_id
+   *
+   * @async
+   * @param {*} params
+   * @returns {Promise<Modulo[]>}
+   */
   async moduloPermiso(params:  any): Promise<Modulo[]> {
     await this.listaNegraTokenManager.validarToken(params.dataUser.token);
     const idRol = params.rol_id;
@@ -172,6 +207,13 @@ export class AutorizacionService {
     return plainToInstance(Modulo, data);
   }
 
+  /**
+   * Función que permite deslogearse del sistema y que agrega el token a la lista negra para que no se utilice nuevamente
+   *
+   * @async
+   * @param {*} params
+   * @returns {Promise<GlobalResult>}
+   */
   async authlogout(params:any): Promise<GlobalResult> {
     let status: boolean = false;
     let message: string = `Problemas para terminar la sesión`;

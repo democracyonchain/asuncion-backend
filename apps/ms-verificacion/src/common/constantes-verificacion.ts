@@ -1,5 +1,13 @@
 import { Constantes } from '@bsc/core';
 
+/**
+ * Clase con las constantes del micro servicio de verificación
+ *
+ * @export
+ * @class ConstantesVerificacion
+ * @typedef {ConstantesVerificacion}
+ * @extends {Constantes}
+ */
 export class ConstantesVerificacion extends Constantes {
 
   public static readonly CT_ACTIVO = true;

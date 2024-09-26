@@ -3,6 +3,13 @@ import { ConstantesAutorizacion } from '../../common/constantes-autorizacion';
 import { UsuarioEntity } from './usuario.entity';
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla provincia con sus respectivas relaciones
+ *
+ * @export
+ * @class ProvinciaEntity
+ * @typedef {ProvinciaEntity}
+ */
 @Entity({ name: 'provincia', schema: ConstantesAutorizacion.SCHEMA_BSC })
 export class ProvinciaEntity {
   

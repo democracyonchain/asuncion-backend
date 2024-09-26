@@ -1,9 +1,16 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ConstantesAutorizacion } from '../../common/constantes-autorizacion';
 import { ModuloEntity } from './modulo.entity';
 import { PermisosEntity } from './permisos.entity';
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla menu con sus respectivas relaciones
+ *
+ * @export
+ * @class MenuEntity
+ * @typedef {MenuEntity}
+ */
 @Entity({ name: 'menu', schema: ConstantesAutorizacion.SCHEMA_BSC })
 export class MenuEntity {
   

@@ -54,7 +54,7 @@ export class AutorizacionController {
   }
 
   /**
-   * Controlador para visualizar 
+   * Controlador para visualizar los permisos por rol
    *
    * @param {*} params
    * @returns {*}
@@ -64,6 +64,12 @@ export class AutorizacionController {
       return this.autorizacionService.moduloPermiso(params);
   }
 
+  /**
+   * Controlador para deslogearse del sistema
+   *
+   * @param {*} params
+   * @returns {*}
+   */
   @MessagePattern(ConstantesAutorizacion.AUTORIZACION.PATTERN.LOGOUT)
   authlogout(@Payload() params: any) {
       return this.autorizacionService.authlogout(params);

@@ -1,8 +1,15 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ConstantesAutorizacion } from '../../common/constantes-autorizacion';
 import { MenuEntity } from './menu.entity';
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla modulo con sus respectivas relaciones
+ *
+ * @export
+ * @class ModuloEntity
+ * @typedef {ModuloEntity}
+ */
 @Entity({ name: 'modulo', schema: ConstantesAutorizacion.SCHEMA_BSC })
 export class ModuloEntity {
   

@@ -2,6 +2,13 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ConstantesAutorizacion } from "../../common/constantes-autorizacion";
 import { UsuarioEntity } from "./usuario.entity";
 
+/**
+ * Clase con el mapeo de los campos de la tabla establecimiento con sus respectivas relaciones
+ *
+ * @export
+ * @class EstablecimientoEntity
+ * @typedef {EstablecimientoEntity}
+ */
 @Entity({ name: 'establecimiento', schema: ConstantesAutorizacion.SCHEMA_BSC })
 export class EstablecimientoEntity {
 

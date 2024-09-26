@@ -5,6 +5,13 @@ import { ConstantesVerificacion } from '../../common/constantes-verificacion';
 import { ProvinciaFilterInput } from '../dto/provincia.dto';
 import { ProvinciaService } from '../services/provincia.service';
 
+/**
+ * Clase controlador con funciones de provincia a ser usados por el api-gateway
+ *
+ * @export
+ * @class ProvinciaController
+ * @typedef {ProvinciaController}
+ */
 @UseFilters(AllRpcExceptionMsFilter)
 @UseInterceptors(LogMsInterceptor)
 @Controller('provincia')

@@ -5,6 +5,14 @@ import { ProvinciaEntity } from '../entities/provincia.entity';
 import { RpcException } from '@nestjs/microservices';
 
 
+/**
+ * Clase manager para gestión del entity de provincia
+ *
+ * @export
+ * @class ProvinciaManager
+ * @typedef {ProvinciaManager}
+ * @extends {ManagerBase<ProvinciaEntity, ProvinciaRepository>}
+ */
 @Injectable()
 export class ProvinciaManager extends ManagerBase<ProvinciaEntity, ProvinciaRepository> {
   constructor(private provinciaRepository: ProvinciaRepository) {
@@ -12,6 +20,13 @@ export class ProvinciaManager extends ManagerBase<ProvinciaEntity, ProvinciaRepo
     this.repositoryEntity = provinciaRepository;
   }
 
+  /**
+   * Función para colección de provincia
+   *
+   * @async
+   * @param {*} paginacion
+   * @returns {unknown}
+   */
   async getCollection(paginacion:any) {
     const aliasEntity = 'provincia';
     const fields = paginacion.fields.data;

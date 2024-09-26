@@ -1,9 +1,16 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ConstantesAutorizacion } from '../../common/constantes-autorizacion';
 import { PermisosEntity } from './permisos.entity';
 import { RolUsuarioEntity } from './rol-usuario.entity';
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla rol con sus respectivas relaciones
+ *
+ * @export
+ * @class RolEntity
+ * @typedef {RolEntity}
+ */
 @Entity({ name: 'rol', schema: ConstantesAutorizacion.SCHEMA_BSC })
 export class RolEntity {
   

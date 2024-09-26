@@ -5,6 +5,13 @@ import { ProvinciaEntity } from './provincia.entity';
 import { EstablecimientoEntity } from './establecimiento.entity';
 
 
+/**
+ * Clase con el mapeo de los campos de la tabla usuario con sus respectivas relaciones
+ *
+ * @export
+ * @class UsuarioEntity
+ * @typedef {UsuarioEntity}
+ */
 @Entity({ name: 'usuario', schema: ConstantesAutorizacion.SCHEMA_BSC })
 export class UsuarioEntity {
   
