@@ -1,0 +1,49 @@
+stages:
+  - test
+  - deploy
+test sast:
+  stage: test
+  tags:
+    - api_bsc_dev
+  image: docker:stable
+  variables:
+    DOCKER_DRIVER: overlay2
+  services:
+    - docker:stable-dind
+  script:
+    - echo "Ejecutando Pruebas SAST"
+    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+    - docker run
+      --rm
+      --env SAST_CONFIDENCE_LEVEL="${SAST_CONFIDENCE_LEVEL:-3}"
+      --volume "$PWD:/code"
+      --volume /var/run/docker.sock:/var/run/docker.sock
+      "registry.gitlab.com/gitlab-org/security-products/sast:11-7-stable" /app/bin/run /code
+  artifacts:
+    reports:
+      sast: gl-sast-report.json
+
+unit test:
+  stage: test
+  tags:
+    - api_bsc_dev
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'dev'
+  script:
+    - echo "Ejecutando Pruebas Unitarias"
+    - npm ci
+    - npm run test
+    
+deploy in dev:
+  stage: deploy
+  tags:
+    - api_bsc_dev
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'dev'
+  script:
+    - echo "Desplegando cambios en el contenedor - DEV"
+    - cd /opt/microservicios/proyectos/backend/monorepo/api_bsc_dev
+    - git pull repoci dev
+    - npm ci --omit=dev && npm cache clean --force
+    - npm run build:all
+    - npm run start:prod:all

@@ -1,0 +1,47 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/api-gateway/src",
+  "monorepo": true,
+  "root": "apps/api-gateway",
+  
+  "projects": {
+    "api-gateway": {
+      "type": "application",
+      "root": "apps/api-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-gateway/src"
+     
+    },
+    "ms-administracion": {
+      "type": "application",
+      "root": "apps/ms-administracion",
+      "entryFile": "main",
+      "sourceRoot": "apps/ms-administracion/src"
+  
+    },
+    "ms-autorizacion": {
+      "type": "application",
+      "root": "apps/ms-autorizacion",
+      "entryFile": "main",
+      "sourceRoot": "apps/ms-autorizacion/src"
+    },
+    "ms-digitalizacion": {
+      "type": "application",
+      "root": "apps/ms-digitalizacion",
+      "entryFile": "main",
+      "sourceRoot": "apps/ms-digitalizacion/src"
+    },
+    "ms-verificacion": {
+      "type": "application",
+      "root": "apps/ms-verificacion",
+      "entryFile": "main",
+      "sourceRoot": "apps/ms-verificacion/src"
+    },
+    "ms-reportes": {
+      "type": "application",
+      "root": "apps/ms-reportes",
+      "entryFile": "main",
+      "sourceRoot": "apps/ms-reportes/src"
+    }
+  }
+}

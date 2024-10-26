@@ -1,0 +1,64 @@
+{
+  "apps":[
+    {
+      "name": "api-gateway",
+      "script": "dist/apps/api-gateway/src/main.js",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production" : {
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "ms-administracion",
+      "script": "dist/apps/ms-administracion/src/main.js",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production" : {
+          "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "ms-autorizacion",
+      "script": "dist/apps/ms-autorizacion/src/main.js",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production" : {
+          "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "ms-digitalizacion",
+      "script": "dist/apps/ms-digitalizacion/src/main.js",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production" : {
+          "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "ms-verificacion",
+      "script": "dist/apps/ms-verificacion/src/main.js",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production" : {
+          "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "ms-reportes",
+      "script": "dist/apps/ms-reportes/src/main.js",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production" : {
+          "NODE_ENV": "production"
+      }
+    }
+  ]
+}
