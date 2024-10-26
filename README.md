@@ -1,3 +1,4 @@
+
 <div align="center">
   <a href="http://nestjs.com/" target="_blank">
     <img src="https://nestjs.com/img/logo_text.svg" width="150" alt="Nest Logo" />
@@ -19,6 +20,99 @@
 </div>
 
 
+
+### English Version
+# Microservices Project for Blockchain Voting System
+**STATUS**: ACTIVE
+
+### Table of Contents
+1. [Actors](#actors)
+2. [Project Phases](#project-phases)
+3. [Functional Aspects](#functional-aspects)
+4. [Technical Aspects](#technical-aspects)
+5. [Installation Procedure](#installation-procedure)
+6. [Other Documents](#other-documents)
+
+## Actors
+* **David Tacuri**
+* **Luis Nuñez**
+* **Juan Guanolema**
+
+## Project Phases
+- [ ] Planning
+- [ ] Implementation
+- [ ] Production
+
+### Objective:
+Back-end for the blockchain voting system.
+
+### Target Audience:
+Personnel in charge of voting management.
+
+## Technical Aspects
+
+### Technological Platform
+| Feature             | Detail                                        |
+|---------------------|-----------------------------------------------|
+| Application Type     | Microservices Monorepo for Blockchain Voting System |
+| Development Framework| NestJS - Express                             |
+| Application Server   | PM2                                          |
+| Database Server      | CORNAC                                       |
+| Programming Language | NodeJS - TypeScript                          |
+
+### Prerequisites
+
+* Install [NodeJs v16.13.1](https://nodejs.org/en/)
+* Install [NestJS v8.9](https://docs.nestjs.com/) (cli): `npm i -g @nestjs/cli`
+* Install [Instant Client](https://www.oracle.com/database/technologies/instant-client/downloads.html) (for Oracle database connection).
+
+## Installation
+
+* Clone the repository
+```bash
+https://github.com/democracyonchain/asuncion-backend.git
+```
+* Install dependencies
+```bash
+npm install
+```
+### Running the Application
+#### Development Mode
+```bash
+# One console per application
+npm run start:dev api-gateway
+npm run start:dev ms-administracion
+```
+#### Production Mode on a Single Server
+```bash
+npm run build:all
+npm run start:prod:all
+```
+
+#### Production Mode on 2 Servers, one for gateway and another for microservices (using PM2)
+```bash
+## On the Gateway server
+npm run build:gateway
+npm run start:prod:gateway
+
+# On the Microservices server
+npm run build:microservices
+npm run start:prod:microservices
+```
+
+### Running Tests
+
+```bash
+# Unit tests
+npm run test
+
+# Coverage tests
+npm run test:cov
+```
+
+
+********************************************************************************************************************
+### Spanish Version
 # Proyecto Microservicios para Blockchain voting system
 **ESTADO**: ACTIVO
 ### Tabla de contenidos
