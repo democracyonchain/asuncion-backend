@@ -1,5 +1,5 @@
-import { Field, InputType } from "@nestjs/graphql";
-import { IsOptional, IsString } from "class-validator";
+import { Field, InputType, Int } from "@nestjs/graphql";
+import { IsNumber, IsOptional, IsString } from "class-validator";
 
 @InputType('ImagenActaUpdateInput')
 export class ImagenActaUpdateInput  {
@@ -8,10 +8,9 @@ export class ImagenActaUpdateInput  {
   @Field({ nullable: false })
   nombre: string;
 
-  @IsOptional()
-  @IsString()
-  @Field({ nullable: true })
-  pagina: string;
+  @IsOptional() 
+  @Field(() => Int,  { nullable: true })
+  pagina: number;
 
   @IsOptional()
   @IsString()

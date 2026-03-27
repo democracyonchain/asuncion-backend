@@ -3,6 +3,8 @@ import { CollectionTypeGql } from '@bsc/core';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { ParroquiaDigitalizacionType } from './parroquia.object';
 
+
+
 @ObjectType('ZonaDigitalizacion')
 export class ZonaDigitalizacionType {
 

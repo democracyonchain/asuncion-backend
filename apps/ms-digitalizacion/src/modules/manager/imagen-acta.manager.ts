@@ -30,14 +30,17 @@ export class ImagenActaManager extends ManagerBase<ImagenActaEntity, ImagenActaR
    * @returns {*}
    */
   async updateImagenActa(acta_id:number, data:any,queryRunner:any) {
-    await this.imagenActaRepository.updateImagenActa(acta_id, data, queryRunner).catch(
-      (error) => {
+    for await (const element of data){
+      await this.imagenActaRepository.updateImagenActa(acta_id, element, queryRunner).catch(
+      (error) => {        
         throw new RpcException({
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
           message: error.message,
         });
-      },
+      },      
     );
+    }
+    
   }
 
 }

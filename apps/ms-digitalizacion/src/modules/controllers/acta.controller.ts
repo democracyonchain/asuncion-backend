@@ -76,4 +76,28 @@ export class ActaController {
   actaLiberaUpdate(@Payload() params: PayloadData<ActaDTO>) {
       return this.actaService.updateLibera(params);
   }
+
+  /**
+   * Controlador para obtener el acta en base de la digniddad
+   *
+   * @async
+   * @param {*} filter
+   * @returns {unknown}
+   */
+  @MessagePattern(ConstantesDigitalizacion.DIGITALIZACION.PATTERN.ACTA_BY_DIGNIDAD_CONTROL_LIST)
+  async actaByDignidadControl(@Payload() filter: any) { 
+    return await this.actaService.actaByDignidadControl(filter);
+  }
+
+  /**
+   * Controladdor para actuaizar el estado del acta
+   *
+   * @param {PayloadData<ActaDTO>} params
+   * @returns {*}
+   */
+  @MessagePattern(ConstantesDigitalizacion.DIGITALIZACION.PATTERN.ACTA_ACTUALIZAR_ESTADO)
+  actaEstadoUpdate(@Payload() params: PayloadData<ActaDTO>) {
+      return this.actaService.updateEstadoActa(params);
+  }
+
 }

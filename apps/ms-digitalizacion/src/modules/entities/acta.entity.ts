@@ -85,6 +85,9 @@ export class ActaEntity {
 
     @Column({ name: 'nulos', type: 'integer', nullable: true })
     nulos: number;
+   
+    @Column({ name: 'txicr', type: 'character', length: 250,nullable: true })
+    txirc: string;
 
     @OneToMany(() => VotosEntity, (votos) => votos.acta)
     votos: VotosEntity[];

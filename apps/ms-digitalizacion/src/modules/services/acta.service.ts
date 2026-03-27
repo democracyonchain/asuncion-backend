@@ -39,7 +39,7 @@ export class ActaService {
    * @returns {Promise<Acta>}
    */
   async actaByJunta(filter: any): Promise<Acta> {
-    await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
+    await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);   
     const fields = changeFalseToTrue(filter.fields)
     const data = await this.actaManager.findByRelations({
       select: fields.dataTrue,
@@ -156,8 +156,7 @@ export class ActaService {
    * @param {*} params
    * @returns {Promise<GlobalResult>}
    */
-  async updateLibera(params:  any): Promise<GlobalResult> {
-    console.log(params.junta_id)
+  async updateLibera(params:  any): Promise<GlobalResult> {   
     let status: boolean = false;
     let message: string = `Error al momento de liberar el acta`;
     await this.listaNegraTokenManager.validarToken(params.usuarioAuth.token);
@@ -199,5 +198,57 @@ export class ActaService {
     }
     return { status, message };
 
+  }
+
+  /**
+   * Función para desbloquear el acta
+   *
+   * @async
+   * @param {*} params
+   * @returns {Promise<GlobalResult>}
+   */
+  async updateEstadoActa(params:  any): Promise<GlobalResult> {   
+    let status: boolean = false;
+    let message: string = `Error al momento de liberar el acta`;
+    await this.listaNegraTokenManager.validarToken(params.usuarioAuth.token);
+    const queryRunner = this.datasource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {     
+     
+      await this.actaManager.updateEstadoActa(params.acta_id,params.fase,params.tx_hash,queryRunner);
+      
+      await queryRunner.commitTransaction(); 
+      status = true;
+      message = `Acta actualizada correctamente`;
+    }catch (error) {
+      Logger.error(error);
+      await queryRunner.rollbackTransaction(); 
+      throw new RpcException({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: error.message, 
+        });
+    }
+    finally {
+      await queryRunner.release();
+    }
+    return { status, message };
+
+  }
+
+   /**
+   * Función que trae un acta aleatoria para el proceso de digitalización
+   *
+   * @async
+   * @param {*} filter
+   * @returns {Promise<Acta>}
+   */
+  async actaByDignidadControl(filter: any): Promise<Acta> {
+    await this.listaNegraTokenManager.validarToken(filter.usuarioAuth.token);
+    const usuarioId = filter.usuarioAuth.user.id
+    const provinciaId = filter.usuarioAuth.user.provincia_id
+    const dignidadId = filter.dignidad_id
+    const data = await this.actaManager.actaAleatoriaControl(usuarioId,provinciaId,dignidadId)
+    return plainToInstance(Acta, data);
   }
 }

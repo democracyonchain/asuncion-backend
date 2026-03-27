@@ -1,29 +1,38 @@
-import { numberWhereInput, stringWhereInput } from "@bsc/core";
-import { Parroquia } from "./parroquia.dto";
+import { Field, ObjectType, Int, InputType } from '@nestjs/graphql';
+import { numberWhereInput, stringWhereInput } from '@bsc/core';
+import { Parroquia } from './parroquia.dto';
 
 /**
- * DTO para filtrar la coleccioń de zona
- *
- * @export
- * @class ZonaFilterInput
- * @typedef {ZonaFilterInput}
+ * DTO para filtrar la colección de zona
  */
+@InputType()
 export class ZonaFilterInput {
-    readonly nombre?: stringWhereInput;
-    readonly parroquia_id?: numberWhereInput;
-    readonly zona_id?: numberWhereInput;
-}
 
+  @Field(() => stringWhereInput, { nullable: true })
+  readonly nombre?: stringWhereInput;
+
+  @Field(() => numberWhereInput, { nullable: true })
+  readonly parroquia_id?: numberWhereInput;
+
+  @Field(() => numberWhereInput, { nullable: true })
+  readonly zona_id?: numberWhereInput;
+}
 
 /**
  * DTO para devolver información de zona
- *
- * @export
- * @class Zona
- * @typedef {Zona}
  */
-export class Zona{
-    nombre: string;
-    parroquia: Parroquia;
-    zona_id: number
+@ObjectType()
+export class Zona {
+
+  @Field(() => Int)
+  zona_id: number;
+
+  @Field(() => String)
+  nombre: string;
+
+  @Field(() => Int)
+  parroquia_id: number;
+
+  @Field(() => Parroquia, { nullable: true })
+  parroquia?: Parroquia;
 }

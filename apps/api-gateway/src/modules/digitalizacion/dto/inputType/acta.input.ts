@@ -23,10 +23,13 @@ export class ActaUpdateInput  {
   @Field(() => Int)
   nulos: number;
 
+  @Field(() => String)
+  txicr: string;
+
   @Field(() => [VotosUpdateInput], { nullable: false })
   votos: VotosUpdateInput;
 
-  @Field(() => ImagenActaUpdateInput, { nullable: false })
+  @Field(() => [ImagenActaUpdateInput], { nullable: false })
   imagenacta: ImagenActaUpdateInput;
 
   @Field(() => [ImagenSegmentoUpdateInput], { nullable: false })

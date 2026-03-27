@@ -9,8 +9,8 @@ import {
 import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Args,Mutation, Resolver } from '@nestjs/graphql';
 import { VotosService } from '../services/votos.service';
-import { VotoDigitacionsUpdateInput } from '../dto/inputType/votos.input';
-  
+import { VotoDigitacionsUpdateInput, VotoControlUpdateInput } from '../dto/inputType/votos.input';
+
   
 /**
  * lase para publicación de todos los servicios de votos
@@ -43,5 +43,25 @@ export class VotosQueryResolver {
     dataInput: VotoDigitacionsUpdateInput,
   ) {
       return await this.votosService.votosDigitalizacionUpdate(dataInput,usuarioAuth);
+  }
+
+
+    /**
+   * Servicio para actualización de votos de control de calidad
+   *
+   * @async
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {VotosControlUpdateInput} dataInput
+   * @returns {unknown}
+   */
+  @UseGuards(AuthGuard)
+  @Mutation(() => GlobalResultType, { nullable: false })
+  async digtVotosControlUpdate(
+    @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
+    @Args('dataInput', { type: () => VotoControlUpdateInput })
+    dataInput: VotoControlUpdateInput,
+  ) { 
+   
+      return await this.votosService.votosControlUpdate(dataInput,usuarioAuth);
   }
 }

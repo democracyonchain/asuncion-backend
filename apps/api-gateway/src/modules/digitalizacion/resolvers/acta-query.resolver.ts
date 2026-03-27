@@ -12,7 +12,7 @@ import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Args, Info, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { fieldsMap } from 'graphql-fields-list';
 import { ActaService } from '../services/acta.service';
-import ActaDigitalizacionBasicCollectionType, { ActaDigitalizacionVotoImagenType, ActaDigitalizacionVotoType } from '../dto/objecType/acta.object';
+import ActaDigitalizacionBasicCollectionType, { ActaControlVotoImagenType, ActaDigitalizacionVotoImagenType, ActaDigitalizacionVotoType } from '../dto/objecType/acta.object';
 import { ActaUpdateInput } from '../dto/inputType/acta.input';
 import { ActaDigitalizacionFilterInput } from '../dto/filterType/acta.filter';
   
@@ -50,7 +50,7 @@ export class ActaQueryResolver {
     @Args('junta_id', { nullable: false, type: () => Int }) junta_id: number,
     @Args('dignidad_id', { nullable: false, type: () => Int }) dignidad_id: number,
   ) {
-    const fields = fieldsMap(info);
+    const fields = fieldsMap(info);    
     return await this.actaService.actaByJunta(junta_id, dignidad_id,fields, usuarioAuth);
   }
 
@@ -89,7 +89,7 @@ export class ActaQueryResolver {
     @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
     @Args('dataInput', { type: () => ActaUpdateInput })
     dataInput: ActaUpdateInput,
-  ) {
+  ) {    
       return await this.actaService.digtActaUpdate(dataInput,usuarioAuth);
   }
 
@@ -137,4 +137,49 @@ export class ActaQueryResolver {
   ) {
     return await this.actaService.actaLibera(dignidad_id, junta_id, usuarioAuth);
   }
+
+  /**
+   * Servicio para traer un acta al azar en función de la dignidad
+   *
+   * @public
+   * @async
+   * @param {*} info
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {number} dignidad_id
+   * @returns {unknown}
+   */
+  @UseGuards(AuthGuard)
+  @Query(() => ActaControlVotoImagenType, { nullable: false })
+  public async digtActaByDignidadControlList(  
+    @Info() info,
+    @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
+    @Args('dignidad_id', { nullable: false, type: () => Int }) dignidad_id: number,
+  ) {
+      console.log(info);
+    const fields = fieldsMap(info);
+  
+    return await this.actaService.actaByDignidadControl(dignidad_id,fields, usuarioAuth);
+  }
+
+  /**
+   * Servicio para actualizar la tx
+   *
+   * @public
+   * @async
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @param {number} acta_id
+   * @param {string} tx_hash
+   * @returns {unknown}
+   */
+  @UseGuards(AuthGuard)
+  @Mutation(() => GlobalResultType, { nullable: false })
+  public async digtActaEstadoUpdate(
+    @CurrentUserWithToken() usuarioAuth: RespuestaJWTToken,
+    @Args('acta_id', { nullable: false, type: () => Int }) acta_id: number,
+    @Args('tx_hash', { nullable: false, type: () => String }) tx_hash: string,
+    @Args('fase', { nullable: false, type: () => Int }) fase: number,
+  ) {
+    return await this.actaService.actaEstadoUpdate(acta_id, tx_hash, fase, usuarioAuth);
+  }
+
 }

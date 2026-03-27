@@ -2,7 +2,7 @@ import { AllRpcExceptionMsFilter, LogMsInterceptor, PayloadData } from '@bsc/cor
 import { Controller, UseFilters, UseInterceptors } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ConstantesDigitalizacion } from '../../common/constantes-digitalizacion';
-import { VotosDigitalizacionDTO } from '../dto/votos.dto';
+import { VotosControlDTO, VotosDigitalizacionDTO } from '../dto/votos.dto';
 import { VotosService } from '../services/votos.service';
 
 /**
@@ -28,4 +28,17 @@ export class VotosController {
   votosUpdate(@Payload() params: PayloadData<VotosDigitalizacionDTO>) {
       return this.votosService.updateVotosDigitalizacion(params);
   }
+
+  /**
+   * Controlador para actualizar votos en control de calidad
+   *
+   * @param {PayloadData<VotosDigitalizacionDTO>} params
+   * @returns {*}
+   */
+  @MessagePattern(ConstantesDigitalizacion.DIGITALIZACION.PATTERN.VOTOS_UPDATE_DIG_CONTROL)
+  votosUpdateControl(@Payload() params: PayloadData<VotosControlDTO>) {    
+      return this.votosService.updateVotosControl(params);
+  }
 }
+
+  

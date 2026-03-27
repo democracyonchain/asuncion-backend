@@ -5,7 +5,8 @@ import { firstValueFrom } from 'rxjs';
 import { ConstantesGw } from '../../../common/constants/constantes-gw';
 import { ClientProxyService } from '../../../config/client-proxy.service';
 import { VotoDigitacionsUpdateInput } from '../dto/inputType/votos.input';
-
+import { VotoControlUpdateInput } from '../dto/inputType/votos.input';
+import { c } from 'locutus';
 
 /**
  * Description placeholder
@@ -24,6 +25,14 @@ export class VotosService {
   async votosDigitalizacionUpdate(dataMenu: VotoDigitacionsUpdateInput,usuarioAuth:RespuestaJWTToken) {
     const pattern = ConstantesGw.DIGITALIZACION.PATTERN.VOTOS_UPDATE_DIG_DIGITALIZACION;
     const payload: PayloadData<any> = { data: dataMenu, dataUser:usuarioAuth };
+    return await firstValueFrom(this.clientProxyDigitalizacion.send(pattern, payload)).catch((err) =>
+      manageErrorsGw(ConstantesGw.DIGITALIZACION.NAME, err),
+    );
+  }
+
+  async votosControlUpdate(dataMenu: VotoControlUpdateInput,usuarioAuth:RespuestaJWTToken) {
+    const pattern = ConstantesGw.DIGITALIZACION.PATTERN.VOTOS_UPDATE_DIG_CONTROL;
+    const payload: PayloadData<any> = { data: dataMenu, dataUser:usuarioAuth };    
     return await firstValueFrom(this.clientProxyDigitalizacion.send(pattern, payload)).catch((err) =>
       manageErrorsGw(ConstantesGw.DIGITALIZACION.NAME, err),
     );

@@ -27,7 +27,7 @@ export class VotosDigitalizacionAleatorioType {
     @Field({ nullable: false })
     readonly votosdigitacion: number;
 
-    @Field(() => CandidatoDigitalizacionType, { nullable: true })
+    @Field({ nullable: false })    @Field(() => CandidatoDigitalizacionType, { nullable: true })
     readonly candidato: CandidatoDigitalizacionType;
 
     @Field(() => ImagenSegmentoDigitalizacionAleatorioType, { nullable: true })

@@ -51,8 +51,8 @@ export class ActaService {
    */
   async actaByDignidad(dignidad_id: number, fields:any, usuarioAuth: RespuestaJWTToken) {
     const pattern = ConstantesGw.DIGITALIZACION.PATTERN.ACTA_BY_DIGNIDAD_DIGITALIZACION_LIST;
-    const payload = {dignidad_id:dignidad_id, fields:fields, usuarioAuth:usuarioAuth };
-    return await firstValueFrom(this.clientProxyDigitalizacion.send(pattern, payload)).catch((err) =>
+    const payload = {dignidad_id:dignidad_id, fields:fields, usuarioAuth:usuarioAuth }; 
+       return await firstValueFrom(this.clientProxyDigitalizacion.send(pattern, payload)).catch((err) =>
       manageErrorsGw(ConstantesGw.DIGITALIZACION.NAME, err),
     );
   }
@@ -108,5 +108,42 @@ export class ActaService {
       manageErrorsGw(ConstantesGw.DIGITALIZACION.NAME, err),
     );
   }
+
+
+/**
+   * Función para traer datos del acta por dignidad para control de calidad
+   *
+   * @async
+   * @param {number} dignidad_id
+   * @param {*} fields
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @returns {unknown}
+   */
+  async actaByDignidadControl(dignidad_id: number, fields:any, usuarioAuth: RespuestaJWTToken) {
+    const pattern = ConstantesGw.DIGITALIZACION.PATTERN.ACTA_BY_DIGNIDAD_CONTROL_LIST;
+    const payload = {dignidad_id:dignidad_id, fields:fields, usuarioAuth:usuarioAuth };
+    return await firstValueFrom(this.clientProxyDigitalizacion.send(pattern, payload)).catch((err) =>
+      manageErrorsGw(ConstantesGw.DIGITALIZACION.NAME, err),
+    );
+  }
+
+  /**
+   * Función para actualizar el estado del acta
+   *
+   * @async
+   * @param {number} acta_id
+   * @param {string} tx_hash
+   * @param {number} fase
+   * @param {RespuestaJWTToken} usuarioAuth
+   * @returns {unknown}
+   */
+  async actaEstadoUpdate(acta_id: number, tx_hash: string,fase: number,usuarioAuth: RespuestaJWTToken) {
+    const pattern = ConstantesGw.DIGITALIZACION.PATTERN.ACTA_ACTUALIZAR_ESTADO;
+    const payload = {acta_id:acta_id, tx_hash:tx_hash, fase:fase,usuarioAuth:usuarioAuth };
+    return await firstValueFrom(this.clientProxyDigitalizacion.send(pattern, payload)).catch((err) =>
+      manageErrorsGw(ConstantesGw.DIGITALIZACION.NAME, err),
+    );
+  }
+
 
 }

@@ -86,6 +86,7 @@ export class ActaDigitalizacionType {
 @ObjectType('ActaDigitalizacionAleatorio')
 export class ActaDigitalizacionAleatorioType {
 
+    
     @Field({ nullable: false })
     readonly id: number;
 
@@ -129,6 +130,13 @@ export class ActaDigitalizacionVotoType extends ActaDigitalizacionAleatorioType 
 
 @ObjectType('ActaDigitalizacionVotoImagen') 
 export class ActaDigitalizacionVotoImagenType extends ActaDigitalizacionAleatorioType {
+
+    @Field(() => [VotosDigitalizacionAleatorioType], { nullable: false })
+    readonly votos: VotosDigitalizacionAleatorioType;   
+}
+
+@ObjectType('ActaControlVotoImagen') 
+export class ActaControlVotoImagenType extends ActaDigitalizacionAleatorioType {
 
     @Field(() => [VotosDigitalizacionAleatorioType], { nullable: false })
     readonly votos: VotosDigitalizacionAleatorioType;   

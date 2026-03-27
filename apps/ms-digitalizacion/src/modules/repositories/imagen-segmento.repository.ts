@@ -45,5 +45,19 @@ export class ImagenSegmentoRepository extends RepositoryOrmBase<ImagenSegmentoEn
       `SELECT * FROM obtener_acta_segmento(${dignidad_id},${junta_id} );`
     ); 
   }
+
+  /**
+   * Función que obtiene las imagenessegmente en base a la dignidad y junta
+   *
+   * @async
+   * @param {number} dignidad_id
+   * @param {number} junta_id
+   * @returns {unknown}
+   */
+  async getImagenSegmentoControl(dignidad_id:number, junta_id:number) {
+    return await  this.getRepository().query(
+      `SELECT * FROM obtener_acta_segmento_control(${dignidad_id},${junta_id} );`
+    ); 
+  }
 }
 

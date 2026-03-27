@@ -4,6 +4,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { ProvinciaDigitalizacionType } from './provincia.object';
 import { CantonDigitalizacionType } from './canton.object';
 import { ParroquiaDigitalizacionType } from './parroquia.object';
+import { ZonaDigitalizacionType } from './zona.object'; 
 
 @ObjectType('JuntaDigitalizacion')
 export class JuntaDigitalizacionType {
@@ -28,6 +29,9 @@ export class JuntaDigitalizacionType {
 
     @Field(() => ParroquiaDigitalizacionType, { nullable: true })
     readonly parroquia: ParroquiaDigitalizacionType;
+
+     @Field(() => ZonaDigitalizacionType, { nullable: true })
+   readonly zona?: ZonaDigitalizacionType;
 
     @Field({ nullable: true })
     readonly zona_id: number;

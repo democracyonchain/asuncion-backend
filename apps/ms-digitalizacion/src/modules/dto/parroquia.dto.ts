@@ -1,3 +1,4 @@
+/*aquuuuuuuuuuuuuuuuuuuuuuiiiiiiiiii */
 import { numberWhereInput, stringWhereInput } from "@bsc/core";
 import { Canton } from "./canton.dto";
 
@@ -21,8 +22,22 @@ export class ParroquiaFilterInput {
  * @class Parroquia
  * @typedef {Parroquia}
  */
-export class Parroquia{
+/*export class Parroquia{
     id: number;
     nombre: string;
     canton: Canton;
+}*/
+
+import { Field, ObjectType, Int, InputType } from '@nestjs/graphql';
+
+@ObjectType()
+export class Parroquia {
+  @Field(() => Int)
+  id: number;
+
+  @Field(() => String)
+  nombre: string;
+
+  @Field(() => Canton, { nullable: true })
+  canton?: Canton;
 }

@@ -34,7 +34,7 @@ export class ActaRepository extends RepositoryOrmBase<ActaEntity> {
   };
 
   /**
-   * Función que permite devolver una acta de manera aleatoria y bloquearla
+   * Función que permite devolver una acta de manera aleatoria y bloquearla para digitación
    *
    * @async
    * @param {number} usuarioId
@@ -43,10 +43,28 @@ export class ActaRepository extends RepositoryOrmBase<ActaEntity> {
    * @returns {unknown}
    */
   async actaAleatoria(usuarioId: number, provinciaId: number, dignidadId:number) {
-    return await this.getRepository().query(
-      `SELECT * FROM devolver_y_bloquear_acta_digitalizacion(${provinciaId},${usuarioId},${dignidadId});`
-    );  
+    const queryExecute =`SELECT * FROM devolver_y_actualizar_acta(${provinciaId},${usuarioId},${dignidadId});`
+  return await this.getRepository().query(queryExecute);  
   }
+
+  /**
+   * Función que permite devolver una acta de manera aleatoria y bloquearla para digitación
+   *
+   * @async
+   * @param {number} usuarioId
+   * @param {number} provinciaId
+   * @param {number} dignidadId
+   * @returns {unknown}
+   */
+  async actaAleatoriaControl(usuarioId: number, provinciaId: number, dignidadId:number) {
+    const queryExecute =`SELECT * FROM devolver_y_actualizar_acta_control(${provinciaId},${usuarioId},${dignidadId});`
+   console.log('queryExecute',queryExecute);
+   const data =await this.getRepository().query(queryExecute);  
+   console.log('data',data);
+    return data; 
+  }
+
+  
 
   /**
    * Función que actualiza los datos del acta una vez que se haya escaneao
@@ -58,10 +76,10 @@ export class ActaRepository extends RepositoryOrmBase<ActaEntity> {
    */
   async updateActaEscaneo(data: any, queryRunner: any) {
     await queryRunner.query(
-      `CALL actualizar_acta_escaneo(${data.blancos}, ${data.id}, ${data.nulos}, ${data.sufragantes});`
+      `CALL actualizar_acta_escaneo(${data.blancos}, ${data.id}, ${data.nulos}, ${data.sufragantes}, '${data.txicr}');`
     ); 
   }
-
+  
   /**
    * Función que permite traer la información del acta para las colecciones
    *
@@ -88,9 +106,26 @@ export class ActaRepository extends RepositoryOrmBase<ActaEntity> {
    * @returns {*}
    */
   async updateLiberaActa(acta_id: any, queryRunner: any) {
+    
     await queryRunner.query(
       `CALL liberar_acta(${acta_id});`
     ); 
   }
+  /**
+   * Función que permite actualizar el acta para desbloquearle
+   *
+   * @async
+   * @param {*} acta_id
+   * @param {*} tx_hash
+   * @param {*} fase
+   * @param {*} queryRunner
+   * @returns {*}
+   */
+  async updateEstadoActa(acta_id: number, fase: number, tx_hash: string | null, queryRunner: any) {
+  await queryRunner.query(
+    `CALL actualizar_estado_acta($1, $2, $3)`,
+    [acta_id, fase, tx_hash]  // ← Orden correcto: acta_id, fase, tx_hash
+  );
+}
 }
 

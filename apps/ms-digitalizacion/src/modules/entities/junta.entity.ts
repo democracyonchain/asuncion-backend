@@ -50,7 +50,7 @@ export class JuntaEntity {
   canton: CantonEntity;
 
   @ManyToOne(() => ParroquiaEntity, (parroquia) => parroquia.junta)
-  @JoinColumn([{ name: 'canton_id', referencedColumnName: 'id' }])
+  @JoinColumn([{ name: 'parroquia_id', referencedColumnName: 'id' }])
   parroquia: ParroquiaEntity;
 
   @OneToMany(() => ActaEntity, (acta) => acta.junta)
